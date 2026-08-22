@@ -13,6 +13,7 @@ from tools.paper_fidelity_audit import (
     _render_page_pixmap,
     profile,
     write_contact_sheets,
+    write_worst_page_sheets,
 )
 
 
@@ -105,6 +106,39 @@ def test_contact_sheets_make_visual_review_artifacts(tmp_path: Path) -> None:
 
     assert len(outputs) == 1
     assert outputs[0].suffix == ".png"
+    assert outputs[0].stat().st_size > 0
+
+
+def test_worst_page_sheets_select_reported_page(tmp_path: Path) -> None:
+    generated_path = tmp_path / "generated.pdf"
+    reference_path = tmp_path / "reference.pdf"
+    for path, second_page_x in ((generated_path, 98), (reference_path, 82)):
+        document = fitz.open()
+        document.new_page().insert_text((90, 130), "Cover", fontsize=11)
+        document.new_page().insert_text(
+            (second_page_x, 130),
+            "Weakest page",
+            fontsize=11,
+        )
+        document.save(path)
+        document.close()
+    report = {
+        "families": {
+            "example": {
+                role: {
+                    "generated_path": str(generated_path),
+                    "reference_path": str(reference_path),
+                    "worst_pages": [{"page": 2}],
+                }
+                for role in ("question_paper", "mark_scheme")
+            }
+        }
+    }
+
+    outputs = write_worst_page_sheets(report, tmp_path, dpi=72)
+
+    assert len(outputs) == 1
+    assert outputs[0].name == "worst-overview-01-02.png"
     assert outputs[0].stat().st_size > 0
 
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -69,6 +69,7 @@ class GeneratedQuestion(BaseModel):
     scheme_mode: Literal["points", "levels"] = "points"
     structured_mark_scheme: list[MarkSchemePoint] = Field(default_factory=list)
     source_references: list[str] = Field(default_factory=list)
+    authoring_context: dict[str, Any] = Field(default_factory=dict)
     provenance: str = "built-in"
 
 

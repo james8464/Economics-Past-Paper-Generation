@@ -14,6 +14,12 @@ from Backend.Core.exam_blueprints import (
 )
 from Backend.Core.mark_scheme_enrichment import enrich_paper
 
+from aqaaccountgen.case_data import (
+    IncomeStatementCase,
+    NonCurrentAssetCase,
+    PartnershipCase,
+    SalesLedgerCase,
+)
 from aqaaccountgen.syllabus import Syllabus, Topic
 
 
@@ -65,12 +71,55 @@ DECISIONS = [
 ]
 
 
+MCQ_TOPIC_IDS = [
+    "accounting-3",
+    "accounting-8",
+    "accounting-5",
+    "accounting-8",
+    "accounting-16",
+    "accounting-6",
+    "accounting-6",
+    "accounting-3",
+    "accounting-13",
+    "accounting-18",
+]
+
+RULE_TOPIC_IDS = {
+    ("paper_1", "explain_trade"): "accounting-3",
+    ("paper_1", "statement_extract"): "accounting-6",
+    ("paper_1", "ledger_calculation"): "accounting-4",
+    ("paper_1", "accounting_concept"): "accounting-3",
+    ("paper_1", "company_statement"): "accounting-7",
+    ("paper_1", "company_adjustment"): "accounting-17",
+    ("paper_1", "partnership_1"): "accounting-15",
+    ("paper_1", "partnership_2"): "accounting-15",
+    ("paper_1", "partnership_3"): "accounting-15",
+    ("paper_1", "decision_1"): "accounting-14",
+    ("paper_1", "decision_2"): "accounting-17",
+    ("paper_2", "frc"): "accounting-1",
+    ("paper_2", "contribution"): "accounting-10",
+    ("paper_2", "limitation"): "accounting-10",
+    ("paper_2", "budget"): "accounting-9",
+    ("paper_2", "variance_1"): "accounting-11",
+    ("paper_2", "variance_2"): "accounting-11",
+    ("paper_2", "variance_3"): "accounting-11",
+    ("paper_2", "variance_4"): "accounting-11",
+    ("paper_2", "costing_1"): "accounting-12",
+    ("paper_2", "costing_2"): "accounting-12",
+    ("paper_2", "costing_3"): "accounting-10",
+    ("paper_2", "costing_4"): "accounting-12",
+    ("paper_2", "decision_1"): "accounting-13",
+    ("paper_2", "decision_2"): "accounting-17",
+}
+
+
 def build_paper(
     rule: PaperRule, syllabus: Syllabus, seed: int | None = None
 ) -> GeneratedPaper:
     run_seed = seed if seed is not None else secrets.randbits(64)
     rng = random.Random(run_seed)
     topics = [topic for topic in syllabus.topics if topic.id in rule.allowed_topic_ids]
+    topics_by_id = {topic.id: topic for topic in topics}
     rng.shuffle(topics)
     cursor = 0
     sections: list[GeneratedSection] = []
@@ -80,7 +129,11 @@ def build_paper(
         values = _values(rng)
         questions: list[GeneratedQuestion] = []
         for index, question_rule in enumerate(section_rule.questions):
-            topic = topics[cursor % len(topics)]
+            if question_rule.kind == "multiple_choice" and index < len(MCQ_TOPIC_IDS):
+                topic_id = MCQ_TOPIC_IDS[index]
+            else:
+                topic_id = RULE_TOPIC_IDS.get((rule.id, question_rule.id))
+            topic = topics_by_id.get(topic_id, topics[cursor % len(topics)])
             cursor += 1
             number = _number(rule.id, section_rule.id, index)
             if question_rule.kind == "multiple_choice":
@@ -197,6 +250,7 @@ def _written(
     rng: random.Random,
 ) -> GeneratedQuestion:
     point = rng.choice(topic.points)
+    authoring_context: dict[str, object] = {}
     if rule.id == "explain_trade":
         prompt = (
             f"Explain two reasons why {business} may offer a customer a trade discount."
@@ -220,6 +274,10 @@ def _written(
             "Use the correct statement heading and date;",
             "Award method marks for valid workings carried through consistently.",
         ]
+        authoring_context = NonCurrentAssetCase.from_chart_values(
+            business,
+            values,
+        ).authoring_context()
     elif rule.id == "ledger_calculation":
         prompt = (
             f"Prepare the sales ledger control account for {business}. Balance the "
@@ -232,6 +290,10 @@ def _written(
             "Calculate and carry down the closing balance;",
             "Bring down the balance on the debit side in the next period.",
         ]
+        authoring_context = SalesLedgerCase.from_chart_values(
+            business,
+            values,
+        ).ledger_authoring_context()
     elif rule.id == "accounting_concept":
         prompt = (
             f"Prepare the sales account for {business}. Show clearly the amount "
@@ -242,6 +304,10 @@ def _written(
             "Enter gross credit sales on the credit side;",
             "Transfer net sales to the income statement;",
         ]
+        authoring_context = SalesLedgerCase.from_chart_values(
+            business,
+            values,
+        ).sales_account_authoring_context()
     elif rule.id == "company_statement":
         prompt = (
             f"Prepare the income statement for {business} for the year ended. "
@@ -255,6 +321,10 @@ def _written(
             "Show profit before tax, tax charge and profit for the year;",
             "Use a correct income-statement heading and layout.",
         ]
+        authoring_context = IncomeStatementCase.from_chart_values(
+            business,
+            values,
+        ).authoring_context()
     elif rule.id == "company_adjustment":
         prompt = (
             f"Assess the usefulness of the income statement to the employees of {business}."
@@ -268,28 +338,36 @@ def _written(
         ]
     elif rule.id == "partnership_1":
         prompt = (
-            "Prepare the partners' capital accounts following the retirement of one "
-            "partner. Balance the accounts and bring down the remaining balances."
+            "Using the information provided, prepare Alex and Morgan's capital accounts "
+            "following Riley's retirement. Balance the accounts and bring down the "
+            "remaining balances."
         )
         scheme = [
-            "Enter opening capital balances;",
-            "Apply the goodwill adjustment in the agreed profit-sharing ratio;",
-            "Record cash introduced or withdrawn;",
-            "Record the retiring partner's settlement;",
-            "Balance the continuing partners' accounts correctly.",
+            "Enter the opening capital balances for Alex and Morgan;",
+            "Credit goodwill in the old profit-sharing ratio;",
+            "Write goodwill off against Alex and Morgan in the new ratio;",
+            "Record the cash withdrawn by Alex and Morgan;",
+            "Show the correct closing capital balances.",
         ]
+        authoring_context = PartnershipCase.from_chart_values(
+            values
+        ).retirement_authoring_context()
     elif rule.id == "partnership_2":
         prompt = (
-            "Prepare the partnership profit and loss appropriation account for the "
-            "year, applying the change in partners and time apportionment."
+            "Using the information provided, prepare the partnership profit and loss "
+            "appropriation account for both periods of the year."
         )
         scheme = [
-            "Apportion profit between the two periods;",
-            "Calculate partners' salaries for the relevant period;",
-            "Calculate interest on capital and interest on drawings;",
-            "Share residual profit using the correct ratio in each period;",
-            "Show each partner's total appropriation accurately.",
+            "Apportion profit between the first period and second period;",
+            "Calculate Morgan's salary for each period;",
+            "Calculate interest on capital for both periods;",
+            "Include interest on drawings for both periods;",
+            "Calculate residual profit for each period;",
+            "Share residual profit using the applicable profit-sharing ratio.",
         ]
+        authoring_context = PartnershipCase.from_chart_values(
+            values
+        ).appropriation_authoring_context()
     elif rule.id == "partnership_3":
         prompt = (
             "Assess the view that the formal partnership agreement was unnecessary."
@@ -371,6 +449,7 @@ def _written(
         topic_id=topic.id,
         prompt=prompt,
         mark_scheme=scheme,
+        authoring_context=authoring_context,
     )
 
 

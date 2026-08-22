@@ -372,10 +372,17 @@ def _written_question(
             "Credit a developed counter-effect or dependency.",
         ]
     elif rule.kind == "calculation":
-        prompt = (
-            f"Using the performance data for {business}, calculate the percentage "
-            "change in the index. Give your answer to one decimal place."
-        )
+        if "." in number:
+            prompt = (
+                f"Using the business sales data for {business}, calculate the "
+                "percentage change from 2021 to 2025. Give your answer to one "
+                "decimal place."
+            )
+        else:
+            prompt = (
+                f"Using the performance data for {business}, calculate the percentage "
+                "change in the index. Give your answer to one decimal place."
+            )
         scheme = [
             f"Method: ({values[-1]} − {values[0]}) ÷ {values[0]} × 100.",
             f"Answer: {change:.1f}%.",

@@ -1268,6 +1268,88 @@ def write_overview_sheets(
     return outputs
 
 
+def write_worst_page_sheets(
+    report: dict[str, Any],
+    output_dir: Path,
+    *,
+    dpi: int = 96,
+) -> list[Path]:
+    """Write the weakest page from every primary document on compact sheets."""
+
+    rows: list[Image.Image] = []
+    for family, result in report["families"].items():
+        if "missing" in result:
+            continue
+        for role in ("question_paper", "mark_scheme"):
+            document = result[role]
+            worst_pages = document.get("worst_pages", [])
+            if not worst_pages:
+                continue
+            page_number = int(worst_pages[0]["page"])
+            page_index = page_number - 1
+            with fitz.open(document["reference_path"]) as reference:
+                reference_image = (
+                    _fit_page(_render_page_image(reference[page_index], dpi))
+                    if page_index < reference.page_count
+                    else Image.new("RGB", (CONTACT_PAGE_WIDTH, 340), "white")
+                )
+            with fitz.open(document["generated_path"]) as generated:
+                generated_image = (
+                    _fit_page(_render_page_image(generated[page_index], dpi))
+                    if page_index < generated.page_count
+                    else Image.new("RGB", reference_image.size, "white")
+                )
+            generated_image = generated_image.resize(
+                reference_image.size,
+                Image.Resampling.LANCZOS,
+            )
+            title = f"{family} — {role.replace('_', ' ')} p{page_number}"
+            panels = (
+                _labelled_panel(reference_image, f"{title}: reference"),
+                _labelled_panel(generated_image, f"{title}: generated"),
+                _labelled_panel(
+                    _difference_panel(reference_image, generated_image),
+                    f"{title}: difference",
+                ),
+            )
+            gap = 8
+            row = Image.new(
+                "RGB",
+                (
+                    sum(panel.width for panel in panels) + gap * 2,
+                    max(panel.height for panel in panels),
+                ),
+                (235, 235, 235),
+            )
+            x = 0
+            for panel in panels:
+                row.paste(panel, (x, 0))
+                x += panel.width + gap
+            rows.append(row)
+
+    outputs: list[Path] = []
+    for start in range(0, len(rows), OVERVIEW_DOCUMENTS_PER_SHEET):
+        selected = rows[start : start + OVERVIEW_DOCUMENTS_PER_SHEET]
+        sheet = Image.new(
+            "RGB",
+            (
+                max(row.width for row in selected),
+                sum(row.height for row in selected),
+            ),
+            "white",
+        )
+        y = 0
+        for row in selected:
+            sheet.paste(row, (0, y))
+            y += row.height
+        destination = output_dir / (
+            f"worst-overview-{start + 1:02d}-{start + len(selected):02d}.png"
+        )
+        sheet.save(destination, optimize=True)
+        outputs.append(destination)
+    return outputs
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Compare generated papers with official references.")
     parser.add_argument("--generated-root", type=Path, required=True)
@@ -1306,6 +1388,7 @@ def main() -> int:
         artifact_root = args.artifacts.resolve()
         write_visual_artifacts(report, artifact_root, dpi=args.dpi)
         write_overview_sheets(report, artifact_root, dpi=args.dpi)
+        write_worst_page_sheets(report, artifact_root, dpi=args.dpi)
     return 0
 
 

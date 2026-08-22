@@ -88,17 +88,103 @@ def test_all_packages_render_reference_page_geometry(tmp_path: Path) -> None:
         if paper in {"1", "2"}:
             question_pages = PdfReader(paths["question_paper"]).pages
             assert "Figure 2" in (question_pages[2].extract_text() or "")
-            assert "Section B" in (question_pages[8].extract_text() or "")
-            assert "Section C" in (question_pages[12].extract_text() or "")
-            assert "EXTRA ANSWER SPACE" in (
-                question_pages[16].extract_text() or ""
-            )
-            assert "continued" in (question_pages[18].extract_text() or "")
+            if paper == "1":
+                assert "Section B starts on the next page" in (
+                    question_pages[8].extract_text() or ""
+                )
+                assert "Section B:" in (
+                    question_pages[9].extract_text() or ""
+                )
+                assert "Section C starts on the next page" in (
+                    question_pages[12].extract_text() or ""
+                )
+                assert "Section C:" in (
+                    question_pages[13].extract_text() or ""
+                )
+                assert "END OF QUESTION PAPER" in (
+                    question_pages[16].extract_text() or ""
+                )
+                assert "EXTRA ANSWER SPACE" in (
+                    question_pages[17].extract_text() or ""
+                )
+            else:
+                assert "Section B:" in (
+                    question_pages[8].extract_text() or ""
+                )
+                assert "Section C starts on the next page" in (
+                    question_pages[11].extract_text() or ""
+                )
+                assert "Section C:" in (
+                    question_pages[12].extract_text() or ""
+                )
+                assert "END OF QUESTION PAPER" in (
+                    question_pages[15].extract_text() or ""
+                )
+                assert "EXTRA ANSWER SPACE" in (
+                    question_pages[16].extract_text() or ""
+                )
+                assert "BLANK PAGE" in (question_pages[17].extract_text() or "")
         scheme = PdfReader(paths["mark_scheme"])
         assert len(scheme.pages) == expected_scheme_pages[paper]
         assert scheme.pages[0].mediabox.height > scheme.pages[0].mediabox.width
         assert scheme.pages[2].mediabox.width > scheme.pages[2].mediabox.height
         assert scheme.pages[-1].mediabox.height > scheme.pages[-1].mediabox.width
+
+
+def test_paper_three_finishes_on_the_reference_page_roles(tmp_path: Path) -> None:
+    paths = generate_package(
+        paper="3",
+        syllabus_path=ROOT / "data" / "syllabus.json",
+        output_dir=tmp_path,
+        seed=123,
+    )
+
+    pages = PdfReader(paths["question_paper"]).pages
+    assert "Section B" in (pages[15].extract_text() or "")
+    assert "Fig. 1.1" in (pages[15].extract_text() or "")
+    assert all(
+        number in (pages[16].extract_text() or "")
+        for number in ("31", "32")
+    )
+    assert "Extract 2" in (pages[19].extract_text() or "")
+    assert "Fig. 2.1" in (pages[19].extract_text() or "")
+    assert "Question 34" not in (pages[19].extract_text() or "")
+    assert "34" in (pages[20].extract_text() or "")
+    assert "35" in (pages[20].extract_text() or "")
+    assert "36*" in (pages[21].extract_text() or "")
+    assert "Question 36 continued" in (pages[22].extract_text() or "")
+    assert "Extract 3" in (pages[23].extract_text() or "")
+    assert "Fig. 3.1" in (pages[23].extract_text() or "")
+    assert "37" in (pages[23].extract_text() or "")
+    assert "38" in (pages[24].extract_text() or "")
+    assert "END OF QUESTION PAPER" in (pages[24].extract_text() or "")
+    assert "EXTRA ANSWER SPACE" in (pages[25].extract_text() or "")
+    assert "EXTRA ANSWER SPACE" not in (pages[26].extract_text() or "")
+    assert "DO NOT WRITE ON THIS PAGE" in (pages[27].extract_text() or "")
+
+    rendered = fitz.open(paths["question_paper"])
+    assert all(
+        len(rendered[page_index].get_drawings()) >= 12
+        for page_index in (15, 19, 23)
+    )
+
+
+def test_paper_three_questions_share_bound_extract_and_figure_data() -> None:
+    paper = build_paper(RULES["paper_3"], SYLLABUS, 26080100)
+    option = paper.sections[1].options[0]
+
+    for question in option.questions:
+        context = question.authoring_context
+        assert context["extract_text"]
+        assert all(
+            concept in context["extract_text"]
+            for concept in context["bound_concepts"]
+        )
+        figure = context["figure"]
+        primary = figure["series"][0]["values"]
+        assert f"{float(primary[0]):g}" in context["extract_text"]
+        assert f"{float(primary[-1]):g}" in context["extract_text"]
+        assert f"Extract {figure['number'].split('.')[0]}" in question.source_references
 
 
 def test_mark_scheme_uses_dense_ocr_tables_and_guidance_pages(tmp_path: Path) -> None:

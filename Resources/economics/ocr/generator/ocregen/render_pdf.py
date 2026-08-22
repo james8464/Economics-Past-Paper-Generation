@@ -1221,19 +1221,41 @@ def _paper_one_two_pages(paper: GeneratedPaper) -> list[Flowable]:
             Paragraph("Question 1 continued", STYLES["centre_bold"]),
             AnswerLines(34),
         ],
-        [*_intro(section_b), *_choice_prompts(section_b)],
     ]
-    pages.extend([[AnswerLines(34)] for _ in range(3)])
-    pages.append([*_intro(section_c), *_choice_prompts(section_c)])
-    pages.extend([[AnswerLines(34)] for _ in range(3)])
-    pages.extend(
-        [
-            _extra_answer_page(),
-            _extra_answer_page(),
-            _extra_answer_page(continued=True),
-            _question_paper_legal_page(),
-        ]
-    )
+    if paper.paper_id == "paper_1":
+        pages.extend(
+            [
+                _section_transition_page("Section B", blank=True),
+                [*_intro(section_b), *_choice_prompts(section_b)],
+                [AnswerLines(34)],
+                [AnswerLines(34)],
+                _section_transition_page("Section C"),
+                [*_intro(section_c), *_choice_prompts(section_c)],
+                [AnswerLines(34)],
+                [AnswerLines(34)],
+                _end_of_paper_page(line_count=10, spacer=70 * mm),
+                _extra_answer_page(),
+                _extra_answer_page(show_heading=False),
+                _question_paper_legal_page(),
+            ]
+        )
+    else:
+        pages.extend(
+            [
+                [*_intro(section_b), *_choice_prompts(section_b)],
+                [AnswerLines(34)],
+                [AnswerLines(34)],
+                _section_transition_page("Section C"),
+                [*_intro(section_c), *_choice_prompts(section_c)],
+                [AnswerLines(34)],
+                [AnswerLines(34)],
+                _end_of_paper_page(line_count=6, spacer=95 * mm),
+                _extra_answer_page(),
+                _blank_question_page(),
+                _blank_question_page(),
+                _question_paper_legal_page(),
+            ]
+        )
     assert len(pages) == 19
     return _page_sequence(pages)
 
@@ -1299,16 +1321,9 @@ def _market_share_chart(option: GeneratedOption) -> Drawing:
     return drawing
 
 
-def _extra_answer_page(
-    *,
-    continued: bool = False,
-) -> list[Flowable]:
+def _extra_answer_page(*, show_heading: bool = True) -> list[Flowable]:
     row_count = 25
-    heading = (
-        "EXTRA ANSWER SPACE — continued"
-        if continued
-        else "EXTRA ANSWER SPACE"
-    )
+    heading = "EXTRA ANSWER SPACE" if show_heading else ""
     rows: list[list[object]] = [
         [
             Paragraph("Question<br/>number", STYLES["small"]),
@@ -1334,37 +1349,256 @@ def _extra_answer_page(
     return [table]
 
 
+def _section_transition_page(
+    section: str,
+    *,
+    blank: bool = False,
+) -> list[Flowable]:
+    if blank:
+        return [
+            Spacer(1, 38 * mm),
+            Paragraph("BLANK PAGE", STYLES["centre_bold"]),
+            Spacer(1, 60 * mm),
+            Paragraph("DO NOT WRITE ON THIS PAGE", STYLES["centre_bold"]),
+            Spacer(1, 6 * mm),
+            Paragraph(f"{section} starts on the next page", STYLES["centre_bold"]),
+        ]
+    return [
+        AnswerLines(6),
+        Spacer(1, 70 * mm),
+        Paragraph(f"{section} starts on the next page", STYLES["centre_bold"]),
+    ]
+
+
+def _end_of_paper_page(*, line_count: int, spacer: float) -> list[Flowable]:
+    return [
+        AnswerLines(line_count),
+        Spacer(1, spacer),
+        Paragraph("END OF QUESTION PAPER", STYLES["centre_bold"]),
+    ]
+
+
+def _blank_question_page() -> list[Flowable]:
+    return [
+        Spacer(1, 45 * mm),
+        Paragraph("BLANK PAGE", STYLES["centre_bold"]),
+        Spacer(1, 75 * mm),
+        Paragraph("PLEASE DO NOT WRITE ON THIS PAGE", STYLES["centre_bold"]),
+    ]
+
+
 def _paper_three_pages(paper: GeneratedPaper) -> list[Flowable]:
     mcq, data_section = paper.sections
     data = data_section.options[0]
     pages: list[list[Flowable]] = []
     cursor = 0
-    for page_index in range(15):
+    mcq_page_counts = (3, *([2] * 12), 3)
+    for page_index, question_count in enumerate(mcq_page_counts):
         content: list[Flowable] = []
         if page_index == 0:
             content.extend(_intro(mcq))
-        for option in mcq.options[cursor : cursor + 2]:
+        for option in mcq.options[cursor : cursor + question_count]:
             content.extend(_mcq_block(option.questions[0]))
-        cursor += 2
+        cursor += question_count
         pages.append(content)
+    assert cursor == len(mcq.options)
     pages.extend(
         [
-            [*_intro(data_section), Paragraph(data.stimulus[0], STYLES["extract"]), Spacer(1, 3 * mm), _chart(data), *_question_block(data.questions[0]), *_question_block(data.questions[1])],
-            [_banner("Question 33"), Spacer(1, 4 * mm), *_question_block(data.questions[2]), AnswerLines(25)],
-            [Paragraph("Question 33 continued", STYLES["centre_bold"]), AnswerLines(34)],
-            [_banner("Extract 2"), Spacer(1, 3 * mm), Paragraph(data.stimulus[1], STYLES["extract"]), Spacer(1, 4 * mm), *_question_block(data.questions[3]), *_question_block(data.questions[4])],
-            [_banner("Question 36"), Spacer(1, 4 * mm), *_question_block(data.questions[5]), AnswerLines(25)],
-            [Paragraph("Question 36 continued", STYLES["centre_bold"]), AnswerLines(34)],
-            [Paragraph("Question 36 continued", STYLES["centre_bold"]), AnswerLines(34)],
-            [_banner("Extract 3"), Spacer(1, 3 * mm), Paragraph(data.stimulus[2], STYLES["extract"]), Spacer(1, 4 * mm), *_question_block(data.questions[6])],
-            [_banner("Question 38"), Spacer(1, 4 * mm), *_question_block(data.questions[7]), AnswerLines(25)],
-            [Paragraph("Question 38 continued", STYLES["centre_bold"]), AnswerLines(34)],
-            [Paragraph("Additional page, if required", STYLES["centre_bold"]), AnswerLines(34)],
-            [Paragraph("Additional page, if required", STYLES["centre_bold"]), AnswerLines(34)],
+            [
+                *_intro(data_section),
+                Paragraph(data.stimulus[0], STYLES["extract"]),
+                Spacer(1, 3 * mm),
+                _paper_three_figure(data, 1),
+            ],
+            [
+                *_question_with_answer_lines(
+                    data.questions[0],
+                    6,
+                    spacing_mm=8.0,
+                ),
+                *_question_with_answer_lines(
+                    data.questions[1],
+                    9,
+                    spacing_mm=8.0,
+                ),
+            ],
+            [*_question_block(data.questions[2]), AnswerLines(28, spacing_mm=8.0)],
+            [Paragraph("Question 33 continued", STYLES["centre_bold"]), AnswerLines(28, spacing_mm=8.0)],
+            [
+                _banner("Extract 2"),
+                Spacer(1, 3 * mm),
+                Paragraph(data.stimulus[1], STYLES["extract"]),
+                Spacer(1, 3 * mm),
+                _paper_three_figure(data, 2),
+            ],
+            [
+                *_question_with_answer_lines(
+                    data.questions[3],
+                    9,
+                    spacing_mm=8.0,
+                ),
+                *_question_with_answer_lines(
+                    data.questions[4],
+                    6,
+                    spacing_mm=8.0,
+                ),
+                Spacer(1, 3 * mm),
+                Paragraph("Turn over for the next question", STYLES["centre_bold"]),
+            ],
+            [*_question_block(data.questions[5]), AnswerLines(28, spacing_mm=8.0)],
+            [Paragraph("Question 36 continued", STYLES["centre_bold"]), AnswerLines(28, spacing_mm=8.0)],
+            [
+                _banner("Extract 3"),
+                Spacer(1, 3 * mm),
+                Paragraph(data.stimulus[2], STYLES["extract"]),
+                Spacer(1, 3 * mm),
+                _paper_three_figure(data, 3),
+                *_question_with_answer_lines(
+                    data.questions[6],
+                    6,
+                    spacing_mm=8.0,
+                ),
+            ],
+            [
+                _question_table(data.questions[7], show_marks=False),
+                Spacer(1, 4 * mm),
+                AnswerLines(27, spacing_mm=8.0),
+                _answer_mark(data.questions[7]),
+                Paragraph("END OF QUESTION PAPER", STYLES["centre_bold"]),
+            ],
+            _extra_answer_page(),
+            _extra_answer_page(show_heading=False),
+            _question_paper_legal_page(),
         ]
     )
     assert len(pages) == 27
     return _page_sequence(pages)
+
+
+def _paper_three_figure(option: GeneratedOption, extract_number: int) -> Drawing:
+    question_index = {1: 0, 2: 3, 3: 6}[extract_number]
+    context = option.questions[question_index].authoring_context
+    figure = context.get("figure", {})
+    labels = [str(label) for label in figure.get("labels", option.chart_labels)]
+    series = figure.get("series", [])
+    if not labels or not series:
+        return _chart(option)
+
+    drawing = Drawing(165 * mm, 66 * mm)
+    x0, y0, width, height = 42, 32, 380, 108
+    drawing.add(
+        String(
+            x0,
+            173,
+            f"Fig. {figure.get('number', f'{extract_number}.1')}",
+            fontName=FONT_BOLD,
+            fontSize=9,
+        )
+    )
+    drawing.add(
+        String(
+            x0,
+            158,
+            str(figure.get("title", option.chart_title)),
+            fontName=FONT_BOLD,
+            fontSize=9,
+        )
+    )
+    all_values = [
+        float(value)
+        for item in series
+        for value in item.get("values", [])
+    ]
+    low = min(all_values)
+    high = max(all_values)
+    padding = max(2.0, (high - low) * 0.12)
+    low -= padding
+    high += padding
+    span = max(1.0, high - low)
+    for grid_index in range(5):
+        y = y0 + grid_index * height / 4
+        drawing.add(
+            Line(
+                x0,
+                y,
+                x0 + width,
+                y,
+                strokeColor=colors.HexColor("#c6c6c6"),
+                strokeWidth=0.35,
+            )
+        )
+        value = low + grid_index * span / 4
+        drawing.add(
+            String(
+                x0 - 7,
+                y - 2,
+                f"{value:.0f}",
+                fontName=FONT,
+                fontSize=6.5,
+                textAnchor="end",
+            )
+        )
+    drawing.add(Line(x0, y0, x0, y0 + height, strokeColor=INK))
+    drawing.add(Line(x0, y0, x0 + width, y0, strokeColor=INK))
+    strokes = [INK, colors.HexColor("#666666")]
+    for series_index, item in enumerate(series[:2]):
+        values = [float(value) for value in item.get("values", [])]
+        points: list[float] = []
+        for index, value in enumerate(values):
+            x = x0 + index * width / max(1, len(values) - 1)
+            y = y0 + (value - low) / span * height
+            points.extend([x, y])
+            drawing.add(
+                Rect(
+                    x - 1.8,
+                    y - 1.8,
+                    3.6,
+                    3.6,
+                    fillColor=strokes[series_index],
+                    strokeColor=strokes[series_index],
+                )
+            )
+        line = PolyLine(
+            points,
+            strokeColor=strokes[series_index],
+            strokeWidth=1.2,
+        )
+        if series_index == 1:
+            line.strokeDashArray = [5, 3]
+        drawing.add(line)
+        legend_x = x0 + series_index * 190
+        drawing.add(
+            Line(
+                legend_x,
+                15,
+                legend_x + 20,
+                15,
+                strokeColor=strokes[series_index],
+                strokeWidth=1.2,
+            )
+        )
+        drawing.add(
+            String(
+                legend_x + 25,
+                12,
+                str(item.get("label", f"Series {series_index + 1}")),
+                fontName=FONT,
+                fontSize=6.5,
+            )
+        )
+    for index, label in enumerate(labels):
+        x = x0 + index * width / max(1, len(labels) - 1)
+        drawing.add(
+            String(
+                x,
+                y0 - 12,
+                label,
+                fontName=FONT,
+                fontSize=6.5,
+                textAnchor="middle",
+            )
+        )
+    return drawing
 
 
 def _page_sequence(pages: list[list[Flowable]]) -> list[Flowable]:
@@ -1422,9 +1656,55 @@ def _question_block(question: GeneratedQuestion) -> list[Flowable]:
     return [_question_table(question), Spacer(1, 4 * mm)]
 
 
-def _question_table(question: GeneratedQuestion) -> Table:
+def _question_with_answer_lines(
+    question: GeneratedQuestion,
+    line_count: int,
+    *,
+    spacing_mm: float = 6.0,
+) -> list[Flowable]:
+    return [
+        _question_table(question, show_marks=False),
+        Spacer(1, 2 * mm),
+        AnswerLines(line_count, spacing_mm=spacing_mm),
+        _answer_mark(question),
+        Spacer(1, 4 * mm),
+    ]
+
+
+def _answer_mark(question: GeneratedQuestion) -> Table:
     return Table(
-        [[Paragraph(f"<b>{question.number}</b> {question.prompt}", STYLES["body"]), Paragraph(f"[{question.marks}]", STYLES["marks"])]],
+        [[Paragraph(f"[{question.marks}]", STYLES["marks"])]],
+        colWidths=[167 * mm],
+        style=TableStyle(
+            [
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+            ]
+        ),
+    )
+
+
+def _question_table(
+    question: GeneratedQuestion,
+    *,
+    show_marks: bool = True,
+) -> Table:
+    display_number = f"{question.number}*" if question.marks >= 15 else question.number
+    return Table(
+        [
+            [
+                Paragraph(
+                    f"<b>{display_number}</b> {question.prompt}",
+                    STYLES["body"],
+                ),
+                Paragraph(
+                    f"[{question.marks}]" if show_marks else "",
+                    STYLES["marks"],
+                ),
+            ]
+        ],
         colWidths=[155 * mm, 12 * mm],
         style=TableStyle([("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0)]),
     )
@@ -1686,18 +1966,19 @@ def _box(text: str) -> Table:
 
 
 class AnswerLines(Flowable):
-    def __init__(self, count: int) -> None:
+    def __init__(self, count: int, *, spacing_mm: float = 6.0) -> None:
         super().__init__()
         self.width = 167 * mm
-        self.height = count * 6.0 * mm
+        self.height = count * spacing_mm * mm
         self.count = count
+        self.spacing = spacing_mm * mm
 
     def draw(self) -> None:
-        self.canv.setStrokeColor(colors.HexColor("#b8b8b8"))
-        self.canv.setLineWidth(0.4)
+        self.canv.setStrokeColor(colors.HexColor("#777777"))
+        self.canv.setLineWidth(0.5)
         self.canv.setDash(1, 1.7)
         for index in range(self.count):
-            y = self.height - (index + 1) * 6.0 * mm
+            y = self.height - (index + 1) * self.spacing
             self.canv.line(0, y, self.width, y)
         self.canv.setDash()
 

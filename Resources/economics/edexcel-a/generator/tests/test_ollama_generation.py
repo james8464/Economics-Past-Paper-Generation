@@ -29,13 +29,14 @@ class BlueprintAwareClient:
     supports_parallel_generation = True
 
     def generate_json(self, prompt: str) -> dict[str, object]:
-        if "independent UK A-level assessment editor" in prompt:
+        if "second-pass UK A-level assessment editor" in prompt:
             return {
                 "approved": True,
                 "factual_issues": [],
                 "marking_issues": [],
                 "source_issues": [],
                 "difficulty_issues": [],
+                "ambiguity_issues": [],
             }
         command = _line(prompt, "Command word")
         marks = int(_line(prompt, "Marks"))
@@ -93,20 +94,21 @@ class BlueprintAwareClient:
 
 class EmptyClient(BlueprintAwareClient):
     def generate_json(self, prompt: str) -> dict[str, object]:
-        if "independent UK A-level assessment editor" in prompt:
+        if "second-pass UK A-level assessment editor" in prompt:
             return super().generate_json(prompt)
         return {}
 
 
 class RejectingReviewerClient(BlueprintAwareClient):
     def generate_json(self, prompt: str) -> dict[str, object]:
-        if "independent UK A-level assessment editor" in prompt:
+        if "second-pass UK A-level assessment editor" in prompt:
             return {
                 "approved": False,
                 "factual_issues": ["Unsupported causal claim"],
                 "marking_issues": [],
                 "source_issues": [],
                 "difficulty_issues": [],
+                "ambiguity_issues": [],
             }
         return super().generate_json(prompt)
 
@@ -186,7 +188,7 @@ def test_generation_rejects_unchanged_template_fallback() -> None:
         generate_questions_with_ollama(EmptyClient(), blueprint, syllabus)
 
 
-def test_generation_rejects_failed_independent_review() -> None:
+def test_generation_rejects_failed_second_pass_review() -> None:
     syllabus, blueprint = _paper()
 
     with pytest.raises(ValueError, match="Unsupported causal claim"):

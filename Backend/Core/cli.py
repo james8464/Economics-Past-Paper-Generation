@@ -11,11 +11,12 @@ from Backend.Core.benchmark import handle_benchmark
 from Backend.Core.events import BACKEND_VERSION, emit
 from Backend.Core.generation import handle_generate
 from Backend.Core.generator_registry import generator_capabilities, generator_subjects
+from Backend.Core.model_recommendations import default_ollama_model
 from Backend.Core.ollama import handle_list_models, handle_ollama_status, handle_pull_model
 from Backend.Core.paths import REPO_ROOT
 
 DEFAULT_OUTPUT_DIR = Path.home() / "Downloads"
-DEFAULT_MODEL = os.environ.get("PAPER_CREATOR_DEFAULT_MODEL", "qwen2.5:14b")
+DEFAULT_MODEL = os.environ.get("PAPER_CREATOR_DEFAULT_MODEL", default_ollama_model())
 DEFAULT_OLLAMA_URL = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 DEFAULT_BENCHMARK_DURATION_SECONDS = 30.0
 

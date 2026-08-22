@@ -83,6 +83,21 @@ def test_paper_one_calculations_share_source_data_with_mark_scheme() -> None:
     ]
 
 
+def test_paper_two_calculations_name_the_displayed_sales_series() -> None:
+    paper = build_paper(RULES["paper_2"], SYLLABUS, 123)
+    calculations = [
+        question
+        for section in paper.sections
+        for option in section.options
+        for question in option.questions
+        if question.kind == "calculation"
+    ]
+
+    assert calculations
+    assert all("business sales data" in question.prompt for question in calculations)
+    assert all("2021 to 2025" in question.prompt for question in calculations)
+
+
 def test_multi_seed_validity_and_uniqueness() -> None:
     for rule in RULES.values():
         first = build_paper(rule, SYLLABUS, 123)

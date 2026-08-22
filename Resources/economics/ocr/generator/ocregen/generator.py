@@ -123,9 +123,30 @@ def _written_option(
     values = [float(rng.randint(70, 135))]
     for _ in range(4):
         values.append(round(values[-1] * (1 + rng.randint(-8, 13) / 100), 1))
+    figure_contexts: list[dict[str, object]] = []
     if paper_rule.id == "paper_3":
         title = f"Synoptic theme: {context.title()}"
-        stimulus = [_extract(topic, context, case_id, rng, index) for index in range(1, 4)]
+        figure_contexts = [
+            _theme_figure(context, rng, index)
+            for index in range(1, 4)
+        ]
+        stimulus = [
+            _extract(
+                topic,
+                context,
+                case_id,
+                rng,
+                index,
+                figure=figure_contexts[index - 1],
+            )
+            for index in range(1, 4)
+        ]
+        for figure_context, extract_text in zip(
+            figure_contexts,
+            stimulus,
+            strict=True,
+        ):
+            figure_context["extract_text"] = extract_text
         numbers = [str(31 + index) for index in range(len(rules))]
     elif section_id == "A":
         title = f"Question 1: {context.title()}"
@@ -141,16 +162,38 @@ def _written_option(
         stimulus = []
         numbers = [str(number)]
     questions = [
-        _question(rule, number, topic, context, case_id, values, rng)
+        _question(
+            rule,
+            number,
+            topic,
+            context,
+            case_id,
+            values,
+            rng,
+            figure_contexts=figure_contexts,
+        )
         for rule, number in zip(rules, numbers, strict=True)
     ]
+    chart_values = (
+        list(figure_contexts[0]["series"][0]["values"])
+        if figure_contexts
+        else values if stimulus else []
+    )
     return GeneratedOption(
         id=f"{section_id}{option_index + 1}",
         title=title,
         stimulus=stimulus,
-        chart_title=f"Index for {context} (base = 100)",
-        chart_labels=[str(2021 + index) for index in range(5)],
-        chart_values=values if stimulus else [],
+        chart_title=(
+            str(figure_contexts[0]["title"])
+            if figure_contexts
+            else f"Index for {context} (base = 100)"
+        ),
+        chart_labels=(
+            list(figure_contexts[0]["labels"])
+            if figure_contexts
+            else [str(2021 + index) for index in range(5)]
+        ),
+        chart_values=chart_values,
         questions=questions,
     )
 
@@ -163,25 +206,106 @@ def _question(
     case_id: int,
     values: list[float],
     rng: random.Random,
+    *,
+    figure_contexts: list[dict[str, object]] | None = None,
 ) -> GeneratedQuestion:
-    point = rng.choice(topic.points)
-    evidence = f"the extracts about {context}"
-    change = (values[-1] - values[0]) / values[0] * 100
+    extract_number = _extract_number(rule.id)
+    if extract_number is None:
+        point = rng.choice(topic.points)
+        bound_concepts: list[str] = []
+    else:
+        primary_concept = topic.points[(extract_number - 1) % len(topic.points)]
+        secondary_concept = topic.points[extract_number % len(topic.points)]
+        bound_concepts = [primary_concept, secondary_concept]
+        point = (
+            primary_concept
+            if rule.kind in {"extended_response", "short_answer"}
+            else secondary_concept
+        )
+    figure = (
+        figure_contexts[extract_number - 1]
+        if figure_contexts and extract_number is not None
+        else None
+    )
+    question_values = (
+        [float(value) for value in figure["series"][0]["values"]]
+        if figure is not None
+        else values
+    )
+    comparison_series = (
+        figure["series"][1]
+        if figure is not None and len(figure["series"]) > 1
+        else None
+    )
+    evidence = (
+        f"Extract {extract_number}"
+        if extract_number is not None
+        else f"the extracts about {context}"
+    )
+    change = (question_values[-1] - question_values[0]) / question_values[0] * 100
+    authoring_context: dict[str, object] = {}
+    source_references: list[str] = []
+    if figure is not None:
+        authoring_context = {
+            "task_scope": (
+                f"Use only Extract {extract_number} and its bound Figure "
+                f"{extract_number}.1 when answering this item."
+            ),
+            "figure": {
+                key: value
+                for key, value in figure.items()
+                if key != "extract_text"
+            },
+            "extract_text": figure.get("extract_text", ""),
+            "bound_concepts": bound_concepts,
+            "required_prompt_terms": [context, point],
+        }
+        source_references = [f"Extract {extract_number}"]
     if rule.kind == "calculation":
-        prompt = f"Using the data in {evidence}, calculate the percentage change in the index. Give your answer to one decimal place."
+        if extract_number is not None:
+            prompt = (
+                f"Using Figure {extract_number}.1 and the information in {evidence}, "
+                "calculate the percentage change in the primary index. Give your "
+                "answer to one decimal place."
+            )
+            source_references.append(f"Figure {extract_number}.1")
+        else:
+            prompt = (
+                f"Using the data in {evidence}, calculate the percentage change in "
+                "the index. Give your answer to one decimal place."
+            )
         mark_label = "mark" if rule.marks == 1 else "marks"
         scheme = [
-            f"Valid method using {values[0]} and {values[-1]}.",
+            f"Valid method using {question_values[0]} and {question_values[-1]}.",
             (
-                f"Calculation: (({values[-1]} - {values[0]}) / {values[0]}) "
+                f"Calculation: (({question_values[-1]} - {question_values[0]}) / "
+                f"{question_values[0]}) "
                 f"x 100 = {change:.1f}%."
             ),
             f"Correct answer: {change:.1f}%.",
             f"Maximum {rule.marks} {mark_label}.",
         ]
     elif rule.kind == "short_answer" and rule.command_word == "Identify":
-        prompt = f"Using {evidence}, identify two features relevant to {point}."
-        scheme = ["One mark for each valid feature supported by the stimulus."]
+        prompt = (
+            f"Using Figure {extract_number}.1 and {evidence}, identify two features "
+            f"relevant to {point}."
+            if extract_number is not None
+            else f"Using {evidence}, identify two features relevant to {point}."
+        )
+        if extract_number is not None:
+            source_references.append(f"Figure {extract_number}.1")
+        if comparison_series is None:
+            scheme = [
+                "One mark for each of two distinct features supported by the extract."
+            ]
+        else:
+            scheme = [
+                "Primary activity index: credit an accurate feature using "
+                f"{question_values[0]} and {question_values[-1]}.",
+                f"{comparison_series['label']}: credit an accurate feature using "
+                f"{comparison_series['values'][0]} and "
+                f"{comparison_series['values'][-1]}.",
+            ]
     elif rule.kind == "short_answer":
         prompt = f"Explain what is meant by '{point}'."
         scheme = [f"Accurate explanation of {point}.", "Accept an equivalent economic definition."]
@@ -207,16 +331,30 @@ def _question(
                 f"Using Figure {figure_number}, {verb} the changes shown and relate them to "
                 f"{point}."
             )
+            source_references.append(f"Figure {figure_number}")
         else:
             verb = "compare" if rule.command_word == "Compare" else "explain"
             prompt = f"Using the data in {evidence}, {verb} the observed changes and relate them to {point}."
-        direction = "an increase" if values[-1] >= values[0] else "a decrease"
+        direction = (
+            "an increase"
+            if question_values[-1] >= question_values[0]
+            else "a decrease"
+        )
         scheme = [
-            f"Accurate comparison: the index changes from {values[0]} to {values[-1]}.",
-            f"This is {direction} of {abs(values[-1] - values[0]):.1f} index points.",
+            "Accurate comparison: the primary index changes from "
+            f"{question_values[0]} to {question_values[-1]}.",
+            f"This is {direction} of "
+            f"{abs(question_values[-1] - question_values[0]):.1f} index points.",
             f"Developed economic reasoning involving {point}.",
             "Recognition of the limits of the comparison.",
         ]
+        if comparison_series is not None:
+            scheme.insert(
+                2,
+                f"The {comparison_series['label'].lower()} changes from "
+                f"{comparison_series['values'][0]} to "
+                f"{comparison_series['values'][-1]}.",
+            )
     elif rule.kind == "essay":
         prompt = f"Evaluate, using an appropriate diagram where relevant, the impact of {point} on {topic.title.lower()}."
         scheme = _evaluation_scheme(topic, point, rule.marks)
@@ -247,7 +385,53 @@ def _question(
         topic_id=topic.id,
         prompt=prompt,
         mark_scheme=scheme,
+        source_references=source_references,
+        authoring_context=authoring_context,
     )
+
+
+def _extract_number(rule_id: str) -> int | None:
+    if not rule_id.startswith("extract_"):
+        return None
+    part = rule_id.split("_", 2)[1]
+    return int(part) if part.isdigit() else None
+
+
+def _theme_figure(
+    context: str,
+    rng: random.Random,
+    index: int,
+) -> dict[str, object]:
+    labels = [str(year) for year in range(2019, 2024)]
+
+    def series_values() -> list[float]:
+        start = float(rng.randint(84, 118))
+        end = round(start * (1 + rng.randint(-10, 16) / 100), 1)
+        values = [start]
+        for step in range(1, 4):
+            trend = start + (end - start) * step / 4
+            values.append(round(trend + rng.uniform(-2.4, 2.4), 1))
+        values.append(end)
+        return values
+
+    series = [
+        {
+            "label": "Primary activity index",
+            "values": series_values(),
+        }
+    ]
+    if index in {2, 3}:
+        comparison_label = (
+            "Price pressure index" if index == 2 else "Well-being index"
+        )
+        series.append({"label": comparison_label, "values": series_values()})
+    return {
+        "number": f"{index}.1",
+        "title": f"Indices for {context.title()} (2019 = 100)",
+        "labels": labels,
+        "series": series,
+        "units": "index points",
+    }
 
 
 def _evaluation_scheme(topic: Topic, point: str, marks: int) -> list[str]:
@@ -333,12 +517,33 @@ def _mcq(number: int, topic: Topic, rng: random.Random) -> GeneratedOption:
     return GeneratedOption(id=f"A{number}", title=f"Question {number}", questions=[question])
 
 
-def _extract(topic: Topic, context: str, case_id: int, rng: random.Random, index: int) -> str:
+def _extract(
+    topic: Topic,
+    context: str,
+    case_id: int,
+    rng: random.Random,
+    index: int,
+    *,
+    figure: dict[str, object] | None = None,
+) -> str:
     focus = topic.points[(index - 1) % len(topic.points)]
     share = rng.randint(18, 76)
     years = rng.randint(2, 7)
-    start_index = rng.randint(82, 126)
-    end_index = round(start_index * (1 + rng.randint(-9, 17) / 100), 1)
+    if figure is None:
+        start_index = float(rng.randint(82, 126))
+        end_index = round(start_index * (1 + rng.randint(-9, 17) / 100), 1)
+        comparison_sentence = ""
+    else:
+        primary_values = figure["series"][0]["values"]
+        start_index = float(primary_values[0])
+        end_index = float(primary_values[-1])
+        comparison_sentence = ""
+        if len(figure["series"]) > 1:
+            comparison = figure["series"][1]
+            comparison_sentence = (
+                f" The {comparison['label'].lower()} changed from "
+                f"{comparison['values'][0]} to {comparison['values'][-1]}."
+            )
     stakeholder = rng.choice(STAKEHOLDERS)
     second_stakeholder = rng.choice([item for item in STAKEHOLDERS if item != stakeholder])
     policy = rng.choice(POLICY_OPTIONS)
@@ -366,7 +571,8 @@ def _extract(topic: Topic, context: str, case_id: int, rng: random.Random, index
     }.get(topic.id, "the main activity index")
     return (
         f"Extract {index}: {context.title()}. The available evidence concerns {focus}. "
-        f"An index of {measure} changed from {start_index} to {end_index}. The four largest "
+        f"An index of {measure} changed from {start_index:g} to {end_index:g}."
+        f"{comparison_sentence} The four largest "
         f"participants accounted for {share}% of recorded activity. Over the same period, households "
         f"and firms {response}. The effect was strongest for {stakeholder}; {second_stakeholder} "
         "experienced a different balance of costs and benefits. "

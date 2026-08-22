@@ -71,7 +71,7 @@ def _enrich_question(
             }
         )
     scheme.extend(_objective_guidance(question, topic.title, selected, subject))
-    if question.marks >= 8:
+    if _uses_levels(question):
         scheme.extend(_level_guidance(question.marks, subject))
     scheme.append(
         "Marker check: reward a valid alternative route where it demonstrates the same assessed knowledge or skill."
@@ -107,9 +107,20 @@ def _compact_technical_guidance(
                 "Award only distinct points; do not credit the same explanation twice.",
             ]
         )
-    if question.marks >= 8:
+    if _uses_levels(question):
         guidance.extend(_level_guidance(question.marks, "computer science"))
     return guidance
+
+
+def _uses_levels(question: GeneratedQuestion) -> bool:
+    if question.kind in {"calculation", "data", "multiple_choice"}:
+        return False
+    if any(
+        point.casefold().startswith(("level ", "levels-based"))
+        for point in question.mark_scheme
+    ):
+        return True
+    return question.kind == "extended_response" or question.marks >= 8
 
 
 def _objective_guidance(

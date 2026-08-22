@@ -678,7 +678,7 @@ def _paper_one_pages(paper: GeneratedPaper) -> list[Flowable]:
 
 def _paper_two_pages(paper: GeneratedPaper) -> list[Flowable]:
     pages: list[list[Flowable]] = []
-    for section in paper.sections:
+    for section_index, section in enumerate(paper.sections):
         option = section.options[0]
         questions = option.questions
         pages.extend(
@@ -693,7 +693,11 @@ def _paper_two_pages(paper: GeneratedPaper) -> list[Flowable]:
                 [
                     Paragraph(option.stimulus[2], STYLES["extract"]),
                     Spacer(1, 4 * mm),
-                    _chart(option),
+                    (
+                        _paper_two_grouped_bar_chart(option)
+                        if section_index == 0
+                        else _chart(option)
+                    ),
                     *_question_block(questions[0]),
                     AnswerLines(5),
                     *(
@@ -1263,6 +1267,80 @@ def _chart(option: GeneratedOption, offset: int = 0) -> Drawing:
         drawing.add(String(x - 8, y0 - 13, option.chart_labels[index], fontName=FONT, fontSize=7))
         drawing.add(String(x + 4, y + 2, f"{value:.1f}", fontName=FONT, fontSize=7))
     drawing.add(PolyLine(points, strokeColor=INK, strokeWidth=1.2))
+    return drawing
+
+
+def _paper_two_grouped_bar_chart(option: GeneratedOption) -> Drawing:
+    """Render the opening Paper 2 appendix in its reference-style dual series."""
+
+    drawing = Drawing(165 * mm, 64 * mm)
+    x0, y0, width, height = 38, 34, 402, 118
+    market = [round(value * 5.4, 1) for value in option.chart_values]
+    business = list(option.chart_values)
+    maximum = max(market) * 1.08
+
+    drawing.add(
+        String(
+            38,
+            170,
+            f"Value of the market and {option.title} sales",
+            fontName=FONT_BOLD,
+            fontSize=9,
+        )
+    )
+    drawing.add(Line(x0, y0, x0, y0 + height, strokeWidth=0.8))
+    drawing.add(Line(x0, y0, x0 + width, y0, strokeWidth=0.8))
+    for step in range(5):
+        value = maximum * step / 4
+        y = y0 + height * step / 4
+        drawing.add(Line(x0 - 3, y, x0 + width, y, strokeColor=colors.HexColor("#c8c8c8"), strokeWidth=0.35))
+        drawing.add(String(x0 - 31, y - 3, f"{value:.0f}", fontName=FONT, fontSize=6.5))
+
+    group_width = width / len(market)
+    bar_width = 13
+    for index, (market_value, business_value) in enumerate(
+        zip(market, business, strict=True)
+    ):
+        centre = x0 + group_width * (index + 0.5)
+        market_height = height * market_value / maximum
+        business_height = height * business_value / maximum
+        drawing.add(
+            Rect(
+                centre - bar_width - 1,
+                y0,
+                bar_width,
+                market_height,
+                fillColor=colors.HexColor("#b9b9b9"),
+                strokeColor=INK,
+                strokeWidth=0.35,
+            )
+        )
+        drawing.add(
+            Rect(
+                centre + 1,
+                y0,
+                bar_width,
+                business_height,
+                fillColor=INK,
+                strokeColor=INK,
+                strokeWidth=0.35,
+            )
+        )
+        drawing.add(
+            String(
+                centre - 11,
+                y0 - 14,
+                option.chart_labels[index],
+                fontName=FONT,
+                fontSize=7,
+            )
+        )
+
+    legend_y = 158
+    drawing.add(Rect(318, legend_y, 9, 6, fillColor=colors.HexColor("#b9b9b9"), strokeColor=INK, strokeWidth=0.35))
+    drawing.add(String(331, legend_y, "Market value", fontName=FONT, fontSize=6.5))
+    drawing.add(Rect(386, legend_y, 9, 6, fillColor=INK, strokeColor=INK, strokeWidth=0.35))
+    drawing.add(String(399, legend_y, "Business sales", fontName=FONT, fontSize=6.5))
     return drawing
 
 

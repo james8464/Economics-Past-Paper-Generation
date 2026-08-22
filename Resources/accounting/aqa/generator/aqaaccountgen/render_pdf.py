@@ -36,6 +36,13 @@ from Backend.Core.generation_date import formatted_generation_date
 from Backend.Core.reportlab_theme import themed_table_class
 from Backend.Core.mark_scheme_front_matter import aqa_front_matter_pages
 
+from aqaaccountgen.case_data import (
+    IncomeStatementCase,
+    NonCurrentAssetCase,
+    PartnershipCase,
+    SalesLedgerCase,
+)
+
 
 AQA_A4 = (595.32, 841.92)
 PAGE_WIDTH, PAGE_HEIGHT = AQA_A4
@@ -102,21 +109,22 @@ def _paper_one_mark_scheme_pages(paper: GeneratedPaper) -> list[list[Flowable]]:
         for section in paper.sections
         for question in section.options[0].questions
     }
-    option = paper.sections[1].options[0]
+    short_option = paper.sections[0].options[0]
+    financial_option = paper.sections[1].options[0]
     pages = [
         *_accounting_marking_guidance_pages(),
         _objective_test_answers([questions[f"{number:02d}"] for number in range(1, 11)]),
         _short_answer_scheme_page(questions["11"]),
-        _statement_of_financial_position_scheme(questions["12"], option),
-        _completed_ledger_scheme(questions["13.1"], option),
-        _completed_sales_account_scheme(questions["13.2"], option),
-        _completed_income_statement_scheme(questions["14.1"], option),
-        _income_statement_workings_scheme(questions["14.1"], option),
-        _income_statement_finishing_scheme(questions["14.1"], option),
+        _statement_of_financial_position_scheme(questions["12"], short_option),
+        _completed_ledger_scheme(questions["13.1"], short_option),
+        _completed_sales_account_scheme(questions["13.2"], short_option),
+        _completed_income_statement_scheme(questions["14.1"], financial_option),
+        _income_statement_workings_scheme(questions["14.1"], financial_option),
+        _income_statement_finishing_scheme(questions["14.1"], financial_option),
         _levels_scheme_page(questions["14.2"], "Employees and financial statements"),
         _indicative_content_page(questions["14.2"], "Question 14.2"),
-        _completed_capital_accounts_scheme(questions["15.1"], option),
-        _completed_appropriation_scheme(questions["15.2"], option),
+        _completed_capital_accounts_scheme(questions["15.1"], financial_option),
+        _completed_appropriation_scheme(questions["15.2"], financial_option),
         _levels_with_indicative_scheme_page(
             questions["15.3"],
             "The partnership agreement",
@@ -470,13 +478,30 @@ def _statement_of_financial_position_scheme(
     question: GeneratedQuestion,
     option: GeneratedOption,
 ) -> list[Flowable]:
-    values = [int(value * 1000) for value in option.chart_values]
+    case = NonCurrentAssetCase.from_chart_values(option.title, option.chart_values)
     rows = [
         ["Non-current assets", "Cost\n£", "Accumulated\ndepreciation\n£", "Carrying\namount\n£", "Marks"],
-        ["Premises", f"{values[4]:,}", f"({values[1] // 2:,})", f"{values[4] - values[1] // 2:,}", "1"],
-        ["Plant and machinery", f"{values[3]:,}", f"({values[0] // 3:,})", f"{values[3] - values[0] // 3:,}", "2"],
-        ["Motor vehicles", f"{values[2]:,}", f"({values[1] // 4:,})", f"{values[2] - values[1] // 4:,}", "2"],
-        ["Total non-current assets", "", "", f"{values[4] + values[3] + values[2] - values[1] * 3 // 4 - values[0] // 3:,}", "1 OF"],
+        [
+            "Plant and machinery",
+            f"{case.plant_cost_closing:,}",
+            f"({case.plant_accumulated_depreciation_closing:,})",
+            f"{case.plant_carrying_amount:,}",
+            "3",
+        ],
+        [
+            "Motor vehicles",
+            f"{case.motor_cost_closing:,}",
+            f"({case.motor_accumulated_depreciation_closing:,})",
+            f"{case.motor_carrying_amount:,}",
+            "3",
+        ],
+        [
+            "Total non-current assets",
+            "",
+            "",
+            f"{case.total_carrying_amount:,}",
+            "1 OF",
+        ],
     ]
     return [
         _scheme_question_heading(question),
@@ -490,9 +515,32 @@ def _statement_of_financial_position_scheme(
         _scheme_grid(
             ["Working", "Mark"],
             [
-                [f"Premises depreciation: {values[1]:,} × 50% = {values[1] // 2:,}", "1"],
-                [f"Plant disposal adjustment: {values[0]:,} ÷ 3 = {values[0] // 3:,}", "1"],
-                [f"Vehicle depreciation: {values[1]:,} × 25% = {values[1] // 4:,}", "1"],
+                [
+                    "Plant cost: "
+                    f"{case.plant_cost_opening:,} + {case.plant_purchase:,} "
+                    f"= {case.plant_cost_closing:,}",
+                    "1",
+                ],
+                [
+                    "Plant depreciation: "
+                    f"{case.plant_cost_closing:,} × {case.plant_rate_percent}% "
+                    f"= {case.plant_depreciation_charge:,}",
+                    "1",
+                ],
+                [
+                    "Motor vehicles: remove cost and accumulated depreciation "
+                    f"of {case.motor_disposal_cost:,} and "
+                    f"{case.motor_disposal_accumulated_depreciation:,}",
+                    "1",
+                ],
+                [
+                    "Motor-vehicle depreciation: "
+                    f"({case.motor_cost_closing:,} − "
+                    f"{case.motor_accumulated_depreciation_before_charge:,}) × "
+                    f"{case.motor_rate_percent}% = "
+                    f"{case.motor_depreciation_charge:,}",
+                    "1",
+                ],
             ],
             [145 * mm, 22 * mm],
         ),
@@ -509,15 +557,15 @@ def _completed_ledger_scheme(
     question: GeneratedQuestion,
     option: GeneratedOption,
 ) -> list[Flowable]:
-    values = [int(value * 145) for value in option.chart_values]
+    case = SalesLedgerCase.from_chart_values(option.title, option.chart_values)
     data = [
         ["Date", "Details", "£", "Date", "Details", "£"],
-        ["1 Jan", "Balance b/d", f"{values[4]:,}", "31 Dec", "Bank", f"{values[2]:,}"],
-        ["31 Dec", "Sales", f"{values[3]:,}", "31 Dec", "Sales returns", f"{values[0]:,}"],
-        ["", "", "", "31 Dec", "Discount allowed", f"{values[1] // 5:,}"],
-        ["", "", "", "31 Dec", "Balance c/d", f"{values[4] + values[3] - values[2] - values[0] - values[1] // 5:,}"],
-        ["", "", f"{values[4] + values[3]:,}", "", "", f"{values[4] + values[3]:,}"],
-        ["1 Jan", "Balance b/d", f"{values[4] + values[3] - values[2] - values[0] - values[1] // 5:,}", "", "", ""],
+        ["1 Jan", "Balance b/d", f"{case.opening_receivables:,}", "31 Dec", "Bank", f"{case.cash_received:,}"],
+        ["31 Dec", "Sales", f"{case.credit_sales:,}", "31 Dec", "Sales returns", f"{case.sales_returns:,}"],
+        ["", "", "", "31 Dec", "Discount allowed", f"{case.discount_allowed:,}"],
+        ["", "", "", "31 Dec", "Balance c/d", f"{case.closing_receivables:,}"],
+        ["", "", f"{case.opening_receivables + case.credit_sales:,}", "", "", f"{case.opening_receivables + case.credit_sales:,}"],
+        ["1 Jan", "Balance b/d", f"{case.closing_receivables:,}", "", "", ""],
     ]
     return [
         _scheme_question_heading(question),
@@ -537,12 +585,11 @@ def _completed_sales_account_scheme(
     question: GeneratedQuestion,
     option: GeneratedOption,
 ) -> list[Flowable]:
-    values = [int(value * 145) for value in option.chart_values]
-    net_sales = values[3] - values[0]
+    case = SalesLedgerCase.from_chart_values(option.title, option.chart_values)
     rows = [
-        ["31 Dec", "Sales returns", f"{values[0]:,}", "31 Dec", "Sales journal", f"{values[3]:,}"],
-        ["31 Dec", "Income statement", f"{net_sales:,}", "", "", ""],
-        ["", "", f"{values[3]:,}", "", "", f"{values[3]:,}"],
+        ["31 Dec", "Sales returns", f"{case.sales_returns:,}", "31 Dec", "Sales journal", f"{case.credit_sales:,}"],
+        ["31 Dec", "Income statement", f"{case.net_sales:,}", "", "", ""],
+        ["", "", f"{case.credit_sales:,}", "", "", f"{case.credit_sales:,}"],
     ]
     return [
         _scheme_question_heading(question),
@@ -569,28 +616,36 @@ def _completed_income_statement_scheme(
     question: GeneratedQuestion,
     option: GeneratedOption,
 ) -> list[Flowable]:
-    values = [int(value * 1000) for value in option.chart_values]
-    revenue = values[4] + values[2]
-    cost = values[3] + values[1]
+    case = IncomeStatementCase.from_chart_values(option.title, option.chart_values)
     rows = [
-        ["Revenue", f"{revenue:,}", "", "2"],
-        ["Opening inventory", f"{values[1]:,}", "", ""],
-        ["Purchases and carriage", f"{values[3]:,}", "", "3"],
-        ["Less closing inventory", f"({values[0]:,})", f"{cost - values[0]:,}", "2"],
-        ["Gross profit", "", f"{revenue - cost + values[0]:,}", "1 OF"],
-        ["Distribution and administration expenses", "", f"({values[2] // 2:,})", "3"],
-        ["Finance costs", "", f"({values[1] // 4:,})", "1"],
-        ["Profit for the year", "", f"{revenue - cost + values[0] - values[2] // 2 - values[1] // 4:,}", "2 OF"],
+        ["Revenue", f"{case.revenue:,}", "", "1"],
+        ["Cost of sales", f"({case.adjusted_cost_of_sales:,})", "", "2"],
+        ["Gross profit", "", f"{case.revenue - case.adjusted_cost_of_sales:,}", "1 OF"],
+        ["Administration expenses", f"({case.adjusted_administration_expenses:,})", "", "2"],
+        ["Marketing expenses", f"({case.adjusted_marketing_expenses:,})", "", "2"],
+        ["Warehouse expenses", f"({case.warehouse_expenses:,})", "", "1"],
+        ["Other income – insurance claim", f"{case.insurance_claim:,}", "", "1"],
+        ["Finance costs", f"({case.finance_cost:,})", "", "2"],
+        ["Profit before tax", "", f"{case.profit_before_tax:,}", "1 OF"],
+        ["Taxation", f"({case.current_tax_charge:,})", "", "1"],
+        ["Profit for the year", "", f"{case.profit_for_year:,}", ""],
     ]
     return [
-        _scheme_question_heading(question),
-        Paragraph(f"<b>{option.title}</b><br/>Income statement for the year ended", STYLES["centre_bold"]),
-        Spacer(1, 3 * mm),
-        _scheme_grid(
-            ["", "£", "£", "Marks"],
-            rows,
-            [76 * mm, 31 * mm, 35 * mm, 25 * mm],
-        ),
+        KeepTogether(
+            [
+                _scheme_question_heading(question),
+                Paragraph(
+                    f"<b>{option.title}</b><br/>Income statement for the year ended",
+                    STYLES["centre_bold"],
+                ),
+                Spacer(1, 3 * mm),
+                _scheme_grid(
+                    ["", "£", "£", "Marks"],
+                    rows,
+                    [76 * mm, 31 * mm, 35 * mm, 25 * mm],
+                ),
+            ]
+        )
     ]
 
 
@@ -598,7 +653,7 @@ def _income_statement_workings_scheme(
     question: GeneratedQuestion,
     option: GeneratedOption,
 ) -> list[Flowable]:
-    values = [int(value * 1000) for value in option.chart_values]
+    case = IncomeStatementCase.from_chart_values(option.title, option.chart_values)
     return [
         Paragraph(f"Question {question.number} continued", STYLES["kicker"]),
         Paragraph("Workings and adjustments", STYLES["heading"]),
@@ -606,11 +661,11 @@ def _income_statement_workings_scheme(
         _scheme_grid(
             ["Adjustment", "Treatment", "Marks"],
             [
-                ["Damaged inventory", f"Value at the lower of cost and NRV: £{values[0]:,}.", "2"],
-                ["Irrecoverable debt", f"Remove £{values[1] // 5:,} from receivables and charge expense.", "2"],
-                ["Supplier invoice", f"Accrue £{values[2] // 4:,} and include in purchases/expenses.", "2"],
-                ["Depreciation", f"Charge £{values[3] // 10:,} using the stated policy.", "2"],
-                ["Presentation", "Clear income-statement layout with appropriate labels and subtotals.", "2"],
+                ["Damaged inventory", f"Write down inventory by £{case.inventory_write_down:,} to net realisable value.", "Included"],
+                ["Irrecoverable debt", f"Charge £{case.irrecoverable_debt:,} to administration expenses.", "Included"],
+                ["Supplier invoice", f"Accrue £{case.supplier_invoice:,} in marketing expenses.", "Included"],
+                ["Insurance claim", f"Recognise £{case.insurance_claim:,} as other income.", "Included"],
+                ["Presentation", "Use a clear income-statement layout with appropriate labels and subtotals.", "Check"],
             ],
             [49 * mm, 93 * mm, 25 * mm],
         ),
@@ -627,7 +682,7 @@ def _income_statement_finishing_scheme(
     question: GeneratedQuestion,
     option: GeneratedOption,
 ) -> list[Flowable]:
-    values = [int(value * 1000) for value in option.chart_values]
+    case = IncomeStatementCase.from_chart_values(option.title, option.chart_values)
     return [
         Paragraph(f"Question {question.number} continued", STYLES["kicker"]),
         Paragraph("Further workings", STYLES["heading"]),
@@ -635,10 +690,10 @@ def _income_statement_finishing_scheme(
         _scheme_grid(
             ["Item", "Calculation", "Result £", "Mark"],
             [
-                ["Taxation", f"{values[4]:,} × 19%", f"{values[4] * 19 // 100:,}", "1"],
-                ["Accrued expense", f"{values[2]:,} × 3/12", f"{values[2] // 4:,}", "1"],
-                ["Irrecoverable debt", f"{values[1]:,} × 20%", f"{values[1] // 5:,}", "1"],
-                ["Depreciation", f"{values[3]:,} × 10%", f"{values[3] // 10:,}", "1"],
+                ["Taxation", "Current-year charge supplied", f"{case.current_tax_charge:,}", "Check"],
+                ["New debenture", "6% × 4/12", f"{case.new_debenture * 6 // 100 * 4 // 12:,}", "Check"],
+                ["Earlier debenture", "8% × 10/12", f"{case.earlier_debenture * 8 // 100 * 10 // 12:,}", "Check"],
+                ["Finance costs", "Total of both debenture charges", f"{case.finance_cost:,}", "Check"],
             ],
             [48 * mm, 58 * mm, 38 * mm, 23 * mm],
         ),
@@ -836,11 +891,16 @@ def _completed_capital_accounts_scheme(
     question: GeneratedQuestion,
     option: GeneratedOption,
 ) -> list[Flowable]:
-    values = [int(value * 210) for value in option.chart_values[:3]]
+    case = PartnershipCase.from_chart_values(option.chart_values)
+    opening = case.opening_capital
+    credit = case.goodwill_credit
+    write_off = case.goodwill_write_off
+    withdrawn = case.cash_withdrawn
+    closing = case.target_capital
     rows = [
-        ["1 Jan", "Balance b/d", f"{values[0]:,}", f"{values[1]:,}", "Retirement", "Goodwill", f"{values[2] // 3:,}", f"{values[2] // 4:,}"],
-        ["Retirement", "Goodwill", f"{values[2] // 2:,}", f"{values[2] // 3:,}", "Retirement", "Bank", f"{values[0] // 5:,}", f"{values[1] // 6:,}"],
-        ["", "Bank", f"{values[0] // 5:,}", f"{values[1] // 6:,}", "31 Dec", "Balance c/d", f"{values[0] + values[2] // 2 - values[2] // 3 - values[0] // 5:,}", f"{values[1] + values[2] // 3 - values[2] // 4 - values[1] // 6:,}"],
+        ["31 Aug", "Goodwill written off", f"{write_off['Alex']:,}", f"{write_off['Morgan']:,}", "1 Jan", "Balance b/d", f"{opening['Alex']:,}", f"{opening['Morgan']:,}"],
+        ["31 Aug", "Bank", f"{withdrawn['Alex']:,}", f"{withdrawn['Morgan']:,}", "31 Aug", "Goodwill", f"{credit['Alex']:,}", f"{credit['Morgan']:,}"],
+        ["31 Dec", "Balance c/d", f"{closing['Alex']:,}", f"{closing['Morgan']:,}", "", "", "", ""],
     ]
     return [
         _scheme_question_heading(question),
@@ -864,15 +924,21 @@ def _completed_appropriation_scheme(
     question: GeneratedQuestion,
     option: GeneratedOption,
 ) -> list[Flowable]:
-    values = [int(value * 145) for value in option.chart_values]
-    profit_1, profit_2 = values[4], values[3]
+    case = PartnershipCase.from_chart_values(option.chart_values)
+    periods = case.appropriation_by_period()
+    first = periods["first_period"]
+    second = periods["second_period"]
+    first_shares = first["residual_profit_shares"]
+    second_shares = second["residual_profit_shares"]
     rows = [
-        ["Profit for the period", f"{profit_1:,}", f"{profit_2:,}", "1"],
-        ["Interest on drawings", f"{values[0] // 12:,}", f"{values[1] // 12:,}", "1"],
-        ["Interest on capital", f"({values[1] // 5:,})", f"({values[2] // 5:,})", "2"],
-        ["Partner salaries", f"({values[0] // 3:,})", f"({values[0] // 2:,})", "1"],
-        ["Residual profit", f"{profit_1 - values[1] // 5 - values[0] // 3:,}", f"{profit_2 - values[2] // 5 - values[0] // 2:,}", "1"],
-        ["Share of residual profit", "Agreed ratio", "Revised ratio", "2"],
+        ["Profit for the period", f"{first['profit']:,}", f"{second['profit']:,}", "1"],
+        ["Interest on drawings", f"{sum(first['interest_on_drawings'].values()):,}", f"{sum(second['interest_on_drawings'].values()):,}", "1"],
+        ["Interest on capital", f"({sum(first['interest_on_capital'].values()):,})", f"({sum(second['interest_on_capital'].values()):,})", "2"],
+        ["Morgan's salary", f"({first['partner_salary']['Morgan']:,})", f"({second['partner_salary']['Morgan']:,})", "1"],
+        ["Residual profit", f"{first['residual_profit']:,}", f"{second['residual_profit']:,}", "1"],
+        ["Alex's share", f"{first_shares['Alex']:,}", f"{second_shares['Alex']:,}", "1"],
+        ["Morgan's share", f"{first_shares['Morgan']:,}", f"{second_shares['Morgan']:,}", "1"],
+        ["Riley's share", f"{first_shares['Riley']:,}", "—", "0"],
     ]
     return [
         _scheme_question_heading(question),
@@ -1139,43 +1205,41 @@ def _paper_pages(paper: GeneratedPaper) -> list[list[Flowable]]:
         pages.extend(_paper_one_section_c_pages(section_c, c_option))
         return pages
 
-    allocation = 8
-    for index, question in enumerate(c_option.questions):
-        content: list[Flowable] = []
-        if index == 0:
-            content.extend(
-                [
-                    *_intro(section_c),
-                    Paragraph(c_option.title, STYLES["option"]),
-                    Paragraph(c_option.stimulus[index], STYLES["extract"]),
-                    Spacer(1, 3 * mm),
-                ]
-            )
-        else:
-            content.extend(
-                [
-                    Paragraph(c_option.stimulus[index], STYLES["extract"]),
-                    Spacer(1, 4 * mm),
-                ]
-            )
-        content.extend(_question_page(question, c_option, lines=17))
-        pages.append(content)
-        pages.extend(
-            [
-                [
-                    Paragraph(
-                        f"Question {question.number} continued",
-                        STYLES["centre_bold"],
-                    ),
-                    AnswerLines(34),
-                ]
-                for _ in range(allocation - 1)
-            ]
-        )
-    pages.append(
-        [Paragraph("Additional page, if required", STYLES["centre_bold"]), AnswerLines(34)]
-    )
+    pages.extend(_paper_two_section_c_pages(section_c, c_option))
     return pages
+
+
+def _paper_two_section_c_pages(
+    section,
+    option: GeneratedOption,
+) -> list[list[Flowable]]:
+    question_16, question_17 = option.questions
+    return [
+        [
+            *_intro(section),
+            Paragraph(option.title, STYLES["option"]),
+            Paragraph(option.stimulus[0], STYLES["extract"]),
+        ],
+        [*_question_page(question_16, option, lines=29)],
+        [AnswerLines(34)],
+        [Paragraph("Extra space", STYLES["small"]), AnswerLines(33)],
+        [AnswerLines(34)],
+        _do_not_write_page(),
+        [
+            Paragraph(option.stimulus[1], STYLES["extract"]),
+            Spacer(1, 4 * mm),
+        ],
+        [*_question_page(question_17, option, lines=29)],
+        [AnswerLines(34)],
+        [Paragraph("Extra space", STYLES["small"]), AnswerLines(33)],
+        [AnswerLines(34)],
+        _no_questions_page(),
+        _additional_answer_page(),
+        _additional_answer_page(),
+        _additional_answer_page(),
+        _additional_answer_page(),
+        _no_questions_page(include_legal_notice=True),
+    ]
 
 
 def _paper_one_section_c_pages(
@@ -1416,12 +1480,31 @@ def _shareholder_case(option: GeneratedOption) -> Table:
     )
 
 
-def _no_questions_page() -> list[Flowable]:
-    page = _do_not_write_page()
+def _no_questions_page(
+    *,
+    include_legal_notice: bool = False,
+) -> list[Flowable]:
+    page = _do_not_write_page(
+        height=165 * mm if include_legal_notice else 226 * mm
+    )
     page[0] = Paragraph(
         "There are no questions printed on this page",
         STYLES["centre_bold"],
     )
+    if include_legal_notice:
+        page.extend(
+            [
+                Spacer(1, 5 * mm),
+                Paragraph("Independent practice material", STYLES["small"]),
+                Paragraph(
+                    "Created by Paper Creator for private revision. This paper is "
+                    "not produced, endorsed or approved by AQA or any examination "
+                    "board. All organisations, figures and source material are "
+                    "independently created.",
+                    STYLES["small"],
+                ),
+            ]
+        )
     return page
 
 
@@ -1511,6 +1594,7 @@ def _paper_one_section_b_pages(
         ],
         [_partnership_drawings_case(option)],
         [
+            Spacer(1, 16 * mm),
             _question_table(question_15_2),
             Spacer(1, 3 * mm),
             _appropriation_answer_table(),
@@ -1528,24 +1612,13 @@ def _paper_one_section_b_pages(
 
 
 def _company_statement_case(option: GeneratedOption) -> Table:
-    values = option.chart_values
-    damaged_cost = int(values[0] * 760)
-    damaged_sale = int(damaged_cost * 0.72)
-    damaged_repair = int(damaged_cost * 0.14)
-    roof_repair = int(values[1] * 84)
-    insurance_claim = int(roof_repair * 0.88)
-    receivable = int(values[4] * 1_980)
-    supplier_invoice = int(values[2] * 31)
-    debenture = int(values[4] * 21_000)
-    earlier_debenture = int(values[3] * 13_000)
-    tax_opening = int(values[0] * 36)
-    tax_paid = int(values[1] * 88)
+    case = IncomeStatementCase.from_chart_values(option.title, option.chart_values)
     rows = [
-        ["Administration expenses", f"{int(values[0] * 4_000):,}"],
-        ["Cost of sales", f"{int(values[4] * 34_000):,}"],
-        ["Marketing expenses", f"{int(values[1] * 8_000):,}"],
-        ["Revenue", f"{int(values[4] * 58_000):,}"],
-        ["Warehouse expenses", f"{int(values[2] * 9_000):,}"],
+        ["Administration expenses", f"{case.administration_expenses:,}"],
+        ["Cost of sales", f"{case.cost_of_sales:,}"],
+        ["Marketing expenses", f"{case.marketing_expenses:,}"],
+        ["Revenue", f"{case.revenue:,}"],
+        ["Warehouse expenses", f"{case.warehouse_expenses:,}"],
     ]
     figures = Table(
         [["", "£"], *rows],
@@ -1563,38 +1636,39 @@ def _company_statement_case(option: GeneratedOption) -> Table:
     figures.hAlign = "CENTER"
     adjustments = [
         (
-            f"Closing inventory includes damaged items which cost £{damaged_cost:,}. "
-            f"They can be sold for £{damaged_sale:,} after repairs costing £{damaged_repair:,}. "
+            f"Closing inventory includes damaged items which cost £{case.damaged_inventory_cost:,}. "
+            f"They can be sold for £{case.damaged_inventory_sale_proceeds:,} after repairs "
+            f"costing £{case.damaged_inventory_repair_cost:,}. "
             "The closing inventory figure has not been adjusted for this information."
         ),
         (
-            f"Warehouse expenses include a roof repair costing £{roof_repair:,}. "
-            f"The insurer has agreed to pay £{insurance_claim:,} of the claim. No entry "
+            f"Warehouse expenses include a roof repair costing £{case.roof_repair:,}. "
+            f"The insurer has agreed to pay £{case.insurance_claim:,} of the claim. No entry "
             "has been made for the insurance proceeds."
         ),
         (
-            f"A credit customer owing £{receivable:,} was declared bankrupt before "
+            f"A credit customer owing £{case.trade_receivable:,} was declared bankrupt before "
             "the year end. The company expects to receive 10p for every £1 due. "
             "Irrecoverable debts are charged to administration expenses."
         ),
         (
-            f"After the year end, an invoice for £{supplier_invoice:,} was received "
+            f"After the year end, an invoice for £{case.supplier_invoice:,} was received "
             "for marketing services supplied during this accounting year. It was dated "
             "before the reporting date but has not been entered in the accounting records."
         ),
     ]
     additional = [
         (
-            f"A £{debenture:,}, 6% debenture was issued four months before the year end. "
+            f"A £{case.new_debenture:,}, 6% debenture was issued four months before the year end. "
             "No finance cost has yet been recorded."
         ),
         (
-            f"An earlier £{earlier_debenture:,}, 8% debenture was repaid in full "
-            "two months before the year end. The annual interest had been paid in advance."
+            f"An earlier £{case.earlier_debenture:,}, 8% debenture was repaid in full "
+            "two months before the year end. No finance cost has yet been recorded."
         ),
         (
-            f"At the start of the year, tax owed was £{tax_opening:,}. During the year "
-            f"£{tax_paid:,} was paid. The current-year tax charge is still to be recorded."
+            f"The current-year taxation charge is £{case.current_tax_charge:,}. "
+            "No entry has yet been made for this charge."
         ),
     ]
     case = Table(
@@ -1645,15 +1719,26 @@ def _company_statement_case(option: GeneratedOption) -> Table:
 
 
 def _partnership_case(option: GeneratedOption) -> Table:
-    capital = [int(value * 210) for value in option.chart_values[:3]]
+    case = PartnershipCase.from_chart_values(option.chart_values)
+    capital = case.opening_capital
+    old_ratio = case.old_profit_sharing_ratio
+    new_ratio = case.new_profit_sharing_ratio
+    target = case.target_capital
     text = (
-        f"Alex, Morgan and Riley have been in partnership for several years. During the "
-        f"accounting year Riley retired because the partners found decision-making difficult.<br/><br/>"
-        f"The partners kept separate capital and current accounts. Their capital balances "
-        f"were Alex £{capital[0]:,}, Morgan £{capital[1]:,} and Riley £{capital[2]:,}.<br/><br/>"
-        "On retirement, goodwill was valued but was not to remain in the books. Alex and "
-        "Morgan agreed target capital balances and withdrew the required cash. Profits and "
-        "losses were shared in the agreed ratio."
+        "Alex, Morgan and Riley have been in partnership for several years. Riley "
+        "retired on 31 August. The partners keep separate capital and current "
+        "accounts.<br/><br/>"
+        f"Their capital balances on 1 January were Alex £{capital['Alex']:,}, "
+        f"Morgan £{capital['Morgan']:,} and Riley £{capital['Riley']:,}. Profits and "
+        f"losses had been shared {old_ratio['Alex']}:{old_ratio['Morgan']}:"
+        f"{old_ratio['Riley']}.<br/><br/>"
+        f"On retirement, goodwill was valued at £{case.goodwill:,}. Goodwill was "
+        "credited to all three partners in the old ratio and then written off "
+        f"against Alex and Morgan in their new {new_ratio['Alex']}:"
+        f"{new_ratio['Morgan']} ratio. It was not to remain in the books.<br/><br/>"
+        f"After the goodwill adjustments, Alex and Morgan withdrew enough cash to "
+        f"leave target capital balances of £{target['Alex']:,} and "
+        f"£{target['Morgan']:,}, respectively. Riley's balance was settled separately."
     )
     case = Table(
         [[Paragraph(text, STYLES["small"])]],
@@ -1715,12 +1800,14 @@ def _partners_capital_table() -> Table:
 
 
 def _partnership_drawings_case(option: GeneratedOption) -> Table:
-    values = [int(value * 145) for value in option.chart_values[:3]]
-    drawings = Table(
+    case = PartnershipCase.from_chart_values(option.chart_values)
+    first_interest = case.first_period_drawings_interest or {}
+    second_interest = case.second_period_drawings_interest or {}
+    drawings_interest = Table(
         [
             ["", "Alex\n£", "Morgan\n£", "Riley\n£"],
-            ["First period", f"{values[0]:,}", f"{values[1]:,}", f"{values[2]:,}"],
-            ["Second period", f"{values[0] // 3:,}", f"{values[1] // 2:,}", "—"],
+            ["1 Jan–31 Aug", f"{first_interest['Alex']:,}", f"{first_interest['Morgan']:,}", f"{first_interest['Riley']:,}"],
+            ["1 Sep–31 Dec", f"{second_interest['Alex']:,}", f"{second_interest['Morgan']:,}", "—"],
         ],
         colWidths=[70 * mm, 27 * mm, 27 * mm, 27 * mm],
         style=TableStyle(
@@ -1736,18 +1823,25 @@ def _partnership_drawings_case(option: GeneratedOption) -> Table:
         [
             [
                 Paragraph(
-                    "The partnership agreement states that Morgan receives an annual salary, "
-                    "interest is allowed on capital and charged on drawings, and remaining "
-                    "profit is shared in the agreed ratio.",
+                    f"Profit for the year was £{case.profit_for_year:,} and accrued "
+                    f"evenly. The partnership agreement gives Morgan an annual salary "
+                    f"of £{case.partner_salary_per_year:,} and allows interest on capital "
+                    f"at {case.capital_interest_rate_percent}% per year. Remaining profit "
+                    f"is shared {case.old_profit_sharing_ratio['Alex']}:"
+                    f"{case.old_profit_sharing_ratio['Morgan']}:"
+                    f"{case.old_profit_sharing_ratio['Riley']} to 31 August and "
+                    f"{case.new_profit_sharing_ratio['Alex']}:"
+                    f"{case.new_profit_sharing_ratio['Morgan']} from 1 September.",
                     STYLES["body"],
                 )
             ],
-            [Paragraph("<b>Drawings for the year were:</b>", STYLES["small"])],
-            [drawings],
+            [Paragraph("<b>Interest on drawings has been calculated as:</b>", STYLES["small"])],
+            [drawings_interest],
             [
                 Paragraph(
-                    "Profit accrues evenly throughout the year. Use the relevant time "
-                    "apportionment when preparing the appropriation account.",
+                    "Use the opening capital balances for the first period and the "
+                    "closing balances from 15.1 for the second period. Time-apportion "
+                    "profit, salary and interest on capital.",
                     STYLES["small"],
                 )
             ],
@@ -1780,12 +1874,12 @@ def _appropriation_answer_table() -> Table:
             Paragraph("<b>First period<br/>£</b>", STYLES["marks"]),
             Paragraph("<b>Second period<br/>£</b>", STYLES["marks"]),
         ],
-        *( [["", "", ""] for _ in range(15)] ),
+        *( [["", "", ""] for _ in range(20)] ),
     ]
     table = Table(
         data,
         colWidths=[70 * mm, 48.5 * mm, 48.5 * mm],
-        rowHeights=[12 * mm, *([9 * mm] * 15)],
+        rowHeights=[12 * mm, *([10 * mm] * 20)],
     )
     table.setStyle(
         TableStyle(
@@ -1833,14 +1927,14 @@ def _paper_one_section_a_case_pages(
     ]
 
 
-def _do_not_write_page() -> list[Flowable]:
-    drawing = Drawing(167 * mm, 226 * mm)
+def _do_not_write_page(*, height: float = 226 * mm) -> list[Flowable]:
+    drawing = Drawing(167 * mm, height)
     drawing.add(
         Line(
             0,
             0,
             167 * mm,
-            226 * mm,
+            height,
             strokeColor=INK,
             strokeWidth=0.7,
         )
@@ -1848,7 +1942,7 @@ def _do_not_write_page() -> list[Flowable]:
     drawing.add(
         String(
             83.5 * mm,
-            113 * mm,
+            height / 2,
             "DO NOT WRITE ON THIS PAGE",
             fontName=FONT_BOLD,
             fontSize=11,
@@ -1858,7 +1952,7 @@ def _do_not_write_page() -> list[Flowable]:
     drawing.add(
         String(
             83.5 * mm,
-            107 * mm,
+            height / 2 - 6 * mm,
             "ANSWER IN THE SPACES PROVIDED",
             fontName=FONT_BOLD,
             fontSize=11,
@@ -1873,11 +1967,7 @@ def _do_not_write_page() -> list[Flowable]:
 
 
 def _non_current_asset_case(option: GeneratedOption) -> Table:
-    values = [int(round(value * 1000)) for value in option.chart_values]
-    plant_cost = values[4]
-    plant_depreciation = int(round(values[1] * 0.48))
-    vehicle_cost = int(round(values[3] * 1.55))
-    vehicle_depreciation = int(round(values[0] * 0.62))
+    case = NonCurrentAssetCase.from_chart_values(option.title, option.chart_values)
     case_rows: list[list[object]] = [
         [
             Paragraph(
@@ -1890,17 +1980,28 @@ def _non_current_asset_case(option: GeneratedOption) -> Table:
             Paragraph("<b>Non-current assets</b>", STYLES["small"]),
             Paragraph("<b>At the start of the year<br/>£</b>", STYLES["marks"]),
         ],
-        ["Plant and machinery — cost", f"{plant_cost:,}"],
-        ["Less: accumulated depreciation", f"{plant_depreciation:,}"],
-        ["Motor vehicles — cost", f"{vehicle_cost:,}"],
-        ["Less: accumulated depreciation", f"{vehicle_depreciation:,}"],
+        ["Plant and machinery — cost", f"{case.plant_cost_opening:,}"],
+        [
+            "Less: accumulated depreciation",
+            f"{case.plant_accumulated_depreciation_opening:,}",
+        ],
+        ["Motor vehicles — cost", f"{case.motor_cost_opening:,}"],
+        [
+            "Less: accumulated depreciation",
+            f"{case.motor_accumulated_depreciation_opening:,}",
+        ],
     ]
     information = [
-        f"1. A machine costing £{int(values[2] * 0.18):,} was purchased during the year.",
-        f"2. A motor vehicle costing £{int(values[1] * 0.22):,} was sold during the year.",
-        "3. Plant and machinery is depreciated using the straight-line method.",
-        "4. Motor vehicles are depreciated using the reducing-balance method.",
-        "5. A full year's depreciation is charged in the year of purchase.",
+        f"1. A machine costing £{case.plant_purchase:,} was purchased on the first day of the year.",
+        "2. A motor vehicle was sold on the first day of the year. Its cost was "
+        f"£{case.motor_disposal_cost:,} and its accumulated depreciation was "
+        f"£{case.motor_disposal_accumulated_depreciation:,}.",
+        "3. Plant and machinery is depreciated at "
+        f"{case.plant_rate_percent}% a year using the straight-line method.",
+        "4. Motor vehicles are depreciated at "
+        f"{case.motor_rate_percent}% a year using the reducing-balance method.",
+        "5. A full year's depreciation is charged on purchases and no depreciation "
+        "is charged on disposals.",
     ]
     case_rows.append(
         [
@@ -1941,11 +2042,7 @@ def _non_current_asset_case(option: GeneratedOption) -> Table:
 
 
 def _sales_ledger_case(option: GeneratedOption) -> Table:
-    values = [int(round(value * 1000)) for value in option.chart_values]
-    sales = int(values[4] * 1.9)
-    returns = max(100, int(values[0] * 0.006))
-    receipts = int(sales * 0.86)
-    discount = max(100, int(sales * 0.006))
+    case_data = SalesLedgerCase.from_chart_values(option.title, option.chart_values)
     journal_style = TableStyle(
         [
             ("GRID", (0, 0), (-1, -1), 0.5, INK),
@@ -1956,12 +2053,12 @@ def _sales_ledger_case(option: GeneratedOption) -> Table:
         ]
     )
     sales_table = Table(
-        [["Date", "Detail", "£"], ["Year end", "Total for year", f"{sales:,}"]],
+        [["Date", "Detail", "£"], ["Year end", "Total for year", f"{case_data.credit_sales:,}"]],
         colWidths=[38 * mm, 48 * mm, 26 * mm],
         style=journal_style,
     )
     returns_table = Table(
-        [["Date", "Detail", "£"], ["Year end", "Total for year", f"{returns:,}"]],
+        [["Date", "Detail", "£"], ["Year end", "Total for year", f"{case_data.sales_returns:,}"]],
         colWidths=[38 * mm, 48 * mm, 26 * mm],
         style=journal_style,
     )
@@ -1980,8 +2077,11 @@ def _sales_ledger_case(option: GeneratedOption) -> Table:
             [returns_table],
             [
                 Paragraph(
-                    f"During the year {option.title} received £{receipts:,} from credit "
-                    f"customers after allowing cash discount of £{discount:,}.",
+                    f"Trade receivables at the start of the year were "
+                    f"£{case_data.opening_receivables:,}. During the year "
+                    f"{option.title} received £{case_data.cash_received:,} from credit "
+                    "customers after allowing cash discount of "
+                    f"£{case_data.discount_allowed:,}.",
                     STYLES["small"],
                 )
             ],
@@ -2261,9 +2361,11 @@ def _chrome(canvas, doc, code: str, kind: str) -> None:
         canvas.drawString(198.5 * mm, PAGE_HEIGHT - 22 * mm, "outside the")
         canvas.drawString(198.5 * mm, PAGE_HEIGHT - 25 * mm, "box")
         canvas.setFont(FONT_BOLD, 9)
-        if code == "7127/1" and doc.page == 32:
+        if (code, doc.page) in {("7127/1", 32), ("7127/2", 30)}:
             canvas.drawCentredString(PAGE_WIDTH / 2, 17 * mm, "END OF QUESTIONS")
-        elif code != "7127/1" or doc.page < 32:
+        elif (code == "7127/1" and doc.page < 32) or (
+            code == "7127/2" and doc.page < 30
+        ):
             canvas.drawRightString(PAGE_WIDTH - 13 * mm, 11 * mm, "Turn over >")
         canvas.setFont(FONT, 6.5)
         canvas.drawString(14 * mm, 9 * mm, f"PRACTICE/{code}")

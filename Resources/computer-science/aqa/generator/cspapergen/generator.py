@@ -585,7 +585,9 @@ def _align_paper1_structure(
                 "Both inclusive numeric bounds are tested;",
                 "A correct Boolean result or validation action is produced;",
             ], 8, "AO3"),
-            _paper1_part("2", 1, "State one test that checks a boundary of the numeric range.", ["Use 0 or 100 and expect the value to be accepted;"], 3, "AO3"),
+            _paper1_part("2", 1, "State one test that checks a boundary of the numeric range.", [
+                "A screen capture shows input 0 or 100, the expected acceptance and the matching actual result;",
+            ], 3, "AO3"),
         ],
         10: [
             _paper1_part("1", 7, "Complete a function that evaluates an adjusted value safely and reports malformed input without terminating the program.", [
@@ -679,8 +681,8 @@ def _align_paper1_structure(
             "title": "Finite-state machines",
             "stem": "A validator accepts binary strings that begin with 1 and contain an even number of 0 digits.",
             "stimulus": Stimulus(
-                kind="table",
-                title="Incomplete state-transition table",
+                kind="fsm",
+                title="Finite-state machine and incomplete transition table",
                 headers=["Current state", "Input 0", "Input 1"],
                 rows=[["S0 (start)", "-", "S1"], ["S1 (accept)", "S2", "S1"], ["S2", "", ""]],
             ),

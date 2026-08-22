@@ -110,6 +110,22 @@ def test_paper1_rendered_documents_use_correct_identity(tmp_path) -> None:
     assert "END OF QUESTIONS" in (reader.pages[19].extract_text() or "")
 
 
+def test_paper1_finite_state_question_includes_diagram_and_table(tmp_path) -> None:
+    import fitz
+
+    paths = generate_package(output_dir=tmp_path, paper="1", seed=42, dry_run=True)
+    document = fitz.open(paths["question_paper"])
+    try:
+        page = document[12]
+        text = page.get_text()
+        assert "Figure 6" in text
+        assert "Current state" in text
+        assert "S0" in text and "S1" in text and "S2" in text
+        assert len(page.get_drawings()) >= 70
+    finally:
+        document.close()
+
+
 def test_electronic_answer_document_has_one_fillable_field_per_part(tmp_path) -> None:
     paths = generate_package(output_dir=tmp_path, paper="1", seed=42, dry_run=True)
     reader = PdfReader(paths["electronic_answer_document"])

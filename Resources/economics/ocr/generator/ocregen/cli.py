@@ -5,6 +5,7 @@ from pathlib import Path
 
 from Backend.Core.ai_assessment import generate_unique_paper
 from Backend.Core.assessment_package import write_assessment_package
+from Backend.Core.model_recommendations import default_ollama_model
 from Backend.Core.providers import HostedLLMClient
 from ocregen.configs import load_rule
 from ocregen.generator import build_paper
@@ -18,7 +19,7 @@ def generate_package(
     syllabus_path: Path,
     output_dir: Path,
     seed: int | None,
-    model: str = "qwen2.5:14b",
+    model: str = default_ollama_model(),
     ollama_url: str = "http://localhost:11434",
     dry_run: bool = True,
     progress: Callable[[str], None] | None = None,
@@ -38,7 +39,7 @@ def generate_package(
             api_key="",
             base_url=ollama_url,
         )
-        emit(f"Generating and independently reviewing questions with {model}")
+        emit(f"Generating and second-pass reviewing questions with {model}")
         generated = generate_unique_paper(
             generated,
             rule=rule,

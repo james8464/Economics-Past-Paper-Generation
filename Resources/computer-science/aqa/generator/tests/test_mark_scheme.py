@@ -102,6 +102,23 @@ def test_paper_1_mark_scheme_includes_measured_question_and_solution_pages(tmp_p
         }
         for question, page_number in starts.items():
             assert f"{question:02d}" in document[page_number - 1].get_text()
+        for page_index in (17, 18):
+            continuation = document[page_index].get_text()
+            assert "09" in continuation
+            assert len(continuation.split()) > 20
+        assert "VALIDATION TEST EVIDENCE" in document[17].get_text()
+        assert "LOWER BOUNDARY" in document[17].get_text()
+        assert "DUPLICATE IDENTIFIER" in document[18].get_text()
+        assert "8 passed" in document[18].get_text()
+        for page_index in (17, 18):
+            fills = [
+                drawing.get("fill")
+                for drawing in document[page_index].get_drawings()
+            ]
+            assert any(
+                fill is not None and max(fill) < 0.08
+                for fill in fills
+            )
         assert "Example Python 3 solution" in document[25].get_text()
         assert "Question 12" in document[40].get_text()
     finally:
