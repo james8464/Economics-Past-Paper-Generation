@@ -32,6 +32,10 @@ from Backend.Core.exam_cover import (
 from Backend.Core.fonts import register_fonts
 from Backend.Core.generation_date import formatted_generation_date
 from Backend.Core.reportlab_theme import themed_table_class
+from aqaecongen.configs import (
+    PAPER3_MCQ_PAGE_COUNTS,
+    PAPER3_VISUAL_QUESTION_NUMBERS,
+)
 
 BLACK = colors.HexColor("#171717")
 GREY = colors.HexColor("#ececec")
@@ -604,19 +608,21 @@ def _paper_three_pages(paper: GeneratedPaper) -> list[Flowable]:
     mcq_section, case_section = paper.sections
     flowables: list[Flowable] = []
     cursor = 0
-    mcq_page_counts = [
-        1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1,
-        1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 2, 1,
-    ]
-    for page_index, question_count in enumerate(mcq_page_counts):
+    for page_index, question_count in enumerate(PAPER3_MCQ_PAGE_COUNTS):
         flowables.append(PageBreak())
         if page_index == 0:
             flowables.extend(
                 _section_intro(mcq_section.id, mcq_section.title, mcq_section.instructions)
             )
         for option in mcq_section.options[cursor : cursor + question_count]:
+            question_number = int(option.questions[0].number)
             flowables.extend(
-                _mcq_block(option, include_visual=question_count == 1)
+                _mcq_block(
+                    option,
+                    include_visual=(
+                        question_number in PAPER3_VISUAL_QUESTION_NUMBERS
+                    ),
+                )
             )
         cursor += question_count
 
@@ -779,45 +785,23 @@ def _context_data_table(option: GeneratedOption) -> Table:
 
 
 def _no_questions_page() -> list[Flowable]:
-    height = 204 * mm
-    drawing = Drawing(165 * mm, height)
-    drawing.add(
-        Line(
-            0,
-            0,
-            165 * mm,
-            height,
-            strokeColor=BLACK,
-            strokeWidth=0.7,
-        )
-    )
-    drawing.add(
-        String(
-            82.5 * mm,
-            height / 2,
-            "DO NOT WRITE ON THIS PAGE",
-            fontName=FONT_BOLD,
-            fontSize=10,
-            textAnchor="middle",
-        )
-    )
-    drawing.add(
-        String(
-            82.5 * mm,
-            height / 2 - 6 * mm,
-            "ANSWER IN THE SPACES PROVIDED",
-            fontName=FONT_BOLD,
-            fontSize=10,
-            textAnchor="middle",
-        )
-    )
     return [
         Paragraph(
-            "There are no questions printed on this page.",
+            "There are no questions printed on this page",
             STYLES["centred_note"],
         ),
-        Spacer(1, 4 * mm),
-        drawing,
+        Spacer(1, 157 * mm),
+        Paragraph("Independent practice information", STYLES["heading"]),
+        Spacer(1, 2 * mm),
+        Paragraph(
+            "Every organisation, economy, statistic and quotation in this paper is "
+            "independently created for private revision. Paper Creator does not "
+            "reproduce protected question text or third-party source material. This "
+            "unofficial paper is not produced, endorsed or approved by AQA or any "
+            "other examination board. Use the relevant official specification and "
+            "published examiner materials when checking qualification requirements.",
+            STYLES["scheme_note"],
+        ),
     ]
 
 
@@ -844,7 +828,7 @@ def _mcq_block(
         _question_table(question),
         Spacer(1, 3 * mm),
     ]
-    if include_visual and int(question.number) % 3 != 1:
+    if include_visual:
         contents.extend([_mcq_visual(question), Spacer(1, 3 * mm)])
     contents.extend([_mcq_choice_table(question), Spacer(1, 5 * mm)])
     return [
@@ -880,6 +864,12 @@ def _mcq_choice_table(question: GeneratedQuestion) -> Table:
 
 
 def _mcq_visual(question: GeneratedQuestion) -> Flowable:
+    if question.authoring_context.get("visual_kind") == "economic_shift_diagram":
+        return _economic_diagram(
+            question.topic_id,
+            question.number,
+            question.authoring_context,
+        )
     if int(question.number) % 5:
         return _economic_diagram(question.topic_id, question.number)
     values = [float(value) for value in re.findall(r"\d+(?:\.\d+)?", question.prompt)]
@@ -1012,7 +1002,11 @@ def _line_chart(title: str, labels: list[str], values: list[float]) -> Drawing:
     return drawing
 
 
-def _economic_diagram(topic_id: str, number: str) -> Drawing:
+def _economic_diagram(
+    topic_id: str,
+    number: str,
+    visual: dict[str, object] | None = None,
+) -> Drawing:
     drawing = Drawing(165 * mm, 55 * mm)
     x0, y0, width, height = 78, 28, 330, 112
     drawing.add(
@@ -1027,48 +1021,81 @@ def _economic_diagram(topic_id: str, number: str) -> Drawing:
     )
     drawing.add(Line(x0, y0, x0, y0 + height, strokeWidth=0.8))
     drawing.add(Line(x0, y0, x0 + width, y0, strokeWidth=0.8))
-    drawing.add(
-        PolyLine(
-            [
-                x0 + 18,
-                y0 + 100,
-                x0 + 92,
-                y0 + 78,
-                x0 + 180,
-                y0 + 52,
-                x0 + 300,
-                y0 + 15,
-            ],
-            strokeColor=BLACK,
-            strokeWidth=1.1,
+    demand = [x0 + 55, y0 + 102, x0 + 275, y0 + 16]
+    supply = [x0 + 55, y0 + 16, x0 + 275, y0 + 104]
+    curve = str((visual or {}).get("curve", ""))
+    direction = str((visual or {}).get("direction", ""))
+    aggregate = topic_id.startswith("4.2")
+    demand_name = "AD" if aggregate else "D"
+    supply_name = "SRAS" if aggregate else "S"
+
+    if curve in {demand_name, supply_name} and direction in {"left", "right"}:
+        shifting = demand if curve == demand_name else supply
+        fixed = supply if curve == demand_name else demand
+        offset = 35 if direction == "right" else -35
+        shifted = [
+            value + offset if index % 2 == 0 else value
+            for index, value in enumerate(shifting)
+        ]
+        drawing.add(PolyLine(fixed, strokeColor=BLACK, strokeWidth=1.1))
+        drawing.add(
+            PolyLine(
+                shifting,
+                strokeColor=MID_GREY,
+                strokeWidth=1.0,
+                strokeDashArray=[4, 3],
+            )
         )
-    )
-    drawing.add(
-        PolyLine(
-            [
-                x0 + 24,
-                y0 + 16,
-                x0 + 106,
-                y0 + 43,
-                x0 + 202,
-                y0 + 75,
-                x0 + 294,
-                y0 + 104,
-            ],
-            strokeColor=BLACK,
-            strokeWidth=1.1,
+        drawing.add(PolyLine(shifted, strokeColor=BLACK, strokeWidth=1.2))
+
+        fixed_name = supply_name if curve == demand_name else demand_name
+        fixed_label_y = fixed[-1] + (3 if fixed is supply else -10)
+        shifting_label_y = shifting[-1] + (3 if shifting is supply else -10)
+        drawing.add(
+            String(
+                fixed[-2] - 5,
+                fixed_label_y,
+                fixed_name,
+                fontName=FONT,
+                fontSize=8,
+            )
         )
-    )
-    if topic_id.startswith("4.2"):
-        drawing.add(String(x0 + 286, y0 + 12, "AD", fontName=FONT, fontSize=8))
-        drawing.add(String(x0 + 286, y0 + 106, "AS", fontName=FONT, fontSize=8))
-        drawing.add(String(x0 - 32, y0 + height, "Price level", fontName=FONT, fontSize=8))
-        drawing.add(String(x0 + width - 34, y0 - 14, "Real output", fontName=FONT, fontSize=8))
+        drawing.add(
+            String(
+                shifting[-2] - 3,
+                shifting_label_y,
+                f"{curve}1",
+                fontName=FONT,
+                fontSize=8,
+            )
+        )
+        drawing.add(
+            String(
+                shifted[-2] - 3,
+                shifting_label_y,
+                f"{curve}2",
+                fontName=FONT_BOLD,
+                fontSize=8,
+            )
+        )
     else:
-        drawing.add(String(x0 + 290, y0 + 12, "D", fontName=FONT, fontSize=8))
-        drawing.add(String(x0 + 292, y0 + 106, "S", fontName=FONT, fontSize=8))
-        drawing.add(String(x0 - 22, y0 + height, "Price", fontName=FONT, fontSize=8))
-        drawing.add(String(x0 + width - 24, y0 - 14, "Quantity", fontName=FONT, fontSize=8))
+        drawing.add(PolyLine(demand, strokeColor=BLACK, strokeWidth=1.1))
+        drawing.add(PolyLine(supply, strokeColor=BLACK, strokeWidth=1.1))
+        drawing.add(
+            String(x0 + 290, y0 + 12, demand_name, fontName=FONT, fontSize=8)
+        )
+        drawing.add(
+            String(x0 + 292, y0 + 106, supply_name, fontName=FONT, fontSize=8)
+        )
+
+    y_axis = str(
+        (visual or {}).get("y_axis", "Price level" if aggregate else "Price")
+    )
+    x_axis = str(
+        (visual or {}).get("x_axis", "Real output" if aggregate else "Quantity")
+    )
+    drawing.add(String(x0 - 32, y0 + height, y_axis, fontName=FONT, fontSize=8))
+    drawing.add(String(x0 + width - 34, y0 - 14, x_axis, fontName=FONT, fontSize=8))
     return drawing
 
 

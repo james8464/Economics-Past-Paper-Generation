@@ -128,7 +128,7 @@ def _count_pages(blueprint: PaperBlueprint) -> int:
     pdf.save()
     buf.seek(0)
     try:
-        import fitz
+        import pymupdf as fitz
         doc = fitz.open(stream=buf, filetype="pdf")
         count = doc.page_count
         doc.close()
@@ -142,7 +142,7 @@ def _count_pages(blueprint: PaperBlueprint) -> int:
 def _apply_edexcel_page_boxes(output_path: Path) -> None:
     """Match Pearson question-paper bleed and crop boxes without changing A4 content."""
     try:
-        import fitz
+        import pymupdf as fitz
     except ImportError:
         return
 
@@ -2496,6 +2496,7 @@ def render_mark_scheme(
         _draw_mark_scheme_end_page(pdf)
     _pad_mark_scheme_pages(pdf, MARK_SCHEME_MIN_PAGES.get(blueprint.paper_id, 29))
     pdf.save()
+    _cleanup_graph_cache()
 
 
 def _set_pdf_metadata(
@@ -2606,14 +2607,91 @@ def _mark_scheme_rows(blueprint: PaperBlueprint, syllabus: Syllabus) -> list[dic
         topic = syllabus.get_topic(question.topic_id)
         if question.parts:
             for part in question.parts:
+                if (
+                    blueprint.paper_id == "paper_1"
+                    and question.section == "A"
+                    and part.command_word not in {"calculate", "mcq"}
+                ):
+                    answer_lines = _paper_one_section_a_mark_scheme_lines(
+                        question,
+                        part,
+                        topic,
+                    )
+                else:
+                    answer_lines = _part_mark_scheme_lines(question, part, topic)
+                if (
+                    blueprint.paper_id == "paper_1"
+                    and question.number == "1"
+                    and part.label == "a"
+                ):
+                    answer_lines.extend(
+                        [
+                            "__PAGE_BREAK__",
+                            "Further guidance",
+                            "Credit a relevant diagram where it supports the stated chain of reasoning.",
+                            "Award application only where the response uses the supplied data or context.",
+                            "Do not award the same analytical link twice.",
+                        ]
+                    )
+                if (
+                    blueprint.paper_id == "paper_2"
+                    and question.number == "1"
+                    and part.label == "b"
+                    and part.marks == 2
+                ):
+                    answer_lines = _paper_two_short_calculation_lines(
+                        question,
+                        part,
+                        topic,
+                    )
+                part_rows = _split_mark_scheme_row(
+                    f"{question.number}({part.label})",
+                    f"({part.marks})",
+                    answer_lines,
+                )
+                if (
+                    blueprint.paper_id == "paper_1"
+                    and (question.number, part.label) in {("3", "a"), ("5", "b")}
+                ):
+                    part_rows[0]["force_page_break"] = False
+                rows.extend(part_rows)
+        else:
+            if (
+                blueprint.paper_id == "paper_1"
+                and question.number == "6(a)"
+            ):
                 rows.extend(
                     _split_mark_scheme_row(
-                        f"{question.number}({part.label})",
-                        f"({part.marks})",
-                        _part_mark_scheme_lines(question, part, topic),
+                        question.number,
+                        f"({question.marks})",
+                        _paper_one_five_mark_diagram_lines(question, topic),
                     )
                 )
-        else:
+                continue
+            if (
+                blueprint.paper_id == "paper_2"
+                and question.number in {"6(c)", "6(d)", "6(e)"}
+            ):
+                rows.extend(
+                    _split_mark_scheme_row(
+                        question.number,
+                        f"({question.marks})",
+                        _paper_two_extended_mark_scheme_lines(question, topic),
+                    )
+                )
+                continue
+            if (
+                blueprint.paper_id == "paper_1"
+                and question.number == "6(e)"
+            ):
+                rows.extend(
+                    _split_mark_scheme_row(
+                        question.number,
+                        f"({question.marks})",
+                        _paper_one_fifteen_mark_scheme_lines(question, topic),
+                    )
+                )
+                continue
             if question.marks == 12:
                 knowledge_rows = _split_mark_scheme_row(
                     question.number,
@@ -2647,8 +2725,167 @@ def _mark_scheme_rows(blueprint: PaperBlueprint, syllabus: Syllabus) -> list[dic
                 question_rows[0]["blank_page_before"] = "header"
             if blueprint.paper_id == "paper_3" and question.number == "1(b)":
                 question_rows[1]["blank_page_before"] = "continuation"
+            if blueprint.paper_id == "paper_1" and question.number == "8":
+                question_rows[0]["blank_page_before"] = "header"
             rows.extend(question_rows)
     return rows
+
+
+def _paper_two_short_calculation_lines(question, part, topic) -> list[str]:
+    """Keep the two-mark calculation on its reference-matched single page."""
+
+    return [
+        *_specific_mark_scheme_context(
+            question,
+            part.prompt,
+            topic,
+            include_points=False,
+        )[:3],
+        "Knowledge 1, Application 1",
+        "",
+        *_calculation_answer_lines(part.prompt)[:5],
+        "",
+        "1 mark for selecting the correct values and method.",
+        "1 mark for the correct answer with an appropriate unit.",
+        "Award full marks for a valid alternative method.",
+    ]
+
+
+def _paper_one_fifteen_mark_scheme_lines(question, topic) -> list[str]:
+    """Match the three-page knowledge, analysis and evaluation structure."""
+
+    indicative = _scheme_bullets(
+        question.indicative_content or topic.points,
+        topic,
+        limit=8,
+    )
+    source_points = _source_application_points(question.source_text, limit=6)
+    return [
+        question.mark_breakdown or "Knowledge 3, Application 3, Analysis 3, Evaluation 6",
+        "Knowledge, application and analysis",
+        *indicative[:5],
+        "",
+        "Credit accurate use of a relevant economic diagram where appropriate.",
+        "__PAGE_BREAK__",
+        "Application and developed analysis",
+        "Relevant source evidence may include:",
+        *(source_points or ["● Credit accurate use of the supplied context. (1)"]),
+        "",
+        "Level 0: A completely inaccurate response.",
+        "Level 1: Identifies isolated economic ideas with limited application.",
+        "Level 2: Applies evidence and develops a partial chain of reasoning.",
+        "Level 3: Integrates relevant evidence within logical, sustained analysis.",
+        "__PAGE_BREAK__",
+        "Evaluation",
+        "Level 0: No evaluative comments.",
+        "Level 1: Identifies a generic limitation or alternative viewpoint.",
+        "Level 2: Supports evaluation with relevant reasoning and context.",
+        "Level 3: Weighs competing arguments and reaches a supported judgement.",
+        "",
+        "Credit any other valid, developed and context-supported evaluation.",
+    ]
+
+
+def _paper_one_five_mark_diagram_lines(question, topic) -> list[str]:
+    title = topic.title.casefold()
+    if "labour" in title or "wage" in title:
+        diagram = "labour_market_diagram"
+    elif topic.theme in {2, 4}:
+        diagram = "ad_as_diagram"
+    else:
+        diagram = "market_diagram"
+    source_points = _source_application_points(question.source_text, limit=3)
+    return [
+        question.mark_breakdown or "Knowledge 1, Application 1, Analysis 3",
+        "Knowledge and analysis: up to 4 marks",
+        *_one_mark_points(question, topic, limit=2),
+        f"__ECONOMIC_DIAGRAM__:{diagram}",
+        "Application: up to 1 mark",
+        *(source_points[:2] or ["● Credit one accurate use of the supplied context. (1)"]),
+    ]
+
+
+def _paper_one_section_a_mark_scheme_lines(question, part, topic) -> list[str]:
+    """Keep four-mark short answers concise enough for the measured page rhythm."""
+
+    if part.command_word == "draw":
+        return [
+            part.mark_breakdown or "Knowledge 2, Application 2",
+            "",
+            "Diagram required",
+            "1 mark for correctly labelled axes and relevant curves.",
+            f"1 mark for the change linked to {topic.title.lower()}.",
+            "1 mark for the resulting equilibrium, area or outcome.",
+            "1 mark for accurate annotation or a context-linked explanation.",
+            "",
+            "Award full marks for an economically equivalent diagram.",
+        ]
+
+    source_points = _source_application_points(question.source_text, limit=2)
+    return [
+        part.mark_breakdown or "Knowledge 2, Application 1, Analysis 1",
+        "Knowledge and analysis: up to 3 marks",
+        "Valid points may include:",
+        *_one_mark_points(question, topic, limit=4),
+        "",
+        "Application: 1 mark",
+        *(source_points[:1] or ["● Credit one accurate use of the supplied context. (1)"]),
+        "",
+        "Credit a different valid chain of reasoning where it answers the question.",
+    ]
+
+
+def _paper_two_extended_mark_scheme_lines(question, topic) -> list[str]:
+    """Use the four-page analysis/evaluation rhythm of the current Paper 2 scheme."""
+
+    indicative = _scheme_bullets(
+        question.indicative_content or topic.points,
+        topic,
+        limit=7,
+    )
+    source_points = _source_application_points(question.source_text, limit=5)
+    return [
+        question.mark_breakdown or "Knowledge, Application, Analysis and Evaluation",
+        "Indicative content",
+        *_specific_mark_scheme_context(
+            question,
+            question.prompt,
+            topic,
+            include_points=False,
+        ),
+        *indicative[:4],
+        "",
+        "Credit accurate use of a relevant economic diagram where appropriate.",
+        "__PAGE_BREAK__",
+        "Knowledge, application and analysis",
+        "Level 0: A completely inaccurate response.",
+        "Level 1: Displays isolated or imprecise knowledge and understanding.",
+        "Uses generic information with no developed chain of reasoning.",
+        "Level 2: Applies economic ideas to the context and develops partial analysis.",
+        "Level 3: Selects relevant evidence and develops logical, coherent analysis.",
+        "Level 4: Integrates evidence throughout a focused and sustained response.",
+        *indicative[4:],
+        "__PAGE_BREAK__",
+        "Application and evaluation",
+        "Relevant source evidence may include:",
+        *(source_points or ["● Credit accurate use of the supplied context. (1)"]),
+        "",
+        "Indicative evaluation",
+        "● The significance of the evidence depends on its scale and reliability.",
+        "● Short-run adjustment may differ from the long-run outcome.",
+        "● Effects can vary between consumers, firms, workers and regions.",
+        "● Alternative policies or explanations may change the final judgement.",
+        "__PAGE_BREAK__",
+        "Evaluation",
+        "Level 0: No evaluative comments.",
+        "Level 1: Identifies generic evaluative comments without supporting evidence.",
+        "There is little or no logical chain of reasoning.",
+        "Level 2: Supports evaluative comments with relevant reasoning and context.",
+        "Recognises at least one competing viewpoint or limitation.",
+        "Level 3: Evaluates the relative significance of competing arguments.",
+        "Reaches an informed judgement that answers the precise question.",
+        "Credit any other valid, developed and context-supported evaluation.",
+    ]
 
 
 def _split_mark_scheme_row(number: str, mark: str, answer_lines: list[str]) -> list[dict[str, object]]:
@@ -3152,6 +3389,15 @@ def _draw_ms_row(
         if not line:
             cursor -= 10
             continue
+        if line.startswith("__ECONOMIC_DIAGRAM__:"):
+            diagram = line.partition(":")[2]
+            cursor = _draw_economics_graph(
+                pdf,
+                answer_x + 28,
+                cursor - 4,
+                diagram,
+            )
+            continue
         font = MS_FONT_BOLD if _ms_bold_line(line) else MS_FONT
         pdf.setFont(font, 11)
         is_bullet = line.startswith("●")
@@ -3187,6 +3433,9 @@ def _ms_row_height(answer_lines: list[str]) -> int:
     for line in answer_lines:
         if not line:
             content_height += 10
+            continue
+        if line.startswith("__ECONOMIC_DIAGRAM__:"):
+            content_height += 202
             continue
         content_height += max(1, len(_wrap(line, _ms_wrap_width(line)))) * MS_BODY_LEADING
         if _ms_bold_line(line) and not _ms_centered_line(line):

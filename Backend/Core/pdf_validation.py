@@ -7,7 +7,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-import fitz
+import pymupdf as fitz
 
 from Backend.Core.paths import REPO_ROOT
 

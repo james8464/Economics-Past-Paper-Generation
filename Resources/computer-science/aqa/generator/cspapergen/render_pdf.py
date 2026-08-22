@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import math
+import re
 from datetime import date
 from pathlib import Path
 
@@ -83,7 +85,7 @@ PAPER1_MARK_SCHEME_PAGE_RANGES = {
     6: (14, 15),
     7: (16, 16),
     8: (16, 16),
-    9: (17, 17),
+    9: (17, 19),
     10: (20, 21),
     11: (22, 23),
     12: (24, 25),
@@ -679,6 +681,16 @@ def _render_paper1_mark_scheme_pages(
                 f"Question {question.number} missed its mark-scheme start page {start_page}"
             )
 
+        if question.number == 9:
+            page, y = _render_paper1_validation_evidence_pages(
+                pdf,
+                blueprint,
+                question,
+                page,
+                y,
+            )
+            continue
+
         continuation_index = 0
         span = end_page - start_page + 1
         part_count = len(question.parts)
@@ -742,6 +754,134 @@ def _render_paper1_mark_scheme_pages(
                 page,
                 solution_page - first_page,
             )
+
+
+def _render_paper1_validation_evidence_pages(
+    pdf: canvas.Canvas,
+    blueprint: PaperBlueprint,
+    question: Question,
+    page: int,
+    y: float,
+) -> tuple[int, float]:
+    """Render Question 9 guidance followed by two pages of test evidence."""
+    if page != 17:
+        raise ValueError("Question 9 validation evidence must begin on page 17")
+
+    for part in question.parts:
+        y = _render_mark_scheme_part(
+            pdf,
+            question,
+            part,
+            y,
+            include_answer_artifact=False,
+        )
+
+    for page_offset in range(2):
+        pdf.showPage()
+        page += 1
+        y = _mark_scheme_table_header(pdf, page, blueprint)
+        _draw_validation_evidence_terminal(
+            pdf,
+            question,
+            y,
+            page_offset=page_offset,
+        )
+
+    return page, 76
+
+
+def _draw_validation_evidence_terminal(
+    pdf: canvas.Canvas,
+    question: Question,
+    y: float,
+    *,
+    page_offset: int,
+) -> None:
+    categories = _question_categories(question)
+    if page_offset == 0:
+        cases = [
+            ("normal", "841", categories[0], "45", "ACCEPT"),
+            ("lower boundary", "842", categories[1], "0", "ACCEPT"),
+            ("upper boundary", "843", categories[-1], "100", "ACCEPT"),
+        ]
+    else:
+        cases = [
+            ("below range", "844", categories[0], "-1", "REJECT"),
+            ("above range", "845", categories[1], "101", "REJECT"),
+            ("invalid category", "846", "UNLISTED", "50", "REJECT"),
+            ("non-integer value", "847", categories[-1], "forty", "REJECT"),
+            ("duplicate identifier", "841", categories[0], "60", "REJECT"),
+        ]
+
+    lines = ["QUESTION 09 - VALIDATION TEST EVIDENCE", "ADD input validation", ""]
+    for index, (name, identifier, category, value, outcome) in enumerate(
+        cases,
+        start=1 + page_offset * 3,
+    ):
+        if page_offset == 0:
+            lines.extend(
+                [
+                    f"TEST {index:02d}  {name.upper()}",
+                    "Run add-record validation with:",
+                    f"> identifier: {identifier}",
+                    f"> category:   {category}",
+                    f"> value:      {value}",
+                    f"Expected outcome: {outcome}",
+                    f"Actual outcome:   {outcome}",
+                    "Comparison:       MATCH  [PASS]",
+                    "",
+                ]
+            )
+        else:
+            lines.extend(
+                [
+                    f"TEST {index:02d}  {name.upper()}",
+                    f"> id={identifier}  category={category}  value={value}",
+                    f"> expected={outcome}  actual={outcome}  [PASS]",
+                    "",
+                ]
+            )
+    if page_offset == 1:
+        lines.extend(["SUMMARY", "> 8 tests run", "> 8 passed", "> 0 failed"])
+
+    line_height = 16 if page_offset == 0 else 13
+    panel_height = min(552, max(206, 34 + line_height * len(lines)))
+    panel_x = 113
+    panel_width = 380
+    panel_top = y + 4
+    panel_bottom = panel_top - panel_height
+
+    pdf.setFillColor(colors.HexColor("#111111"))
+    pdf.rect(panel_x, panel_bottom, panel_width, panel_height, stroke=0, fill=1)
+    pdf.setFillColor(colors.HexColor("#e8e8e8"))
+    pdf.setFont(FONT_MONO, 8.5)
+    cursor = panel_top - 18
+    for line in lines:
+        pdf.drawString(panel_x + 9, cursor, line[:70])
+        cursor -= line_height
+    pdf.setFillColor(colors.black)
+
+    table_bottom = min(76, panel_bottom - 14)
+    pdf.rect(45, table_bottom, 505, y + 14 - table_bottom, stroke=1, fill=0)
+    pdf.line(73, table_bottom, 73, y + 14)
+    pdf.line(106, table_bottom, 106, y + 14)
+    pdf.line(500, table_bottom, 500, y + 14)
+
+
+def _question_categories(question: Question) -> list[str]:
+    match = re.search(
+        r"one of (?P<categories>.+?), and a value",
+        question.stem,
+        flags=re.IGNORECASE,
+    )
+    if match is None:
+        return ["CATEGORY_A", "CATEGORY_B", "CATEGORY_C"]
+    categories = [
+        value.strip().upper()
+        for value in re.split(r",\s*(?:and\s+)?|\s+and\s+", match.group("categories"))
+        if value.strip()
+    ]
+    return categories or ["CATEGORY_A", "CATEGORY_B", "CATEGORY_C"]
 
 
 def _draw_paper1_reference_solution_page(
@@ -1353,6 +1493,8 @@ def _render_stimulus(pdf: canvas.Canvas, stimulus: Stimulus, state: _QuestionRen
         state.y = _draw_classification_diagram(pdf, stimulus.diagram, 118, state.y)
     elif stimulus.kind == "optical":
         state.y = _draw_optical_diagram(pdf, stimulus.diagram, 118, state.y)
+    elif stimulus.kind == "fsm":
+        state.y = _draw_fsm_stimulus(pdf, stimulus, 118, state.y)
     else:
         for line in stimulus.lines:
             pdf.drawString(118, state.y, line)
@@ -1377,6 +1519,62 @@ def _draw_table(pdf: canvas.Canvas, stimulus: Stimulus, x: float, y: float) -> f
             pdf.setFont(FONT_BOLD if r_index == 0 else FONT, 8)
             pdf.drawString(x + c_index * col_w + 4, y0 - 14, value[:34])
     return y - len(rows) * row_h - 8
+
+
+def _draw_fsm_stimulus(
+    pdf: canvas.Canvas,
+    stimulus: Stimulus,
+    x: float,
+    y: float,
+) -> float:
+    state_y = y - 54
+    states = {
+        "S0": (x + 56, state_y),
+        "S1": (x + 195, state_y),
+        "S2": (x + 334, state_y),
+    }
+    _draw_arrow(pdf, x + 2, state_y, x + 34, state_y)
+    _draw_arrow(pdf, x + 80, state_y + 8, x + 171, state_y + 8, "1")
+    _draw_arrow(pdf, x + 219, state_y + 8, x + 310, state_y + 8, "0")
+    _draw_arrow(pdf, x + 310, state_y - 8, x + 219, state_y - 8, "0")
+
+    for label, (cx, cy) in states.items():
+        pdf.circle(cx, cy, 22, stroke=1, fill=0)
+        if label == "S1":
+            pdf.circle(cx, cy, 18, stroke=1, fill=0)
+        pdf.setFont(FONT_BOLD, 9)
+        pdf.drawCentredString(cx, cy - 3, label)
+
+    for label, cx in (("1", states["S1"][0]), ("1", states["S2"][0])):
+        pdf.arc(cx - 23, state_y + 8, cx + 23, state_y + 48, 10, 160)
+        pdf.setFont(FONT, 8)
+        pdf.drawCentredString(cx, state_y + 51, label)
+    pdf.setFont(FONT, 8)
+    pdf.drawCentredString(x + 195, state_y - 34, "Figure 6")
+
+    return _draw_table(pdf, stimulus, x, state_y - 50)
+
+
+def _draw_arrow(
+    pdf: canvas.Canvas,
+    x1: float,
+    y1: float,
+    x2: float,
+    y2: float,
+    label: str = "",
+) -> None:
+    pdf.line(x1, y1, x2, y2)
+    angle = math.atan2(y2 - y1, x2 - x1)
+    for offset in (-0.5, 0.5):
+        pdf.line(
+            x2,
+            y2,
+            x2 - 8 * math.cos(angle + offset),
+            y2 - 8 * math.sin(angle + offset),
+        )
+    if label:
+        pdf.setFont(FONT, 8)
+        pdf.drawCentredString((x1 + x2) / 2, (y1 + y2) / 2 + 8, label)
 
 
 def _draw_code_box(pdf: canvas.Canvas, code: str, x: float, y: float) -> float:
@@ -1830,6 +2028,7 @@ def _render_mark_scheme_part(
     *,
     show_total: bool = True,
     heading: str | None = None,
+    include_answer_artifact: bool = True,
 ) -> float:
     start_y = y
     pdf.setFont(FONT_BOLD, 11)
@@ -1857,7 +2056,8 @@ def _render_mark_scheme_part(
         for line in _wrap(item, 62):
             pdf.drawString(125, y, line)
             y -= 15
-    y = _draw_mark_scheme_answer_artifact(pdf, question, part, y)
+    if include_answer_artifact:
+        y = _draw_mark_scheme_answer_artifact(pdf, question, part, y)
     bottom = y - 5
     top = start_y + 10
     pdf.rect(45, bottom, 505, top - bottom, stroke=1, fill=0)

@@ -545,7 +545,7 @@ def _profile_one(pdf_path: Path) -> None:
 
 def profile_pdf(path: Path) -> dict[str, Any]:
     try:
-        import fitz
+        import pymupdf as fitz
     except ImportError as error:
         raise SystemExit("PyMuPDF is required: python3 -m pip install pymupdf") from error
 

@@ -24,6 +24,18 @@ make test
 make preflight-app-store
 ```
 
+## Recommended Ollama model
+
+The app chooses a recommendation from the Mac's unified-memory capacity. For
+the intended paper-quality workflow, use `gemma4:12b` on a Mac with at least
+16 GB unified memory. On an 8 GB Mac, `qwen2.5:7b` is the memory-compatible
+choice, but its long-form questions and mark schemes need especially careful
+human review. Results may vary with any other model or quantisation.
+
+The recommendation, download sizes, explanation, warning, and source links are
+owned by `Resources/ollama-model-recommendations.json`; the macOS app, backend
+CLI, standalone generator CLIs, tests, and packaged helper consume that record.
+
 ## Development Reference Corpus
 
 Official A-level PDFs are development references only. They are stored under
@@ -54,6 +66,20 @@ python3 -m tools.paper_fidelity_audit \
   --markdown output/pdf/perfection-audit-2026-07-27/fidelity-report.md
 ```
 
+To generate every advertised paper through the same backend used by the app,
+with resumable per-paper evidence:
+
+```bash
+python3 -m tools.live_generation_matrix \
+  --output tmp/pdfs/live-matrix \
+  --model gemma4:12b \
+  --provider ollama \
+  --resume
+```
+
+The job list is derived from `generator-registry.json`; adding a conforming
+subject or exam board automatically adds its papers to this matrix.
+
 ## CLI
 
 ```bash
@@ -77,14 +103,18 @@ python bridge.py generate --subject accounting_aqa --paper 2 --output ~/Download
 - `Resources/computer-science/ocr/`: OCR H446 Papers 1–2 and aggregate calibration evidence.
 - `Resources/business/aqa/`: AQA 7132 Papers 1–3, source insert, and aggregate calibration evidence.
 - `Resources/accounting/aqa/`: AQA 7127 Papers 1–2 and aggregate calibration evidence.
+- `Resources/ollama-model-recommendations.json`: hardware-aware local-model guidance.
 - `tests/`: backend integration tests.
 
 ## Architecture and quality analysis
 
 - [`docs/project-analysis/PROJECT_ANALYSIS.md`](docs/project-analysis/PROJECT_ANALYSIS.md):
   end-to-end architecture, current evidence, fidelity limits, and macOS HIG audit.
-- [`docs/project-analysis/IMPROVEMENT_ROADMAP.md`](docs/project-analysis/IMPROVEMENT_ROADMAP.md):
-  prioritized visual, assessment-quality, difficulty, structure, and native-UI work.
+- [`docs/project-analysis/IMPLEMENTATION_AND_FIDELITY_REPORT.md`](docs/project-analysis/IMPLEMENTATION_AND_FIDELITY_REPORT.md):
+  implemented release architecture, full-matrix evidence, visual findings, and
+  the remaining human-evidence boundary.
+- [`docs/project-analysis/UI_AUDIT.md`](docs/project-analysis/UI_AUDIT.md):
+  current native macOS UI evidence and hands-on release checks.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): current runtime and repository
   boundaries.
 - [`docs/ASSESSMENT_QUALITY.md`](docs/ASSESSMENT_QUALITY.md): AI, mark-scheme,

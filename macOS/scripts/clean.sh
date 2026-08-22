@@ -23,8 +23,8 @@ while [[ $# -gt 0 ]]; do
  done
 
 if [[ $ALL -eq 1 ]]; then
-  if [[ -d build/DerivedData || -d build/logs || -d build/cache || -d build/tmp ]]; then
-    "$TRASH" build/DerivedData build/logs build/cache build/tmp
+  if [[ -d build/DerivedData || -d build/logs || -d build/cache || -d build/tmp || -d build/home ]]; then
+    "$TRASH" build/DerivedData build/logs build/cache build/tmp build/home
   fi
   echo "Cleaned all build artifacts."
   exit 0
@@ -40,9 +40,10 @@ if [[ -n "$AGENT_NAME_VALUE" ]]; then
     "build/DerivedData/$AGENT_NAME_VALUE" \
     "build/logs/$AGENT_NAME_VALUE" \
     "build/cache/$AGENT_NAME_VALUE" \
-    "build/tmp/$AGENT_NAME_VALUE"
+    "build/tmp/$AGENT_NAME_VALUE" \
+    "build/home/$AGENT_NAME_VALUE"
   echo "Cleaned build artifacts for agent: $AGENT_NAME_VALUE"
 else
-  "$TRASH" build/DerivedData build/logs build/cache build/tmp
+  "$TRASH" build/DerivedData build/logs build/cache build/tmp build/home
   echo "Cleaned build artifacts."
 fi

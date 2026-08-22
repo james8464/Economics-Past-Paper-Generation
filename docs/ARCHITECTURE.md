@@ -15,7 +15,7 @@ macOS task
   → immutable specification blueprint
   → provider adapter
   → constrained AI draft
-  → independent AI review
+  → second-pass adversarial model review
   → assessment + originality validation
   → board renderer
   → PDF geometry + typography validation
@@ -41,6 +41,8 @@ Backend/Core/
 
 Resources/
   generator-registry.json   canonical capability and output registry
+  ollama-model-recommendations.json
+                            hardware-aware local-model policy and sources
   layout-profiles.json      derived visual tolerances
   <subject>/<board>/
     generator/
@@ -63,6 +65,11 @@ graphify-out/               token-efficient architectural graph
 
 The Xcode target uses a file-system-synchronised root group, so the feature
 folders are the build structure as well as the Finder structure.
+
+`Resources/ollama-model-recommendations.json` separately owns local-model
+defaults and memory tiers. This keeps a fast-changing deployment choice out of
+generator code while allowing the app, backend, packaged helper, and tests to
+remain synchronized.
 
 ## Canonical registry
 
@@ -109,8 +116,9 @@ paper.
   process only for the selected provider.
 - Hosted prompt transmission requires explicit consent.
 - Provider URLs are validated and response bodies are size-bounded.
-- Model output is untrusted structured data: Pydantic models and independent
-  validation own marks, identities, and publication.
+- Model output is untrusted structured data: Pydantic models, deterministic
+  validation, and a separate adversarial model pass own marks, identities, and
+  publication. This is not described as independent human review.
 - Official PDFs remain in the ignored development corpus. Shipped layout
   profiles contain derived numeric measurements, not official question text.
 
@@ -121,3 +129,8 @@ A family entry point returns `dict[str, Path]` and must include at least
 registry-dispatched paper ID, output directory, seed, preview flag, and the
 selected provider client. Family renderers may add source booklets or practical
 support files, but cannot weaken shared release validation.
+
+`tools/live_generation_matrix.py` derives its job list and expected roles from
+the same registry. A new advertised family therefore enters app navigation,
+backend dispatch, packaging checks, and complete live validation without a
+second subject list.

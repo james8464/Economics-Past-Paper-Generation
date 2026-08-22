@@ -1,7 +1,7 @@
 import Foundation
 
 enum AppDefaults {
-    static let ollamaModel = "qwen2.5:14b"
+    static let ollamaModel = OllamaModelGuide.currentRecommendation.model
     static let openAIModel = "gpt-4.1"
     static let anthropicModel = "claude-sonnet-4-20250514"
     static let appleModel = "mlx-community/Llama-3.2-3B-Instruct-4bit"
@@ -46,6 +46,18 @@ enum AppDefaults {
     static func isSandboxDownloadsPath(_ path: String) -> Bool {
         path.contains("/Library/Containers/") && path.contains("/Data/Downloads")
     }
+
+    static func displayPath(_ url: URL) -> String {
+        let path = url.path
+        let home = FileManager.default.homeDirectoryForCurrentUser.path
+        if path == home {
+            return "~"
+        }
+        if path.hasPrefix(home + "/") {
+            return "~" + path.dropFirst(home.count)
+        }
+        return path
+    }
 }
 
 enum AppStorageKey {
@@ -78,6 +90,8 @@ enum AppLinks {
     static let privacyPolicy = webURL("https://github.com/james8464/Past-paper-generation#privacy")
     static let support = webURL("https://github.com/james8464/Past-paper-generation/issues")
     static let ollamaDownload = webURL("https://ollama.com/download")
+    static let gemmaModel = webURL("https://ollama.com/library/gemma4/tags")
+    static let ollamaStructuredOutputs = webURL("https://docs.ollama.com/capabilities/structured-outputs")
 
     private static func webURL(_ value: String) -> URL {
         URL(string: value) ?? URL(string: "about:blank")!

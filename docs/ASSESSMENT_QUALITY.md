@@ -20,10 +20,12 @@ bounded retries. It never silently substitutes the deterministic planning draft.
 
 ## Two-pass generation
 
-The first model call writes a bounded batch of independently authored items. The
+The first model call writes a bounded batch of newly authored items. The
 prompt includes only the selected syllabus outcome, immutable blueprint,
-per-question draft intent, exact output schema, and the failure reason from an
-earlier attempt.
+per-question draft intent, exact output schema, a per-item numeric-token
+contract, and the failure reason from an earlier attempt. For Ollama, the JSON
+schema fixes each batch array to the exact requested cardinality instead of a
+broad one-to-six range.
 
 The parser then verifies:
 
@@ -36,10 +38,13 @@ The parser then verifies:
 7. material difference from the planning draft;
 8. low similarity between items in the same batch.
 
-A separate review call receives the frozen blueprint, candidate item, and
-syllabus point. It must explicitly approve factual correctness, mark coverage,
-source consistency, difficulty, ambiguity, and answer correctness with no issue
-arrays. A missing, malformed, or negative review rejects the item.
+A separate, deterministic-temperature model call receives the frozen blueprint,
+candidate item, and syllabus point. It reviews adversarially and must explicitly
+approve factual correctness, mark coverage, source consistency, difficulty,
+ambiguity, grammatical scope, distractor exclusivity, and answer correctness
+with no issue arrays. A missing, malformed, or negative review rejects the item.
+Because the selected model performs both passes, this is second-pass quality
+control, not an independent examiner review.
 
 ## Mark-scheme quality
 
@@ -57,6 +62,33 @@ duplicate points, missing mark coverage, incorrect AO totals, generic empty
 guidance, invalid keys, and schemes too sparse for the available marks.
 Question papers and mark schemes are rendered from the same model, preventing
 answer drift.
+
+Calculation cases are typed shared contracts consumed by the printed source,
+AI authoring pass, verified answers and mark scheme. This prevents an item from
+asking candidates to use a figure that the paper never supplies.
+
+When both the prompt and scheme are completely determined by one of these typed
+calculation contracts, the production authoring batch bypasses stochastic model
+rewriting and records `verified-contract` provenance. The representative live
+Accounting Paper 1 run therefore used Ollama for 15 genuinely open-ended items
+and retained six calculation prompts and schemes directly from their verified
+shared cases. Mixed batches are partitioned automatically, so this boundary
+also reduces generation time without reducing AI novelty where it is useful.
+
+Contracts may also declare mandatory marking content and forbidden semantic
+relationships. These deterministic checks catch a fluent rewrite that assigns
+an adjustment to the wrong account or omits a required period even when a
+second model reviewer approves it.
+
+Levels-based enrichment is limited to extended responses and other high-mark
+non-calculation questions. Calculations and data tasks remain points-based even
+when they carry many marks, so the model receives method/accuracy requirements
+rather than a contradictory levels-of-response contract.
+
+For a one-mark multiple-choice item, a model shorthand such as “Statement C” is
+normalised to the complete keyed option in the mark scheme. The answer itself
+still undergoes factual and ambiguity review; this normalisation removes a
+format-only retry without weakening correctness checks.
 
 ## Novelty and exposure
 

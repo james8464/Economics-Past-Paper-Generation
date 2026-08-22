@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "researched_at": "2026-08-22",
+  "default_model": "gemma4:12b",
+  "other_model_warning": "Paper Creator is tuned and checked against the recommended model for this Mac. Results may vary with other models or quantisations, including question quality, difficulty, factual accuracy, mark schemes, and structured-output reliability.",
+  "tiers": [
+    {
+      "id": "memory-compatible",
+      "minimum_memory_gb": 0,
+      "maximum_memory_gb": 16,
+      "model": "qwen2.5:7b",
+      "title": "Memory-compatible choice",
+      "download_size_gb": 4.7,
+      "context_window": "32K",
+      "app_context_window": "16K",
+      "validated_for_full_matrix": false,
+      "detail": "Fits the tighter memory budget of an 8 GB Apple-silicon Mac. It is a compatibility choice, so carefully review every question and mark scheme before use.",
+      "quality_note": "Smaller models have less capacity for long, source-based questions and detailed level-of-response mark schemes."
+    },
+    {
+      "id": "quality",
+      "minimum_memory_gb": 16,
+      "maximum_memory_gb": null,
+      "model": "gemma4:12b",
+      "title": "Recommended for paper quality",
+      "download_size_gb": 7.6,
+      "context_window": "256K",
+      "app_context_window": "16K",
+      "validated_for_full_matrix": false,
+      "detail": "The best balance of instruction following, subject reasoning, structured output, and local memory use for this assessment-writing workflow. A Mac with at least 16 GB unified memory is recommended.",
+      "quality_note": "Keep other memory-heavy apps closed while generating a full paper."
+    }
+  ],
+  "sources": [
+    "https://ollama.com/library/gemma4/tags",
+    "https://ai.google.dev/gemma/docs/core",
+    "https://ollama.com/library/qwen2.5/tags",
+    "https://docs.ollama.com/capabilities/structured-outputs"
+  ]
+}

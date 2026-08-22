@@ -5,6 +5,13 @@ from Backend.Core.exam_blueprints import PaperRule, QuestionRule, SectionRule
 
 MICRO_TOPICS = {f"4.1.{index}" for index in range(1, 9)}
 MACRO_TOPICS = {f"4.2.{index}" for index in range(1, 7)}
+PAPER3_MCQ_PAGE_COUNTS = (
+    1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1,
+    1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 2, 1,
+)
+PAPER3_VISUAL_QUESTION_NUMBERS = frozenset(
+    {2, 4, 9, 10, 13, 14, 19, 20, 24, 25}
+)
 
 
 def _q(id: str, marks: int, kind: str, command: str) -> QuestionRule:

@@ -69,7 +69,7 @@ def _standard_fallback(font_name: str, fallback: str) -> str:
     return family if family != "Times" else "Times-Roman"
 
 
-def register_font(font_name: str, fallback: str = "Times-Roman") -> str:
+def register_font(font_name: str, fallback: str = "Helvetica") -> str:
     if font_name in pdfmetrics.getRegisteredFontNames():
         return font_name
     candidates = FONT_CANDIDATES.get(font_name, [])
@@ -88,7 +88,7 @@ def register_font(font_name: str, fallback: str = "Times-Roman") -> str:
     return font_name
 
 
-def register_fonts(*font_names: str, default_fallback: str = "Times-Roman") -> dict[str, str]:
+def register_fonts(*font_names: str, default_fallback: str = "Helvetica") -> dict[str, str]:
     registered = {name: register_font(name, fallback=default_fallback) for name in font_names}
     families: dict[str, dict[str, str]] = {}
     for name in registered:

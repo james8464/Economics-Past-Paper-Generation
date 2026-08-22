@@ -14,6 +14,7 @@ from Backend.Core.exam_blueprints import (
 )
 from Backend.Core.mark_scheme_enrichment import enrich_paper
 
+from aqaecongen.configs import PAPER3_VISUAL_QUESTION_NUMBERS
 from aqaecongen.syllabus import Syllabus, Topic
 
 
@@ -451,7 +452,16 @@ def policy_name(topic: Topic, rng: random.Random) -> str:
 
 
 def _build_mcq_option(number: int, topic: Topic, rng: random.Random) -> GeneratedOption:
-    if number % 5 == 0:
+    authoring_context: dict[str, object] = {}
+    source_references: list[str] = []
+    if number in PAPER3_VISUAL_QUESTION_NUMBERS:
+        prompt, correct_text, raw_choices, authoring_context = _visual_mcq(
+            number,
+            topic,
+            rng,
+        )
+        source_references = [f"Figure {number}"]
+    elif number % 5 == 0:
         base = rng.randint(55, 180)
         change = rng.choice([5, 8, 10, 12, 15, 20])
         correct = round(base * (1 + change / 100), 1)
@@ -486,8 +496,73 @@ def _build_mcq_option(number: int, topic: Topic, rng: random.Random) -> Generate
         choices=choices,
         correct_choice=correct_choice,
         mark_scheme=[f"Option {'ABCD'[correct_choice]}: {correct_text}."],
+        source_references=source_references,
+        authoring_context=authoring_context,
     )
     return GeneratedOption(id=f"A{number}", title=f"Question {number}", questions=[question])
+
+
+def _visual_mcq(
+    number: int,
+    topic: Topic,
+    rng: random.Random,
+) -> tuple[str, str, list[str], dict[str, object]]:
+    is_aggregate = topic.id.startswith("4.2")
+    if is_aggregate:
+        outcomes = {
+            ("AD", "right"): "The price level rises and real output rises",
+            ("AD", "left"): "The price level falls and real output falls",
+            ("SRAS", "right"): "The price level falls and real output rises",
+            ("SRAS", "left"): "The price level rises and real output falls",
+        }
+        choices = [
+            "The price level rises and real output rises",
+            "The price level rises and real output falls",
+            "The price level falls and real output rises",
+            "The price level falls and real output falls",
+        ]
+        x_axis = "Real output"
+        y_axis = "Price level"
+        scope = "aggregate demand and short-run aggregate supply"
+        curve, direction = rng.choice(list(outcomes))
+    else:
+        outcomes = {
+            ("D", "right"): "Equilibrium price rises and equilibrium quantity rises",
+            ("D", "left"): "Equilibrium price falls and equilibrium quantity falls",
+            ("S", "right"): "Equilibrium price falls and equilibrium quantity rises",
+            ("S", "left"): "Equilibrium price rises and equilibrium quantity falls",
+        }
+        choices = [
+            "Equilibrium price rises and equilibrium quantity rises",
+            "Equilibrium price rises and equilibrium quantity falls",
+            "Equilibrium price falls and equilibrium quantity rises",
+            "Equilibrium price falls and equilibrium quantity falls",
+        ]
+        x_axis = "Quantity"
+        y_axis = "Price"
+        scope = f"demand and supply in the market for {rng.choice(INDUSTRIES)}"
+        curve, direction = rng.choice(list(outcomes))
+
+    correct_text = outcomes[(curve, direction)]
+    prompt = (
+        f"Figure {number} shows {scope}. The {curve} curve shifts to the "
+        f"{direction}. Which combination describes the change from the initial "
+        "equilibrium to the new equilibrium?"
+    )
+    return (
+        prompt,
+        correct_text,
+        list(choices),
+        {
+            "visual_kind": "economic_shift_diagram",
+            "curve": curve,
+            "direction": direction,
+            "x_axis": x_axis,
+            "y_axis": y_axis,
+            "correct_effect": correct_text,
+            "required_prompt_terms": [f"Figure {number}", curve, direction],
+        },
+    )
 
 
 def _stimulus(
@@ -510,7 +585,12 @@ def _stimulus(
             for focus in (first, second, policy, f"the reliability of evidence about {first}")
         ]
         if expanded
-        else [""] * 4
+        else [
+            _case_depth(rng, context_name, topic, first, sentence_count=2),
+            _case_depth(rng, context_name, topic, second, sentence_count=2),
+            "",
+            "",
+        ]
     )
     compact_c = ""
     compact_d = ""
@@ -583,7 +663,14 @@ def _stimulus(
     ]
 
 
-def _case_depth(rng: random.Random, context_name: str, topic: Topic, focus: str) -> str:
+def _case_depth(
+    rng: random.Random,
+    context_name: str,
+    topic: Topic,
+    focus: str,
+    *,
+    sentence_count: int = 7,
+) -> str:
     sample_size = rng.randrange(850, 4200, 50)
     household_share = rng.randint(24, 68)
     firm_share = rng.randint(12, 55)
@@ -639,7 +726,7 @@ def _case_depth(rng: random.Random, context_name: str, topic: Topic, focus: str)
             "here cannot simultaneously be used for other public or private priorities."
         ),
     ]
-    return " ".join(rng.sample(sentences, 7))
+    return " ".join(rng.sample(sentences, sentence_count))
 
 
 def _section_instructions(paper_id: str, section_id: str, option_count: int) -> str:

@@ -6,7 +6,7 @@ from pypdf import PdfReader
 
 from Backend.Core.exam_blueprints import validate_generated_paper, validate_rule
 from aqaecongen.cli import generate_package
-from aqaecongen.configs import RULES
+from aqaecongen.configs import PAPER3_VISUAL_QUESTION_NUMBERS, RULES
 from aqaecongen.generator import build_paper
 from aqaecongen.syllabus import load_syllabus
 
@@ -45,6 +45,27 @@ def test_paper_three_has_thirty_mcqs_and_fifty_mark_case_study() -> None:
         ("essay", 15, "Explain"),
         ("extended_response", 25, "Recommend"),
     ]
+
+
+def test_paper_three_visual_questions_have_data_bound_diagrams() -> None:
+    paper = build_paper(RULES["paper_3"], SYLLABUS, seed=123)
+    questions = {
+        int(option.questions[0].number): option.questions[0]
+        for option in paper.sections[0].options
+    }
+
+    for number in PAPER3_VISUAL_QUESTION_NUMBERS:
+        question = questions[number]
+        context = question.authoring_context
+        assert question.source_references == [f"Figure {number}"]
+        assert context["visual_kind"] == "economic_shift_diagram"
+        assert context["curve"] in {"D", "S", "AD", "SRAS"}
+        assert context["direction"] in {"left", "right"}
+        assert context["correct_effect"] == question.choices[question.correct_choice]
+        assert all(
+            term.casefold() in question.prompt.casefold()
+            for term in context["required_prompt_terms"]
+        )
 
 
 def test_each_paper_is_valid_and_seed_changes_content() -> None:
@@ -102,6 +123,7 @@ def test_each_package_renders_readable_pdfs(tmp_path: Path) -> None:
             assert "Highest recorded index" in (question_pages[1].extract_text() or "")
             assert "Extract C" in (question_pages[2].extract_text() or "")
             assert "source insert" not in (question_pages[2].extract_text() or "")
-            assert "DO NOT WRITE ON THIS PAGE" in (
-                question_pages[7].extract_text() or ""
-            )
+            final_page = question_pages[7].extract_text() or ""
+            assert "There are no questions printed on this page" in final_page
+            assert "Independent practice information" in final_page
+            assert "DO NOT WRITE ON THIS PAGE" not in final_page

@@ -86,6 +86,8 @@ targets:
         buildPhase: resources
       - path: ../Resources/generator-registry.json
         buildPhase: resources
+      - path: ../Resources/ollama-model-recommendations.json
+        buildPhase: resources
     preBuildScripts:
       - name: Bundle standalone backend
         script: |
@@ -95,6 +97,8 @@ targets:
           - "$(SRCROOT)/../Backend/Core/cli.py"
           - "$(SRCROOT)/../Backend/Core/generation.py"
           - "$(SRCROOT)/../Backend/Core/providers.py"
+          - "$(SRCROOT)/../Backend/Core/model_recommendations.py"
+          - "$(SRCROOT)/../Resources/ollama-model-recommendations.json"
           - "$(SRCROOT)/../Resources/economics/edexcel-a/generator/pyproject.toml"
           - "$(SRCROOT)/../Resources/economics/aqa/generator/pyproject.toml"
           - "$(SRCROOT)/../Resources/economics/ocr/generator/pyproject.toml"

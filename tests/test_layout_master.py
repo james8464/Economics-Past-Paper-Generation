@@ -107,7 +107,7 @@ def test_runtime_registry_covers_every_supported_paper() -> None:
 
 
 def test_box_conformance_preserves_vector_drawings(tmp_path: Path) -> None:
-    import fitz
+    import pymupdf as fitz
 
     path = tmp_path / "drawing.pdf"
     pdf = canvas.Canvas(str(path), pagesize=(595.28, 841.89))

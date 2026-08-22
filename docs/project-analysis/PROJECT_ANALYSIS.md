@@ -574,5 +574,5 @@ The project reaches its target only when a generated package is simultaneously:
 - **reproducible:** every output records generator version, model, prompt/schema
   version, seed, specification version, reference profile, and validation result.
 
-The implementation roadmap for reaching those conditions is in
-`docs/project-analysis/IMPROVEMENT_ROADMAP.md`.
+Implemented engineering evidence and the remaining external validation boundary
+are recorded in `docs/project-analysis/IMPLEMENTATION_AND_FIDELITY_REPORT.md`.

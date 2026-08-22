@@ -1,3 +1,4 @@
+import AppKit
 import XCTest
 @testable import PaperCreator
 
@@ -85,6 +86,41 @@ final class PaperCreatorTests: XCTestCase {
             benchmark: nil
         )
         XCTAssertGreaterThan(large.totalSeconds, small.totalSeconds)
+    }
+
+    func testOllamaGuideSelectsAMemoryAppropriateModel() throws {
+        let guide = try OllamaModelGuide.load(bundle: .main)
+        let eightGB = guide.recommendation(physicalMemoryBytes: 8 * 1_073_741_824)
+        let sixteenGB = guide.recommendation(physicalMemoryBytes: 16 * 1_073_741_824)
+
+        XCTAssertEqual(eightGB.model, "qwen2.5:7b")
+        XCTAssertEqual(sixteenGB.model, "gemma4:12b")
+        XCTAssertEqual(sixteenGB.contextWindow, "256K")
+        XCTAssertEqual(sixteenGB.appContextWindow, "16K")
+        XCTAssertEqual(
+            AppDefaults.ollamaModel,
+            OllamaModelGuide.currentRecommendation.model
+        )
+        XCTAssertTrue(guide.otherModelWarning.localizedCaseInsensitiveContains("results may vary"))
+        XCTAssertTrue(guide.sources.allSatisfy { $0.scheme == "https" })
+    }
+
+    func testTutorialScreenshotsAreBundled() {
+        XCTAssertNotNil(NSImage(named: NSImage.Name("TutorialWorkspace")))
+        XCTAssertNotNil(NSImage(named: NSImage.Name("TutorialModelSettings")))
+    }
+
+    func testDisplayPathAbbreviatesOnlyTheHomeFolder() {
+        let home = FileManager.default.homeDirectoryForCurrentUser
+        XCTAssertEqual(AppDefaults.displayPath(home), "~")
+        XCTAssertEqual(
+            AppDefaults.displayPath(home.appendingPathComponent("Downloads")),
+            "~/Downloads"
+        )
+        XCTAssertEqual(
+            AppDefaults.displayPath(URL(fileURLWithPath: "/Users/Shared/Papers")),
+            "/Users/Shared/Papers"
+        )
     }
 
     func testAppStoreModeDisablesOllamaManagement() {
@@ -213,6 +249,9 @@ final class PaperCreatorTests: XCTestCase {
         let appModel = AppViewModel()
         let board = try XCTUnwrap(ExamCatalog.board(id: "economics-aqa"))
         appModel.selectBoard(board)
+        appModel.aiProvider = .ollama
+        appModel.selectedModel = AppDefaults.ollamaModel
+        appModel.ollamaState = OllamaState()
         appModel.setDryRun(false)
         XCTAssertEqual(appModel.generationBlocker, "Check Ollama before generating.")
     }

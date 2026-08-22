@@ -145,7 +145,7 @@ def test_mark_scheme_rows_fit_within_single_page_after_long_extracts():
 
 
 def test_paper_3_mark_scheme_matches_reference_pagination(tmp_path):
-    import fitz
+    import pymupdf as fitz
 
     syllabus = load_syllabus(Path("data/syllabus_seed.json"))
     blueprint = build_paper_blueprint(
@@ -176,6 +176,82 @@ def test_paper_3_mark_scheme_matches_reference_pagination(tmp_path):
             assert question in document[page_number - 1].get_text()
         assert [document[index - 1].get_text().strip() for index in (6, 11, 24, 28)] == [""] * 4
         assert all(document[index - 1].get_drawings() for index in (6, 11, 18, 24, 28))
+    finally:
+        document.close()
+
+
+def test_paper_1_final_essay_matches_reference_page_rhythm(tmp_path):
+    import pymupdf as fitz
+
+    syllabus = load_syllabus(Path("data/syllabus_seed.json"))
+    blueprint = build_paper_blueprint(
+        load_builtin_paper_config("paper_1"),
+        syllabus,
+        seed=42,
+    )
+    output = tmp_path / "ms.pdf"
+
+    render_mark_scheme(blueprint, syllabus, output)
+
+    document = fitz.open(output)
+    try:
+        assert document.page_count == 29
+        starts = {
+            "1(a)": 4,
+            "1(b)": 6,
+            "2(a)": 7,
+            "2(b)": 8,
+            "3(a)": 8,
+            "3(b)": 9,
+            "4(a)": 10,
+            "4(b)": 11,
+            "5(a)": 12,
+            "5(b)": 12,
+            "6(a)": 13,
+            "6(b)": 14,
+            "6(c)": 16,
+            "6(d)": 18,
+            "6(e)": 20,
+            "7": 23,
+            "8": 27,
+        }
+        for question, page_number in starts.items():
+            assert question in document[page_number - 1].get_text()
+        assert "Question" in document[25].get_text()
+        assert "8" in document[26].get_text()
+        assert "8" in document[28].get_text()
+    finally:
+        document.close()
+
+
+def test_paper_2_mark_scheme_matches_reference_pagination(tmp_path):
+    import pymupdf as fitz
+
+    syllabus = load_syllabus(Path("data/syllabus_seed.json"))
+    blueprint = build_paper_blueprint(
+        load_builtin_paper_config("paper_2"),
+        syllabus,
+        seed=42,
+    )
+    output = tmp_path / "ms.pdf"
+
+    render_mark_scheme(blueprint, syllabus, output)
+
+    document = fitz.open(output)
+    try:
+        assert document.page_count == 36
+        starts = {
+            "1(c)": 6,
+            "6(a)": 15,
+            "6(c)": 18,
+            "6(d)": 22,
+            "6(e)": 26,
+            "7": 30,
+            "8": 33,
+        }
+        for question, page_number in starts.items():
+            assert question in document[page_number - 1].get_text()
+        assert document[35].get_text().strip() == ""
     finally:
         document.close()
 
@@ -249,7 +325,7 @@ def _pdf_page_count(path: Path) -> int:
 
 
 def _text_block_bbox(path: Path, needle: str) -> tuple[float, float, float, float]:
-    import fitz
+    import pymupdf as fitz
 
     doc = fitz.open(path)
     try:

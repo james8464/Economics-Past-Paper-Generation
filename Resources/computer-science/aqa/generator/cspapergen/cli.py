@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Callable
 
 from Backend.Core.assessment_package import write_assessment_package
+from Backend.Core.model_recommendations import default_ollama_model
 from cspapergen.generator import build_paper1_blueprint, build_paper2_blueprint
 from cspapergen.notes import DEFAULT_NOTES_SOURCE, cache_notes
 from cspapergen.ollama_client import OllamaClient, improve_questions_with_ollama
@@ -23,7 +24,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--paper", choices=["1", "2"], default="2")
     parser.add_argument("--out", default=str(default_output_dir()))
     parser.add_argument("--seed", type=int, default=None)
-    parser.add_argument("--model", default="qwen2.5:14b")
+    parser.add_argument("--model", default=default_ollama_model())
     parser.add_argument("--ollama-url", default="http://localhost:11434")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--syllabus", default=str(DEFAULT_SYLLABUS_PATH))
@@ -52,7 +53,7 @@ def generate_package(
     paper: str = "2",
     seed: int | None,
     dry_run: bool,
-    model: str = "qwen2.5:14b",
+    model: str = default_ollama_model(),
     ollama_url: str = "http://localhost:11434",
     syllabus_path: Path = DEFAULT_SYLLABUS_PATH,
     notes_source: Path = DEFAULT_NOTES_SOURCE,

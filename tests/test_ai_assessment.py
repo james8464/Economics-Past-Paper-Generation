@@ -1,13 +1,21 @@
 from __future__ import annotations
 
+import pytest
+
 from Backend.Core.ai_assessment import (
     GenerationPolicy,
     _Task,
     _batches_for_client,
+    _candidate_question,
     _clean_generated_prompt,
     _effective_batch_size,
+    _generate_batch,
     _generation_prompt,
+    _normalise_multiple_choice_answer,
     _normalise_level_allocations,
+    _review_prompt,
+    _required_awarded_entries,
+    _task_source,
     _validate_mark_points,
 )
 from Backend.Core.exam_blueprints import (
@@ -45,6 +53,54 @@ def test_generated_prompt_drops_renderer_owned_number_and_mark_label() -> None:
         "Question 01: Which document is evidence of a credit purchase? [1 mark]",
         question=question,
     ) == "Which document is evidence of a credit purchase?"
+
+
+def test_generated_prompt_drops_an_unprotected_renderer_source_number() -> None:
+    question = GeneratedQuestion(
+        rule_id="q12",
+        number="12",
+        marks=7,
+        kind="calculation",
+        command_word="prepare",
+        topic_id="topic",
+        prompt="Prepare the non-current assets section. Show all workings.",
+        mark_scheme=["Credit valid workings."],
+    )
+
+    assert _clean_generated_prompt(
+        "Prepare the non-current assets section using Extract 1. [7 marks]",
+        question=question,
+    ) == "Prepare the non-current assets section using the extract."
+
+
+def test_multiple_choice_answer_shorthand_is_normalised_to_the_full_choice() -> None:
+    question = GeneratedQuestion(
+        rule_id="q01",
+        number="01",
+        marks=1,
+        kind="multiple_choice",
+        command_word="select",
+        topic_id="topic",
+        prompt="Select the correct statement.",
+        mark_scheme=["Choice C"],
+        assessment_objectives={"AO1": 1},
+    )
+    points = [
+        MarkSchemePoint(
+            text="Statement C",
+            marks=1,
+            assessment_objective="AO1",
+        )
+    ]
+
+    normalised = _normalise_multiple_choice_answer(
+        question,
+        points,
+        "Year-end adjustments match income to the correct period.",
+    )
+
+    assert normalised[0].text == "Year-end adjustments match income to the correct period."
+    assert normalised[0].marks == 1
     assert _clean_generated_prompt(
         "1. Which document is evidence of a credit purchase?",
         question=question,
@@ -91,7 +147,7 @@ def test_local_batches_separate_high_mark_items() -> None:
     assert [len(batch) for batch in remote] == [5]
 
 
-def test_generation_prompt_withholds_planning_draft_content() -> None:
+def test_generation_prompt_exposes_semantics_but_withholds_draft_marking_points() -> None:
     question = GeneratedQuestion(
         rule_id="q1",
         number="1",
@@ -125,9 +181,498 @@ def test_generation_prompt_withholds_planning_draft_content() -> None:
         previous_failure="",
     )
 
-    assert "forbidden planning draft phrase" not in prompt.casefold()
+    assert '"semantic_task_contract": {' in prompt
+    assert (
+        '"required_task_terms": ["forbidden", "planning", "draft", "phrase"]'
+        in prompt
+    )
     assert "forbidden planning mark point" not in prompt.casefold()
     assert "draft_to_replace" not in prompt
+    assert '"required_exact_tokens": []' in prompt
+    assert "an empty list means the prompt contains no numeric token" in prompt
+    assert "source labels such as `Extract 1`" in prompt
+    assert "Compose fresh prose around those elements" in prompt
+
+
+def test_self_contained_numeric_mcq_excludes_unrelated_option_stimulus() -> None:
+    question = GeneratedQuestion(
+        rule_id="q07",
+        number="07",
+        marks=1,
+        kind="multiple_choice",
+        command_word="select",
+        topic_id="topic",
+        prompt=(
+            "Glenmore Trading has revenue of £185000 and cost of sales of £35000. "
+            "What is gross profit?"
+        ),
+        mark_scheme=["£150000"],
+    )
+    task = _Task(
+        key=(0, 0, 0),
+        question=question,
+        option=GeneratedOption(
+            id="option",
+            title="Glenmore Trading",
+            stimulus=[
+                "Extract 1. Glenmore Trading reported revenue of £1060000 and "
+                "profit of £105000."
+            ],
+            questions=[question],
+        ),
+        topic=object(),
+    )
+
+    source = _task_source(task)
+
+    assert source["scope"] == "self_contained_question"
+    assert "stimulus" not in source
+    assert "£1060000" not in str(source)
+
+
+def test_explicit_source_question_retains_option_material() -> None:
+    question = GeneratedQuestion(
+        rule_id="q16",
+        number="16",
+        marks=25,
+        kind="extended_response",
+        command_word="advise",
+        topic_id="topic",
+        prompt="Use the information in the case to advise Glenmore Trading.",
+        mark_scheme=["Credit a justified recommendation."],
+    )
+    task = _Task(
+        key=(0, 0, 0),
+        question=question,
+        option=GeneratedOption(
+            id="option",
+            title="Glenmore Trading",
+            stimulus=["Extract 1. Revenue was £1060000."],
+            questions=[question],
+        ),
+        topic=object(),
+    )
+
+    source = _task_source(task)
+
+    assert source["stimulus"] == ["Extract 1. Revenue was £1060000."]
+
+
+def test_generated_question_must_preserve_visual_contract_terms() -> None:
+    question = GeneratedQuestion(
+        rule_id="visual",
+        number="2",
+        marks=1,
+        kind="multiple_choice",
+        command_word="select",
+        topic_id="topic",
+        prompt=(
+            "Figure 2 shows a D curve shifting to the right. Which outcome "
+            "follows?"
+        ),
+        mark_scheme=["Equilibrium price and quantity rise."],
+        choices=["Both rise", "Both fall", "Price rises", "Quantity falls"],
+        correct_choice=0,
+        assessment_objectives={"AO2": 1},
+        authoring_context={
+            "required_prompt_terms": ["Figure 2", "D", "right"],
+        },
+    )
+    task = _Task(
+        key=(0, 0, 0),
+        question=question,
+        option=GeneratedOption(id="visual", title="Visual", questions=[question]),
+        topic=object(),
+    )
+    raw = {
+        "prompt": "Using Figure 2, what follows from the movement of the D curve?",
+        "choices": ["Both rise", "Both fall", "Price rises", "Quantity falls"],
+        "correct_choice": 0,
+        "mark_scheme": [
+            {
+                "text": "Both rise",
+                "marks": 1,
+                "credit_type": "answer",
+                "assessment_objective": "AO2",
+            }
+        ],
+    }
+
+    with pytest.raises(ValueError, match="omitted a required source or visual term"):
+        _candidate_question(
+            task,
+            raw,
+            client=type("Client", (), {"provider": "test", "model": "test"})(),
+            policy=GenerationPolicy(),
+        )
+
+
+def test_generated_question_rejects_a_forbidden_semantic_relationship() -> None:
+    question = GeneratedQuestion(
+        rule_id="partnership",
+        number="15.1",
+        marks=2,
+        kind="calculation",
+        command_word="prepare",
+        topic_id="partnerships",
+        prompt="Prepare the continuing partners' capital accounts after retirement.",
+        mark_scheme=["Credit the goodwill adjustments and balances."],
+        assessment_objectives={"AO1": 1, "AO2": 1},
+        authoring_context={
+            "forbidden_prompt_terms": ["retiring partner's account"],
+        },
+    )
+    task = _Task(
+        key=(0, 0, 0),
+        question=question,
+        option=GeneratedOption(id="case", title="Partnership", questions=[question]),
+        topic=object(),
+    )
+    raw = {
+        "prompt": (
+            "Prepare capital accounts after goodwill is written back out of the "
+            "retiring partner's account."
+        ),
+        "mark_scheme": [
+            {
+                "text": "Credit the goodwill adjustment.",
+                "marks": 1,
+                "assessment_objective": "AO1",
+            },
+            {
+                "text": "Calculate the closing balances.",
+                "marks": 1,
+                "assessment_objective": "AO2",
+            },
+        ],
+    }
+
+    with pytest.raises(ValueError, match="included a forbidden semantic term"):
+        _candidate_question(
+            task,
+            raw,
+            client=type("Client", (), {"provider": "test", "model": "test"})(),
+            policy=GenerationPolicy(),
+        )
+
+
+def test_generated_mark_scheme_must_cover_each_required_period() -> None:
+    question = GeneratedQuestion(
+        rule_id="partnership",
+        number="15.2",
+        marks=2,
+        kind="calculation",
+        command_word="prepare",
+        topic_id="partnerships",
+        prompt="Prepare the appropriation account for both periods.",
+        mark_scheme=["Credit calculations for both periods."],
+        assessment_objectives={"AO1": 1, "AO2": 1},
+        authoring_context={
+            "required_mark_scheme_terms": ["first period", "second period"],
+        },
+    )
+    task = _Task(
+        key=(0, 0, 0),
+        question=question,
+        option=GeneratedOption(id="case", title="Partnership", questions=[question]),
+        topic=object(),
+    )
+    raw = {
+        "prompt": "Prepare a two-part appropriation account from the supplied data.",
+        "mark_scheme": [
+            {
+                "text": "Calculate interest for the first period.",
+                "marks": 1,
+                "assessment_objective": "AO1",
+            },
+            {
+                "text": "Calculate first period residual profit.",
+                "marks": 1,
+                "assessment_objective": "AO2",
+            },
+        ],
+    }
+
+    with pytest.raises(ValueError, match="omitted required marking content"):
+        _candidate_question(
+            task,
+            raw,
+            client=type("Client", (), {"provider": "test", "model": "test"})(),
+            policy=GenerationPolicy(),
+        )
+
+
+def test_generated_mark_scheme_rejects_forbidden_semantic_relationship() -> None:
+    question = GeneratedQuestion(
+        rule_id="partnership",
+        number="15.1",
+        marks=1,
+        kind="calculation",
+        command_word="prepare",
+        topic_id="partnerships",
+        prompt="Prepare the continuing partners' capital accounts.",
+        mark_scheme=["Credit the goodwill adjustment."],
+        assessment_objectives={"AO2": 1},
+        authoring_context={
+            "forbidden_mark_scheme_terms": ["Riley's goodwill write-off"],
+        },
+    )
+    task = _Task(
+        key=(0, 0, 0),
+        question=question,
+        option=GeneratedOption(id="case", title="Partnership", questions=[question]),
+        topic=object(),
+    )
+    raw = {
+        "prompt": "Prepare capital accounts for the partners who continue trading.",
+        "mark_scheme": [
+            {
+                "text": "Calculate Riley's goodwill write-off.",
+                "marks": 1,
+                "assessment_objective": "AO2",
+            }
+        ],
+    }
+
+    with pytest.raises(ValueError, match="included forbidden marking content"):
+        _candidate_question(
+            task,
+            raw,
+            client=type("Client", (), {"provider": "test", "model": "test"})(),
+            policy=GenerationPolicy(),
+        )
+
+
+def test_source_constrained_calculation_preserves_its_verified_prompt() -> None:
+    question = GeneratedQuestion(
+        rule_id="partnership",
+        number="15.2",
+        marks=1,
+        kind="calculation",
+        command_word="prepare",
+        topic_id="partnerships",
+        prompt="Prepare the appropriation account for both periods.",
+        mark_scheme=["Credit both periods."],
+        assessment_objectives={"AO2": 1},
+        authoring_context={
+            "preserve_prompt": True,
+            "required_mark_scheme_terms": ["both periods"],
+        },
+    )
+    task = _Task(
+        key=(0, 0, 0),
+        question=question,
+        option=GeneratedOption(id="case", title="Partnership", questions=[question]),
+        topic=object(),
+    )
+    raw = {
+        "prompt": (
+            "Prepare the account using £80,400, a 6% rate and every figure from "
+            "the source panel."
+        ),
+        "mark_scheme": [
+            {
+                "text": "Calculate the allocation for both periods.",
+                "marks": 1,
+                "assessment_objective": "AO2",
+            }
+        ],
+    }
+
+    candidate = _candidate_question(
+        task,
+        raw,
+        client=type("Client", (), {"provider": "test", "model": "test"})(),
+        policy=GenerationPolicy(),
+    )
+
+    assert candidate.prompt == question.prompt
+
+
+def test_source_constrained_calculation_preserves_its_verified_mark_scheme() -> None:
+    verified_point = MarkSchemePoint(
+        text="Credit both periods using the verified figures.",
+        marks=1,
+        assessment_objective="AO2",
+    )
+    examiner_guidance = [
+        MarkSchemePoint(
+            text=f"Examiner guidance {index}.",
+            marks=0,
+            credit_type="guidance",
+        )
+        for index in range(13)
+    ]
+    question = GeneratedQuestion(
+        rule_id="partnership",
+        number="15.2",
+        marks=1,
+        kind="calculation",
+        command_word="prepare",
+        topic_id="partnerships",
+        prompt="Prepare the appropriation account for both periods.",
+        mark_scheme=[verified_point.text],
+        structured_mark_scheme=[verified_point, *examiner_guidance],
+        assessment_objectives={"AO2": 1},
+        authoring_context={
+            "preserve_prompt": True,
+            "preserve_mark_scheme": True,
+        },
+    )
+    task = _Task(
+        key=(0, 0, 0),
+        question=question,
+        option=GeneratedOption(id="case", title="Partnership", questions=[question]),
+        topic=object(),
+    )
+    raw = {
+        "prompt": "Prepare the account from the supplied data.",
+        "mark_scheme": [
+            {
+                "text": "Credit only the first period.",
+                "marks": 1,
+                "assessment_objective": "AO2",
+            }
+        ],
+    }
+
+    candidate = _candidate_question(
+        task,
+        raw,
+        client=type("Client", (), {"provider": "test", "model": "test"})(),
+        policy=GenerationPolicy(),
+    )
+
+    assert candidate.mark_scheme == question.mark_scheme
+    assert candidate.structured_mark_scheme == question.structured_mark_scheme
+
+
+def test_verified_contract_item_bypasses_model_generation() -> None:
+    verified_point = MarkSchemePoint(
+        text="Credit the verified calculation.",
+        marks=1,
+        assessment_objective="AO2",
+    )
+    question = GeneratedQuestion(
+        rule_id="verified",
+        number="15.1",
+        marks=1,
+        kind="calculation",
+        command_word="prepare",
+        topic_id="partnerships",
+        prompt="Prepare the verified capital accounts.",
+        mark_scheme=[verified_point.text],
+        structured_mark_scheme=[verified_point],
+        assessment_objectives={"AO2": 1},
+        authoring_context={
+            "preserve_prompt": True,
+            "preserve_mark_scheme": True,
+        },
+    )
+    task = _Task(
+        key=(0, 0, 0),
+        question=question,
+        option=GeneratedOption(id="case", title="Partnership", questions=[question]),
+        topic=object(),
+    )
+
+    class Client:
+        provider = "ollama"
+        model = "test"
+
+        def generate_json(self, _prompt: str) -> dict[str, object]:
+            raise AssertionError("verified contracts must not invoke the model")
+
+    result = _generate_batch(
+        [task],
+        client=Client(),
+        subject="accounting",
+        seed=1,
+        policy=GenerationPolicy(),
+        progress=None,
+    )
+
+    assert result[task.key].prompt == question.prompt
+    assert result[task.key].provenance == "verified-contract"
+
+
+def test_review_prompt_uses_structured_semantics_not_withheld_draft_prose() -> None:
+    question = GeneratedQuestion(
+        rule_id="q1",
+        number="1",
+        marks=4,
+        kind="explain",
+        command_word="explain",
+        topic_id="topic",
+        prompt="Explain the forbidden planning sentence about contestability.",
+        mark_scheme=["Credit valid analysis."],
+        assessment_objectives={"AO1": 1, "AO2": 1, "AO3": 2},
+    )
+    task = _Task(
+        key=(0, 0, 0),
+        question=question,
+        option=GeneratedOption(id="option", title="Case study", questions=[question]),
+        topic=type(
+            "Topic",
+            (),
+            {"title": "Market structures", "points": ["Contestable markets"]},
+        )(),
+    )
+    candidate = question.model_copy(
+        update={"prompt": "Explain how contestability can influence a market."}
+    )
+
+    prompt = _review_prompt([task], [candidate], subject="Economics")
+
+    assert '"required_task_terms": [' in prompt
+    assert "forbidden planning sentence about contestability" not in prompt.casefold()
+    assert '"protected_numeric_tokens": []' in prompt
+    assert "do not compare the candidate against withheld draft prose" in prompt
+
+
+def test_points_scheme_prompt_requires_enough_distinct_awarded_rows() -> None:
+    question = GeneratedQuestion(
+        rule_id="q12",
+        number="12",
+        marks=7,
+        kind="explain",
+        command_word="explain",
+        topic_id="topic",
+        prompt="Explain the accounting treatment.",
+        mark_scheme=["Credit valid accounting treatment."],
+        assessment_objectives={"AO1": 2, "AO2": 2, "AO3": 3},
+    )
+
+    entries = _required_awarded_entries(question)
+
+    assert len(entries) == 7
+    assert {entry["marks"] for entry in entries} == {1}
+    assert [entry["assessment_objective"] for entry in entries].count("AO3") == 3
+
+
+def test_high_mark_points_scheme_caps_rows_without_losing_ao_marks() -> None:
+    question = GeneratedQuestion(
+        rule_id="q16",
+        number="16",
+        marks=12,
+        kind="analysis",
+        command_word="analyse",
+        topic_id="topic",
+        prompt="Analyse the accounting decision.",
+        mark_scheme=["Credit developed analysis."],
+        assessment_objectives={"AO1": 3, "AO2": 3, "AO3": 6},
+    )
+
+    entries = _required_awarded_entries(question)
+
+    assert len(entries) == 8
+    assert sum(int(entry["marks"]) for entry in entries) == 12
+    for objective, marks in question.assessment_objectives.items():
+        assert sum(
+            int(entry["marks"])
+            for entry in entries
+            if entry["assessment_objective"] == objective
+        ) == marks
 
 
 def test_levels_scheme_uses_ao_allocations_and_descriptors() -> None:

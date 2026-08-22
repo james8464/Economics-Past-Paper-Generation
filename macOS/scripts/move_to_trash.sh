@@ -12,13 +12,24 @@ if [[ $# -lt 1 ]]; then
   exit 1
 fi
 
+existing_paths=()
+for path in "$@"; do
+  if [[ -e "$path" ]]; then
+    existing_paths+=("$path")
+  fi
+done
+
+if [[ ${#existing_paths[@]} -eq 0 ]]; then
+  exit 0
+fi
+
 if command -v trash >/dev/null 2>&1; then
-  trash "$@"
+  trash "${existing_paths[@]}"
   exit 0
 fi
 
 if command -v osascript >/dev/null 2>&1; then
-  for path in "$@"; do
+  for path in "${existing_paths[@]}"; do
     if [[ -e "$path" ]]; then
       /usr/bin/osascript -e 'tell application "Finder" to delete POSIX file '"'"$path"'"''
     fi

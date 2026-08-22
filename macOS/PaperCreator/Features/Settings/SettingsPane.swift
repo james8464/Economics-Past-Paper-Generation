@@ -111,18 +111,61 @@ private struct AISettingsTab: View {
         switch appModel.aiProvider {
         case .ollama:
             Section("Local model") {
-                Picker("Model", selection: $appModel.selectedModel) {
-                    if appModel.availableModels.isEmpty {
-                        Text(appModel.selectedModel).tag(appModel.selectedModel)
-                    } else {
-                        ForEach(appModel.availableModels, id: \.self) { model in
-                            Text(model).tag(model)
-                        }
+                LabeledContent("Recommended") {
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Text(appModel.ollamaRecommendation.model)
+                        Text(appModel.ollamaRecommendation.downloadDescription)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     }
+                }
+
+                Text(appModel.ollamaRecommendation.detail)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                HStack {
+                    if appModel.recommendedModelIsInstalled {
+                        Button("Use Recommended Model", action: appModel.useRecommendedOllamaModel)
+                            .disabled(appModel.selectedModelIsRecommended)
+                    } else if appModel.distributionMode.canManageOllama {
+                        Button("Download Recommended Model…", action: appModel.requestRecommendedOllamaModel)
+                            .disabled(appModel.isRunning)
+                    }
+
+                    Button("Open Model Guide") {
+                        appModel.showHelpGuide(topic: .choosingAModel)
+                    }
+                }
+
+                Divider()
+
+                Picker("Model", selection: $appModel.selectedModel) {
+                    ForEach(appModel.ollamaModelOptions, id: \.self) { model in
+                        Text(
+                            model == appModel.ollamaRecommendation.model
+                                ? "\(model) — Recommended"
+                                : model
+                        )
+                        .tag(model)
+                    }
+                }
+
+                if appModel.selectedModelIsRecommended {
+                    Label("Recommended model selected", systemImage: "checkmark.seal.fill")
+                        .foregroundStyle(.green)
+                } else {
+                    Label(
+                        OllamaModelGuide.document.otherModelWarning,
+                        systemImage: "exclamationmark.triangle.fill"
+                    )
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
                 }
 
                 HStack {
                     Button("Check Again", action: appModel.refreshOllama)
+                        .disabled(appModel.isRefreshingOllama)
                     Spacer()
                     Text(appModel.ollamaState.message)
                         .foregroundStyle(.secondary)
@@ -177,7 +220,7 @@ private struct OutputSettingsTab: View {
             Section("Folder") {
                 LabeledContent("Output") {
                     HStack {
-                        Text(appModel.outputFolder.path)
+                        Text(appModel.outputFolderDisplayPath)
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
                             .truncationMode(.middle)

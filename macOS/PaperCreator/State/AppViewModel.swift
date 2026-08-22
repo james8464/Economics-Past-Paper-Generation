@@ -20,6 +20,7 @@ final class AppViewModel: ObservableObject {
     @Published var isRefreshingOllama = false
     @Published var ollamaState = OllamaState()
     @Published var availableModels: [String] = []
+    @Published var hasLoadedOllamaModels = false
     @Published var modelToPull = AppDefaults.ollamaModel
     @Published var openAIModel = AppDefaults.openAIModel
     @Published var anthropicModel = AppDefaults.anthropicModel
@@ -32,6 +33,7 @@ final class AppViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var showWelcome = false
     @Published var showHelp = false
+    @Published var helpTopic = HelpTopic.gettingStarted
     @Published var notificationsEnabled = true
     @Published var sidebarSelection: SidebarItem?
     @Published var generationEstimate: GenerationEstimate?
@@ -105,6 +107,9 @@ final class AppViewModel: ObservableObject {
             if ollamaState.message == "Not checked" { return "Check Ollama before generating." }
             if !ollamaState.installed { return "Ollama is not installed." }
             if !ollamaState.running { return "Ollama is not running." }
+            if hasLoadedOllamaModels && !availableModels.contains(selectedModel) {
+                return "Download the selected Ollama model before generating."
+            }
             return nil
         case .openAI:
             if !hasHostedAIConsent { return "Review and accept the hosted AI disclosure in Settings." }
@@ -128,6 +133,28 @@ final class AppViewModel: ObservableObject {
         case .anthropic: anthropicModel
         case .apple: appleModel
         }
+    }
+
+    var ollamaRecommendation: OllamaModelRecommendation {
+        OllamaModelGuide.currentRecommendation
+    }
+
+    var selectedModelIsRecommended: Bool {
+        selectedModel == ollamaRecommendation.model
+    }
+
+    var recommendedModelIsInstalled: Bool {
+        availableModels.contains(ollamaRecommendation.model)
+    }
+
+    var ollamaModelOptions: [String] {
+        var seen: Set<String> = []
+        return ([selectedModel, ollamaRecommendation.model] + availableModels)
+            .filter { !$0.isEmpty && seen.insert($0).inserted }
+    }
+
+    var outputFolderDisplayPath: String {
+        AppDefaults.displayPath(outputFolder)
     }
 
     init() {
@@ -461,12 +488,24 @@ final class AppViewModel: ObservableObject {
         showWelcome = true
     }
 
-    func showHelpGuide() {
+    func showHelpGuide(topic: HelpTopic = .gettingStarted) {
+        helpTopic = topic
         showHelp = true
     }
 
     func dismissHelpGuide() {
         showHelp = false
+    }
+
+    func useRecommendedOllamaModel() {
+        selectedModel = ollamaRecommendation.model
+        modelToPull = ollamaRecommendation.model
+        saveAISettings()
+    }
+
+    func requestRecommendedOllamaModel() {
+        useRecommendedOllamaModel()
+        requestPullModel()
     }
 
     func copyDiagnosticSummary() {
@@ -649,14 +688,7 @@ final class AppViewModel: ObservableObject {
             notifyFailure(for: activeOperation, message: message)
         case let .models(models, message):
             availableModels = models
-            if !models.isEmpty, !models.contains(selectedModel) {
-                if models.contains(AppDefaults.ollamaModel) {
-                    selectedModel = AppDefaults.ollamaModel
-                } else {
-                    selectedModel = models[0]
-                }
-                defaults.set(selectedModel, forKey: AppStorageKey.ollamaModel)
-            }
+            hasLoadedOllamaModels = true
             if let message {
                 status = message
             }

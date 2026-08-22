@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Callable
 
 from Backend.Core.assessment_package import write_assessment_package
+from Backend.Core.model_recommendations import default_ollama_model
 from pastpapergen.generator import build_paper_blueprint
 from pastpapergen.ollama_client import OllamaClient, generate_questions_with_ollama
 from pastpapergen.paper_configs import load_builtin_paper_config
@@ -30,7 +31,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--syllabus", default="data/syllabus_seed.json")
     parser.add_argument("--out", default=str(default_output_dir()))
     parser.add_argument("--seed", type=int, default=None)
-    parser.add_argument("--model", default="qwen2.5:14b")
+    parser.add_argument("--model", default=default_ollama_model())
     parser.add_argument("--ollama-url", default="http://localhost:11434")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)

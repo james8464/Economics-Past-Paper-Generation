@@ -3,7 +3,36 @@ from __future__ import annotations
 from Backend.Core.exam_blueprints import PaperRule, QuestionRule, SectionRule
 
 
-ALL_TOPICS = {f"accounting-{index}" for index in range(1, 19)}
+PAPER_1_TOPICS = {
+    "accounting-3",
+    "accounting-4",
+    "accounting-5",
+    "accounting-6",
+    "accounting-7",
+    "accounting-8",
+    "accounting-13",
+    "accounting-14",
+    "accounting-15",
+    "accounting-16",
+    "accounting-17",
+    "accounting-18",
+}
+
+PAPER_2_TOPICS = {
+    "accounting-1",
+    "accounting-3",
+    "accounting-5",
+    "accounting-6",
+    "accounting-8",
+    "accounting-9",
+    "accounting-10",
+    "accounting-11",
+    "accounting-12",
+    "accounting-13",
+    "accounting-16",
+    "accounting-17",
+    "accounting-18",
+}
 
 
 def q(id: str, marks: int, kind: str, command: str) -> QuestionRule:
@@ -21,7 +50,7 @@ RULES = {
         title="Financial Accounting",
         duration_minutes=180,
         total_marks=120,
-        allowed_topic_ids=ALL_TOPICS,
+        allowed_topic_ids=PAPER_1_TOPICS,
         sections=[
             SectionRule(
                 id="A", title="Short questions", option_count=1,
@@ -61,7 +90,7 @@ RULES = {
         title="Accounting for Analysis and Decision-making",
         duration_minutes=180,
         total_marks=120,
-        allowed_topic_ids=ALL_TOPICS,
+        allowed_topic_ids=PAPER_2_TOPICS,
         sections=[
             SectionRule(
                 id="A", title="Short questions", option_count=1,

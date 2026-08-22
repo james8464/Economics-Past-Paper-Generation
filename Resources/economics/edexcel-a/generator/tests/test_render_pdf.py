@@ -129,7 +129,7 @@ def test_even_answer_pages_have_two_right_do_not_write_rails(tmp_path):
 
 
 def test_cover_inner_boxes_stay_inside_outer_panel(tmp_path):
-    import fitz
+    import pymupdf as fitz
 
     syllabus = load_syllabus(Path("data/syllabus_seed.json"))
     config = load_builtin_paper_config("paper_1")
@@ -178,7 +178,7 @@ def test_answer_line_style_matches_reference_dotted_lines():
 
 
 def test_question_paper_uses_reference_bleed_and_crop_boxes(tmp_path):
-    import fitz
+    import pymupdf as fitz
 
     syllabus = load_syllabus(Path("data/syllabus_seed.json"))
     config = load_builtin_paper_config("paper_1")
@@ -440,7 +440,7 @@ def test_section_a_pages_include_graph_labels(tmp_path):
 
     render_question_paper(blueprint, output)
     text = _pdf_text(output)
-    import fitz
+    import pymupdf as fitz
     doc = fitz.open(output)
     image_count = sum(len(page.get_images()) for page in doc)
     doc.close()
@@ -621,7 +621,7 @@ def test_section_a_surplus_diagrams_label_shaded_area(tmp_path):
     text = _pdf_text(output)
 
     assert f"Total for Question {question.number}" in text
-    import fitz
+    import pymupdf as fitz
     doc = fitz.open(output)
     image_count = sum(len(page.get_images()) for page in doc)
     doc.close()
@@ -664,7 +664,7 @@ def _first_page_containing(path: Path, text: str) -> int | None:
 
 
 def _long_horizontal_line_count(path: Path, page_number: int) -> int:
-    import fitz
+    import pymupdf as fitz
 
     doc = fitz.open(path)
     try:
@@ -683,7 +683,7 @@ def _long_horizontal_line_count(path: Path, page_number: int) -> int:
 
 
 def _blank_axis_lines(path: Path) -> dict[str, list[float]]:
-    import fitz
+    import pymupdf as fitz
 
     horizontal: list[float] = []
     vertical: list[float] = []
@@ -710,7 +710,7 @@ def _blank_axis_lines(path: Path) -> dict[str, list[float]]:
 
 
 def _dark_pixels(path: Path, *, page_index: int, rect: tuple[int, int, int, int]) -> int:
-    import fitz
+    import pymupdf as fitz
 
     doc = fitz.open(path)
     try:
