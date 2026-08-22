@@ -128,7 +128,7 @@ def _count_pages(blueprint: PaperBlueprint) -> int:
     pdf.save()
     buf.seek(0)
     try:
-        import fitz
+        import pymupdf as fitz
         doc = fitz.open(stream=buf, filetype="pdf")
         count = doc.page_count
         doc.close()
@@ -142,7 +142,7 @@ def _count_pages(blueprint: PaperBlueprint) -> int:
 def _apply_edexcel_page_boxes(output_path: Path) -> None:
     """Match Pearson question-paper bleed and crop boxes without changing A4 content."""
     try:
-        import fitz
+        import pymupdf as fitz
     except ImportError:
         return
 

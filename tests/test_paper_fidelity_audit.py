@@ -1,7 +1,7 @@
 from pathlib import Path
 from unittest.mock import patch
 
-import fitz
+import pymupdf as fitz
 import pytest
 
 from tools.paper_fidelity_audit import (

@@ -43,7 +43,7 @@ def test_mark_scheme_cover_uses_generation_date(tmp_path, monkeypatch):
 
 
 def test_paper_2_mark_scheme_matches_measured_page_plan(tmp_path):
-    import fitz
+    import pymupdf as fitz
 
     blueprint = build_paper2_blueprint(load_syllabus(), seed=42)
     output = tmp_path / "ms.pdf"
@@ -76,7 +76,7 @@ def test_paper_2_mark_scheme_matches_measured_page_plan(tmp_path):
 
 
 def test_paper_1_mark_scheme_includes_measured_question_and_solution_pages(tmp_path):
-    import fitz
+    import pymupdf as fitz
 
     blueprint, _context = build_paper1_blueprint(load_syllabus(), seed=42)
     output = tmp_path / "ms.pdf"
@@ -126,7 +126,7 @@ def test_paper_1_mark_scheme_includes_measured_question_and_solution_pages(tmp_p
 
 
 def test_paper_1_mark_scheme_renders_question_specific_answer_artifacts(tmp_path):
-    import fitz
+    import pymupdf as fitz
 
     blueprint, _context = build_paper1_blueprint(load_syllabus(), seed=42)
     output = tmp_path / "ms.pdf"

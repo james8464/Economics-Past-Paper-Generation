@@ -111,7 +111,7 @@ def test_paper1_rendered_documents_use_correct_identity(tmp_path) -> None:
 
 
 def test_paper1_finite_state_question_includes_diagram_and_table(tmp_path) -> None:
-    import fitz
+    import pymupdf as fitz
 
     paths = generate_package(output_dir=tmp_path, paper="1", seed=42, dry_run=True)
     document = fitz.open(paths["question_paper"])

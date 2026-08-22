@@ -145,7 +145,7 @@ def test_mark_scheme_rows_fit_within_single_page_after_long_extracts():
 
 
 def test_paper_3_mark_scheme_matches_reference_pagination(tmp_path):
-    import fitz
+    import pymupdf as fitz
 
     syllabus = load_syllabus(Path("data/syllabus_seed.json"))
     blueprint = build_paper_blueprint(
@@ -181,7 +181,7 @@ def test_paper_3_mark_scheme_matches_reference_pagination(tmp_path):
 
 
 def test_paper_1_final_essay_matches_reference_page_rhythm(tmp_path):
-    import fitz
+    import pymupdf as fitz
 
     syllabus = load_syllabus(Path("data/syllabus_seed.json"))
     blueprint = build_paper_blueprint(
@@ -225,7 +225,7 @@ def test_paper_1_final_essay_matches_reference_page_rhythm(tmp_path):
 
 
 def test_paper_2_mark_scheme_matches_reference_pagination(tmp_path):
-    import fitz
+    import pymupdf as fitz
 
     syllabus = load_syllabus(Path("data/syllabus_seed.json"))
     blueprint = build_paper_blueprint(
@@ -325,7 +325,7 @@ def _pdf_page_count(path: Path) -> int:
 
 
 def _text_block_bbox(path: Path, needle: str) -> tuple[float, float, float, float]:
-    import fitz
+    import pymupdf as fitz
 
     doc = fitz.open(path)
     try:

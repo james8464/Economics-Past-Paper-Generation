@@ -10,7 +10,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-import fitz
+import pymupdf as fitz
 from PIL import (
     Image,
     ImageChops,

@@ -193,7 +193,7 @@ def validate_pdf_geometry(
     tolerance: float = 0.1,
 ) -> list[str]:
     try:
-        import fitz
+        import pymupdf as fitz
     except ImportError as error:
         raise RuntimeError("PyMuPDF is required for layout validation") from error
 
@@ -237,7 +237,7 @@ def _rect_values(rect: Rect) -> tuple[float, float, float, float]:
 
 
 def _clamp_fitz_rect(rect: Any, media: Any) -> Any:
-    import fitz
+    import pymupdf as fitz
 
     return fitz.Rect(
         max(rect.x0, media.x0),
@@ -258,7 +258,7 @@ def _page_matches_box_set(
     page: Any,
     boxes: dict[str, Iterable[float]],
 ) -> bool:
-    import fitz
+    import pymupdf as fitz
 
     media = fitz.Rect(*boxes["media"])
     expected = {
@@ -289,7 +289,7 @@ def conform_pdf_page_boxes(
     """Apply measured page boxes without importing any reference artwork or text."""
 
     try:
-        import fitz
+        import pymupdf as fitz
     except ImportError as error:
         raise RuntimeError("PyMuPDF is required for page-box conformance") from error
 
@@ -368,7 +368,7 @@ def conform_pdf_to_box_template(
     """
 
     try:
-        import fitz
+        import pymupdf as fitz
     except ImportError as error:
         raise RuntimeError("PyMuPDF is required for page-box conformance") from error
 

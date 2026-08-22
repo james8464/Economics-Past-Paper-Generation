@@ -60,7 +60,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 <div class="container">
 
 <h1>Past Paper Creation — Complete Call Flow &amp; Architecture Documentation</h1>
-<p class="subtitle">Generated from graphify knowledge graph: 2771 nodes, 8260 edges, 149 communities. Commit: 1bed4d5</p>
+<p class="subtitle">Generated from graphify knowledge graph: 2771 nodes, 8260 edges, 150 communities. Commit: 7bc3aec</p>
 
 <div class="nav">
     <a href="#overview">Architecture Overview</a>
@@ -75,9 +75,9 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
     <a href="#string">String</a>
     <a href="#view">View</a>
     <a href="#codingkeys">CodingKeys</a>
+    <a href="#pastpapergen-render-pdf-py">pastpapergen/render_pdf.py</a>
     <a href="#graphs-py">graphs.py</a>
     <a href="#backendclient">BackendClient</a>
-    <a href="#mark-scheme-rows">_mark_scheme_rows</a>
     <a href="#other">Other</a>
 </div>
 
@@ -92,7 +92,7 @@ flowchart LR
     class EXTRACT_PIPELINE_5F350230 module;
     BUILD_GRAPH_321CBB04("Graph Build<br/><small>90 nodes</small>")
     class BUILD_GRAPH_321CBB04 module;
-    ANALYSIS_CLUSTERING_C79796DA("Analysis &amp; Clustering<br/><small>764 nodes</small>")
+    ANALYSIS_CLUSTERING_C79796DA("Analysis &amp; Clustering<br/><small>763 nodes</small>")
     class ANALYSIS_CLUSTERING_C79796DA module;
     OUTPUTS_DOCS_ED82387C("Outputs &amp; Docs<br/><small>42 nodes</small>")
     class OUTPUTS_DOCS_ED82387C module;
@@ -100,36 +100,36 @@ flowchart LR
     class CLI_SKILLS_9964CBB8 module;
     SERVE_API_35EC8E86("Serving API<br/><small>24 nodes</small>")
     class SERVE_API_35EC8E86 module;
-    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>1230 nodes</small>")
+    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>1246 nodes</small>")
     class TESTS_FIXTURES_B84B1DCC module;
-    APPVIEWMODEL_8690B5A4("AppViewModel<br/><small>82 nodes</small>")
+    APPVIEWMODEL_8690B5A4("AppViewModel<br/><small>86 nodes</small>")
     class APPVIEWMODEL_8690B5A4 module;
-    STRING_ECB25204("String<br/><small>68 nodes</small>")
+    STRING_ECB25204("String<br/><small>67 nodes</small>")
     class STRING_ECB25204 module;
     VIEW_8F3A0754("View<br/><small>49 nodes</small>")
     class VIEW_8F3A0754 module;
     CODINGKEYS_2CCF71B7("CodingKeys<br/><small>40 nodes</small>")
     class CODINGKEYS_2CCF71B7 module;
+    PASTPAPERGEN_RENDER_PDF_PY_FEEEA5D1("pastpapergen/render_pdf.py<br/><small>28 nodes</small>")
+    class PASTPAPERGEN_RENDER_PDF_PY_FEEEA5D1 module;
     GRAPHS_PY_DAA01D5C("graphs.py<br/><small>27 nodes</small>")
     class GRAPHS_PY_DAA01D5C module;
     BACKENDCLIENT_4FB9EAB2("BackendClient<br/><small>26 nodes</small>")
     class BACKENDCLIENT_4FB9EAB2 module;
-    MARK_SCHEME_ROWS_8F85B133("_mark_scheme_rows<br/><small>26 nodes</small>")
-    class MARK_SCHEME_ROWS_8F85B133 module;
-    OTHER_D0941E68("Other<br/><small>291 nodes</small>")
+    OTHER_D0941E68("Other<br/><small>271 nodes</small>")
     class OTHER_D0941E68 module;
-    ANALYSIS_CLUSTERING_C79796DA -->|calls x301| TESTS_FIXTURES_B84B1DCC
-    TESTS_FIXTURES_B84B1DCC -->|references x221| ANALYSIS_CLUSTERING_C79796DA
-    STRING_ECB25204 -->|references x52| OTHER_D0941E68
-    OTHER_D0941E68 -->|references x27| APPVIEWMODEL_8690B5A4
-    ANALYSIS_CLUSTERING_C79796DA -->|contains x24| MARK_SCHEME_ROWS_8F85B133
+    ANALYSIS_CLUSTERING_C79796DA -->|calls x279| TESTS_FIXTURES_B84B1DCC
+    TESTS_FIXTURES_B84B1DCC -->|references x206| ANALYSIS_CLUSTERING_C79796DA
+    PASTPAPERGEN_RENDER_PDF_PY_FEEEA5D1 -->|contains x73| ANALYSIS_CLUSTERING_C79796DA
+    STRING_ECB25204 -->|references x30| OTHER_D0941E68
+    PASTPAPERGEN_RENDER_PDF_PY_FEEEA5D1 -->|contains x21| OTHER_D0941E68
+    ANALYSIS_CLUSTERING_C79796DA -->|references x21| PASTPAPERGEN_RENDER_PDF_PY_FEEEA5D1
+    PASTPAPERGEN_RENDER_PDF_PY_FEEEA5D1 -->|contains x20| TESTS_FIXTURES_B84B1DCC
     BUILD_GRAPH_321CBB04 -->|calls x19| ANALYSIS_CLUSTERING_C79796DA
+    OTHER_D0941E68 -->|references x19| APPVIEWMODEL_8690B5A4
     BUILD_GRAPH_321CBB04 -->|imports x15| TESTS_FIXTURES_B84B1DCC
-    VIEW_8F3A0754 -->|references x15| OTHER_D0941E68
-    TESTS_FIXTURES_B84B1DCC -->|imports x14| BUILD_GRAPH_321CBB04
-    STRING_ECB25204 -->|references x14| APPVIEWMODEL_8690B5A4
-    SERVE_API_35EC8E86 -->|calls x13| TESTS_FIXTURES_B84B1DCC
-    SERVE_API_35EC8E86 -->|calls x11| ANALYSIS_CLUSTERING_C79796DA
+    STRING_ECB25204 -->|contains x15| ANALYSIS_CLUSTERING_C79796DA
+    TESTS_FIXTURES_B84B1DCC -->|imports x14| PASTPAPERGEN_RENDER_PDF_PY_FEEEA5D1
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -146,19 +146,19 @@ flowchart LR
     <h4>Architecture Layers</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
-      <tr><td>Extraction Pipeline</td><td>10</td><td><code>92</code></td></tr><tr><td>Graph Build</td><td>90</td><td><code>61, 57, 72, 101, 84, 97, 116, 117, 90, 120, 76, 129</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>764</td><td><code>0, 5, 86, 4, 6, 9, 50, 14, 29, 11, 22, 47, 34, 54, 83, 82, 89, 49, 52, 60, 78</code></td></tr><tr><td>Outputs &amp; Docs</td><td>42</td><td><code>30</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>2</td><td><code>103</code></td></tr><tr><td>Serving API</td><td>24</td><td><code>55, 81</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>1230</td><td><code>62, 31, 12, 19, 20, 7, 10, 13, 15, 25, 33, 1, 24, 17, 51, 21, 40, 36, 18, 63, 38, 41, 42, 43, 44, 46, 64, 48, 69, 68, 65, 85, 53, 56, 74, 91, 23, 80, 99</code></td></tr><tr><td>AppViewModel</td><td>82</td><td><code>2</code></td></tr><tr><td>String</td><td>68</td><td><code>27</code></td></tr><tr><td>View</td><td>49</td><td><code>3</code></td></tr><tr><td>CodingKeys</td><td>40</td><td><code>16</code></td></tr><tr><td>graphs.py</td><td>27</td><td><code>32</code></td></tr><tr><td>BackendClient</td><td>26</td><td><code>37</code></td></tr><tr><td>_mark_scheme_rows</td><td>26</td><td><code>58</code></td></tr><tr><td>Other</td><td>291</td><td><code>28, 66, 39, 26, 35, 45, 59, 70, 77, 75, 8, 67, 73, 79, 71, 87, 88, 93, 94, 95, 96, 100, 102, 104, 105, 107, 108, 109, 110, 111, 112, 113, 98, 114, 118, 119, 121, 122, 123, 124, 125, 126, 127, 128, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151</code></td></tr>
+      <tr><td>Extraction Pipeline</td><td>10</td><td><code>92</code></td></tr><tr><td>Graph Build</td><td>90</td><td><code>61, 57, 72, 101, 84, 97, 116, 117, 90, 120, 76, 129</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>763</td><td><code>0, 5, 4, 6, 9, 50, 14, 54, 29, 11, 59, 22, 47, 34, 85, 83, 82, 89, 49, 52, 60, 78</code></td></tr><tr><td>Outputs &amp; Docs</td><td>42</td><td><code>30</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>2</td><td><code>103</code></td></tr><tr><td>Serving API</td><td>24</td><td><code>55, 81</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>1246</td><td><code>62, 31, 12, 19, 20, 7, 10, 13, 15, 25, 33, 1, 24, 17, 51, 21, 40, 26, 36, 18, 63, 38, 41, 42, 43, 44, 46, 64, 69, 48, 68, 65, 53, 56, 74, 91, 23, 80, 99</code></td></tr><tr><td>AppViewModel</td><td>86</td><td><code>2</code></td></tr><tr><td>String</td><td>67</td><td><code>27</code></td></tr><tr><td>View</td><td>49</td><td><code>3</code></td></tr><tr><td>CodingKeys</td><td>40</td><td><code>16</code></td></tr><tr><td>pastpapergen/render_pdf.py</td><td>28</td><td><code>86</code></td></tr><tr><td>graphs.py</td><td>27</td><td><code>32</code></td></tr><tr><td>BackendClient</td><td>26</td><td><code>37</code></td></tr><tr><td>Other</td><td>271</td><td><code>28, 58, 39, 35, 45, 66, 70, 77, 75, 67, 73, 79, 8, 71, 87, 88, 106, 93, 94, 95, 96, 100, 102, 104, 105, 107, 108, 109, 110, 111, 112, 113, 98, 114, 118, 119, 121, 122, 123, 124, 125, 126, 127, 128, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151</code></td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Core Flow</h4>
-    <div class="arrow-chain">Outputs &amp; Docs -&gt; Extraction Pipeline -&gt; Graph Build -&gt; Analysis &amp; Clustering -&gt; Tests &amp; Fixtures -&gt; AppViewModel -&gt; String</div>
+    <div class="arrow-chain">Outputs &amp; Docs -&gt; Extraction Pipeline -&gt; Graph Build -&gt; Analysis &amp; Clustering -&gt; Tests &amp; Fixtures -&gt; pastpapergen/render_pdf.py -&gt; Other</div>
   </div>
 </div>
 <div class="grid">
   <div class="card">
     <h4>Graph Report Highlights</h4>
     <ul>
-      <li>2771 nodes · 8260 edges · 149 communities (100 shown, 49 thin omitted)</li>
+      <li>2771 nodes · 8260 edges · 150 communities (100 shown, 50 thin omitted)</li>
       <li>Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 535 edges (avg confidence: 0.73)</li>
       <li>Token cost: 0 input · 0 output</li>
       <li>1. `GeneratedQuestion` - 152 edges</li>
@@ -676,12 +676,12 @@ flowchart LR
 
 <!-- ====== 4. Analysis & Clustering ====== -->
 <h2 id="analysis-clustering">4. Analysis &amp; Clustering</h2>
-<p>Analysis &amp; Clustering groups implementation around generator, resources, render, pdfpy, mostly in generator/pastpapergen/render_pdf.py, generator/cspapergen/render_pdf.py, generator/ocregen/render_pdf.py. This section covers 764 nodes and 2713 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Analysis &amp; Clustering groups implementation around generator, resources, render, pdfpy, mostly in generator/cspapergen/render_pdf.py, generator/pastpapergen/render_pdf.py, generator/ocregen/render_pdf.py. This section covers 763 nodes and 2606 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Analysis &amp; Clustering (764 nodes, 2713 edges)
+    %% Section: Analysis &amp; Clustering (763 nodes, 2606 edges)
     subgraph analysis_clustering_Backend_Core_benchmark_py_ad20c69e["Backend/Core/benchmark.py"]
         backend_core_benchmark_handle_benchmark_303eb156("handle_benchmark()<br/><small>Backend/Core/benchmark.py</small>")
         backend_core_benchmark_cpu_load_percent_a21569b0("cpu_load_percent()<br/><small>Backend/Core/benchmark.py</small>")
@@ -703,7 +703,7 @@ flowchart LR
     resources_accounting_aqa_generator_aqaaccountgen_a29172b2("mark scheme pages()<br/><small>generator/aqaaccountgen/render_pdf.py</small>")
     resources_computer_science_aqa_generator_cspaper_93d2977e("Stimulus<br/><small>generator/cspapergen/models.py</small>")
     resources_economics_edexcel_a_generator_pastpape_2f0be924("build_paper_blueprint()<br/><small>generator/pastpapergen/generator.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_a6a1127b("_draw_section_a_question()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_de63b199("_draw_question_pages()<br/><small>generator/pastpapergen/render_pdf.py</small>")
     backend_core_benchmark_handle_benchmark_303eb156 -->|calls| backend_core_benchmark_cpu_load_percent_a21569b0
     backend_core_benchmark_handle_benchmark_303eb156 -->|calls| backend_core_benchmark_cpu_probe_6744e47e
     backend_core_benchmark_handle_benchmark_303eb156 -->|calls| backend_core_benchmark_disk_probe_fbc55c85
@@ -715,7 +715,7 @@ flowchart LR
     backend_core_benchmark_handle_benchmark_303eb156 -->|calls| backend_core_benchmark_pdf_probe_873c5756
     backend_core_benchmark_handle_benchmark_303eb156 -->|calls| backend_core_benchmark_thermal_speed_limit_perce_0dc698c9
     backend_core_benchmark_emit_static_metrics_c43bbe70 -->|calls| backend_core_benchmark_apple_cpu_core_split_fcd9b541
-    %% Omitted for readability: 746 nodes, 0 edges
+    %% Omitted for readability: 745 nodes, 0 edges
     class backend_core_benchmark_handle_benchmark_303eb156 function;
     class backend_core_benchmark_cpu_load_percent_a21569b0 function;
     class backend_core_benchmark_cpu_probe_6744e47e function;
@@ -733,7 +733,7 @@ flowchart LR
     class resources_accounting_aqa_generator_aqaaccountgen_a29172b2 function;
     class resources_computer_science_aqa_generator_cspaper_93d2977e klass;
     class resources_economics_edexcel_a_generator_pastpape_2f0be924 function;
-    class resources_economics_edexcel_a_generator_pastpape_a6a1127b function;
+    class resources_economics_edexcel_a_generator_pastpape_de63b199 function;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -1002,8 +1002,8 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>generator/pastpapergen/render_pdf.py</code></td><td>96 nodes</td></tr>
-<tr><td><code>generator/cspapergen/render_pdf.py</code></td><td>81 nodes</td></tr>
+      <tr><td><code>generator/cspapergen/render_pdf.py</code></td><td>81 nodes</td></tr>
+<tr><td><code>generator/pastpapergen/render_pdf.py</code></td><td>71 nodes</td></tr>
 <tr><td><code>generator/ocregen/render_pdf.py</code></td><td>67 nodes</td></tr>
 <tr><td><code>generator/aqaaccountgen/render_pdf.py</code></td><td>62 nodes</td></tr>
 <tr><td><code>generator/cspapergen/question_bank.py</code></td><td>52 nodes</td></tr>
@@ -1014,7 +1014,7 @@ flowchart LR
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: calls x961, references x742, contains x586, method x68. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: calls x928, references x739, contains x492, method x71. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -1745,12 +1745,12 @@ flowchart LR
 
 <!-- ====== 8. Tests & Fixtures ====== -->
 <h2 id="tests-fixtures">8. Tests &amp; Fixtures</h2>
-<p>Tests &amp; Fixtures groups implementation around test, generator, resources, tests, mostly in generator/tests/test_render_pdf.py, tools/paper_fidelity_audit.py, Backend/Core/ai_assessment.py. This section covers 1230 nodes and 3438 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Tests &amp; Fixtures groups implementation around test, generator, resources, tests, mostly in generator/tests/test_render_pdf.py, tools/paper_fidelity_audit.py, Backend/Core/ai_assessment.py. This section covers 1246 nodes and 3459 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Tests &amp; Fixtures (1230 nodes, 3438 edges)
+    %% Section: Tests &amp; Fixtures (1246 nodes, 3459 edges)
     subgraph tests_fixtures_Backend_Core_ai_assessment_py_93891410["Backend/Core/ai_assessment.py"]
         backend_core_ai_assessment_assessmentllmclient_af77fd0e("AssessmentLLMClient<br/><small>Backend/Core/ai_assessment.py</small>")
         backend_core_ai_assessment_assessmentllmclient_g_314242c3("generate_json()<br/><small>Backend/Core/ai_assessment.py</small>")
@@ -1791,7 +1791,7 @@ flowchart LR
     backend_core_exam_blueprints_generatedquestion_51da0e26 -->|calls| tests_test_ai_assessment_test_generated_question_9f3f6f6a
     backend_core_exam_blueprints_generatedquestion_51da0e26 -->|calls| tests_test_ai_assessment_test_generated_question_b71ac527
     backend_core_exam_blueprints_generatedquestion_51da0e26 -->|calls| tests_test_ai_assessment_test_local_batches_sepa_c930493b
-    %% Omitted for readability: 1212 nodes, 0 edges
+    %% Omitted for readability: 1228 nodes, 0 edges
     class backend_core_ai_assessment_assessmentllmclient_af77fd0e entry;
     class backend_core_ai_assessment_assessmentllmclient_g_314242c3 function;
     class backend_core_ai_assessment_assessmentllmclient_s_2b7acbd9 function;
@@ -1836,7 +1836,7 @@ flowchart LR
   <td><code>assessment_package.py</code><br><small style="color:var(--muted)">Backend/Core/assessment_package.py</small></td>
   <td><span class="tag tag-async">Async</span></td>
   <td>External entry / no inbound edge</td>
-  <td><code>assert_distinct_items()</code><br><small style="color:var(--muted)">Backend/Core/assessment_quality.py</small><br><code>assessment_quality.py</code><br><small style="color:var(--muted)">Backend/Core/assessment_quality.py</small><br><code>cli.py</code><br><small style="color:var(--muted)">generator/aqaecongen/cli.py</small><br>+6 more</td>
+  <td><code>assert_distinct_items()</code><br><small style="color:var(--muted)">Backend/Core/assessment_quality.py</small><br><code>assessment_quality.py</code><br><small style="color:var(--muted)">Backend/Core/assessment_quality.py</small><br><code>cli.py</code><br><small style="color:var(--muted)">generator/pastpapergen/cli.py</small><br>+6 more</td>
   <td>Module file in Backend/Core/assessment_package.py.</td>
 </tr>
 <tr>
@@ -2090,25 +2090,24 @@ flowchart LR
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: calls x1340, contains x820, references x521, imports x314. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: calls x1343, contains x824, references x526, imports x315. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
 <!-- ====== 9. AppViewModel ====== -->
 <h2 id="appviewmodel">9. AppViewModel</h2>
-<p>AppViewModel groups implementation around macos, papercreator, state, appviewmodelswift, mostly in PaperCreator/State/AppViewModel.swift, Features/Settings/SettingsPane.swift, PaperCreator/Application/AppCommands.swift. This section covers 82 nodes and 154 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>AppViewModel groups implementation around macos, papercreator, state, appviewmodelswift, mostly in PaperCreator/State/AppViewModel.swift, Features/Settings/SettingsPane.swift, macOS/Tests/AppTests.swift. This section covers 86 nodes and 164 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: AppViewModel (82 nodes, 154 edges)
+    %% Section: AppViewModel (86 nodes, 164 edges)
     subgraph appviewmodel_PaperCreator_State_AppViewModel_swi_2083ec07["PaperCreator/State/AppViewModel.swift"]
         macos_papercreator_state_appviewmodel_appviewmod_2823a51f("AppViewModel<br/><small>PaperCreator/State/AppViewModel.swift</small>")
         macos_papercreator_state_appviewmodel_appviewmod_dfdecdcc("generate()<br/><small>PaperCreator/State/AppViewModel.swift</small>")
         macos_papercreator_state_appviewmodel_appviewmod_fd28bcf6("confirmPullModel()<br/><small>PaperCreator/State/AppViewModel.swift</small>")
         macos_papercreator_state_appviewmodel_appviewmod_b35c3afb("finishGeneration()<br/><small>PaperCreator/State/AppViewModel.swift</small>")
-        macos_papercreator_state_appviewmodel_appviewmod_f85b3809("openGeneratedFile()<br/><small>PaperCreator/State/AppViewModel.swift</small>")
         macos_papercreator_state_appviewmodel_appviewmod_ccce7306("apply()<br/><small>PaperCreator/State/AppViewModel.swift</small>")
         macos_papercreator_state_appviewmodel_appviewmod_4c629462("cancelGeneration()<br/><small>PaperCreator/State/AppViewModel.swift</small>")
         macos_papercreator_state_appviewmodel_appviewmod_92d73c4a("setError()<br/><small>PaperCreator/State/AppViewModel.swift</small>")
@@ -2117,10 +2116,11 @@ flowchart LR
         macos_papercreator_state_appviewmodel_appviewmod_0bbdc116("beginGenerationEstimate()<br/><small>PaperCreator/State/AppViewModel.swift</small>")
         macos_papercreator_state_appviewmodel_appviewmod_ed2a40bd("cancelBenchmark()<br/><small>PaperCreator/State/AppViewModel.swift</small>")
         macos_papercreator_state_appviewmodel_appviewmod_dfbfae04("cancelHostedAIConsent()<br/><small>PaperCreator/State/AppViewModel.swift</small>")
-        macos_papercreator_state_appviewmodel_appviewmod_e3fde11b(".canGenerate<br/><small>PaperCreator/State/AppViewModel.swift</small>")
-        macos_papercreator_state_appviewmodel_appviewmod_da2eee4f("chooseOutputFolder()<br/><small>PaperCreator/State/AppViewModel.swift</small>")
     end
     subgraph appviewmodel_Features_Settings_SettingsPane_swif_7c26fc04["Features/Settings/SettingsPane.swift"]
+        macos_papercreator_features_settings_settingspan_4704dfea("AISettingsTab<br/><small>Features/Settings/SettingsPane.swift</small>")
+        macos_papercreator_features_settings_settingspan_a5f16899(".body<br/><small>Features/Settings/SettingsPane.swift</small>")
+        macos_papercreator_features_settings_settingspan_fa2d3736(".providerSettings<br/><small>Features/Settings/SettingsPane.swift</small>")
         macos_papercreator_features_settings_settingspan_29c797aa("OutputSettingsTab<br/><small>Features/Settings/SettingsPane.swift</small>")
         macos_papercreator_features_settings_settingspan_b547edb3(".body<br/><small>Features/Settings/SettingsPane.swift</small>")
     end
@@ -2128,6 +2128,8 @@ flowchart LR
     macos_papercreator_domain_appmodels_progressentr_0333d4c2 -->|calls| macos_papercreator_state_appviewmodel_appviewmod_ccce7306
     macos_papercreator_domain_appmodels_progressentr_0333d4c2 -->|calls| macos_papercreator_state_appviewmodel_appviewmod_4c629462
     macos_papercreator_domain_appmodels_progressentr_0333d4c2 -->|calls| macos_papercreator_state_appviewmodel_appviewmod_92d73c4a
+    macos_papercreator_features_settings_settingspan_4704dfea -->|method| macos_papercreator_features_settings_settingspan_a5f16899
+    macos_papercreator_features_settings_settingspan_4704dfea -->|method| macos_papercreator_features_settings_settingspan_fa2d3736
     macos_papercreator_features_settings_settingspan_29c797aa -->|method| macos_papercreator_features_settings_settingspan_b547edb3
     macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_44321ddc
     macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_e37dc03d
@@ -2136,12 +2138,9 @@ flowchart LR
     macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_ed2a40bd
     macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_4c629462
     macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_dfbfae04
-    macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_e3fde11b
-    macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_da2eee4f
     macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_fd28bcf6
     macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_b35c3afb
     macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_dfdecdcc
-    macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_f85b3809
     macos_papercreator_state_appviewmodel_appviewmod_2823a51f -->|method| macos_papercreator_state_appviewmodel_appviewmod_92d73c4a
     macos_papercreator_state_appviewmodel_appviewmod_dfdecdcc -->|calls| macos_papercreator_state_appviewmodel_appviewmod_ccce7306
     macos_papercreator_state_appviewmodel_appviewmod_dfdecdcc -->|calls| macos_papercreator_state_appviewmodel_appviewmod_0bbdc116
@@ -2149,12 +2148,12 @@ flowchart LR
     macos_papercreator_state_appviewmodel_appviewmod_dfdecdcc -->|calls| macos_papercreator_state_appviewmodel_appviewmod_92d73c4a
     macos_papercreator_state_appviewmodel_appviewmod_fd28bcf6 -->|calls| macos_papercreator_state_appviewmodel_appviewmod_ccce7306
     macos_papercreator_state_appviewmodel_appviewmod_fd28bcf6 -->|calls| macos_papercreator_state_appviewmodel_appviewmod_b35c3afb
-    %% Omitted for readability: 64 nodes, 4 edges
+    macos_papercreator_state_appviewmodel_appviewmod_fd28bcf6 -->|calls| macos_papercreator_state_appviewmodel_appviewmod_92d73c4a
+    %% Omitted for readability: 68 nodes, 2 edges
     class macos_papercreator_state_appviewmodel_appviewmod_2823a51f klass;
     class macos_papercreator_state_appviewmodel_appviewmod_dfdecdcc function;
     class macos_papercreator_state_appviewmodel_appviewmod_fd28bcf6 function;
     class macos_papercreator_state_appviewmodel_appviewmod_b35c3afb function;
-    class macos_papercreator_state_appviewmodel_appviewmod_f85b3809 function;
     class macos_papercreator_state_appviewmodel_appviewmod_ccce7306 function;
     class macos_papercreator_state_appviewmodel_appviewmod_4c629462 function;
     class macos_papercreator_state_appviewmodel_appviewmod_92d73c4a function;
@@ -2163,8 +2162,9 @@ flowchart LR
     class macos_papercreator_state_appviewmodel_appviewmod_0bbdc116 function;
     class macos_papercreator_state_appviewmodel_appviewmod_ed2a40bd function;
     class macos_papercreator_state_appviewmodel_appviewmod_dfbfae04 function;
-    class macos_papercreator_state_appviewmodel_appviewmod_e3fde11b function;
-    class macos_papercreator_state_appviewmodel_appviewmod_da2eee4f function;
+    class macos_papercreator_features_settings_settingspan_4704dfea klass;
+    class macos_papercreator_features_settings_settingspan_a5f16899 function;
+    class macos_papercreator_features_settings_settingspan_fa2d3736 function;
     class macos_papercreator_features_settings_settingspan_29c797aa klass;
     class macos_papercreator_features_settings_settingspan_b547edb3 function;
     class macos_papercreator_domain_appmodels_progressentr_0333d4c2 async;
@@ -2223,14 +2223,30 @@ flowchart LR
 </tr>
 <tr>
   <td>5</td>
+  <td><code>AISettingsTab</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>.body</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small><br><code>.providerSettings</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small></td>
+  <td>AISettingsTab node in Features/Settings/SettingsPane.swift.</td>
+</tr>
+<tr>
+  <td>6</td>
   <td><code>.body</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
+  <td><code>AISettingsTab</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small></td>
   <td><code>Binding</code><br><code>saveAISettings()</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small><br><code>selectAIProvider()</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td>.body node in Features/Settings/SettingsPane.swift.</td>
 </tr>
 <tr>
-  <td>6</td>
+  <td>7</td>
+  <td><code>.providerSettings</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>AISettingsTab</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small></td>
+  <td><code>showHelpGuide()</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
+  <td>.providerSettings node in Features/Settings/SettingsPane.swift.</td>
+</tr>
+<tr>
+  <td>8</td>
   <td><code>OutputSettingsTab</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2238,7 +2254,7 @@ flowchart LR
   <td>OutputSettingsTab node in Features/Settings/SettingsPane.swift.</td>
 </tr>
 <tr>
-  <td>7</td>
+  <td>9</td>
   <td><code>.body</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>OutputSettingsTab</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small></td>
@@ -2246,23 +2262,23 @@ flowchart LR
   <td>.body node in Features/Settings/SettingsPane.swift.</td>
 </tr>
 <tr>
-  <td>8</td>
+  <td>10</td>
   <td><code>Binding</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
-  <td><code>.body</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small><br><code>.body</code><br><small style="color:var(--muted)">Features/Generation/GeneratorWorkspaceView.swift</small><br><code>.body</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small></td>
+  <td><code>.body</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small><br><code>.body</code><br><small style="color:var(--muted)">Features/Settings/SettingsPane.swift</small><br><code>.body</code><br><small style="color:var(--muted)">Features/Generation/GeneratorWorkspaceView.swift</small></td>
   <td>No direct outbound edge</td>
   <td>Binding node in project.</td>
 </tr>
 <tr>
-  <td>9</td>
+  <td>11</td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
-  <td><code>.activeModelName</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small><br><code>.canGenerate</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small><br><code>.generationBlocker</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small><br>+55 more</td>
+  <td><code>.activeModelName</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small><br><code>.canGenerate</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small><br><code>.generationBlocker</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small><br>+57 more</td>
   <td>AppViewModel node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 <tr>
-  <td>10</td>
+  <td>12</td>
   <td><code>ObservableObject</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2270,7 +2286,7 @@ flowchart LR
   <td>ObservableObject node in project.</td>
 </tr>
 <tr>
-  <td>11</td>
+  <td>13</td>
   <td><code>Double</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2278,7 +2294,7 @@ flowchart LR
   <td>Double node in project.</td>
 </tr>
 <tr>
-  <td>12</td>
+  <td>14</td>
   <td><code>String</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2286,7 +2302,7 @@ flowchart LR
   <td>String node in project.</td>
 </tr>
 <tr>
-  <td>13</td>
+  <td>15</td>
   <td><code>Process</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2294,7 +2310,7 @@ flowchart LR
   <td>Process node in project.</td>
 </tr>
 <tr>
-  <td>14</td>
+  <td>16</td>
   <td><code>AnyCancellable</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2302,7 +2318,7 @@ flowchart LR
   <td>AnyCancellable node in project.</td>
 </tr>
 <tr>
-  <td>15</td>
+  <td>17</td>
   <td><code>URL</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2310,7 +2326,7 @@ flowchart LR
   <td>URL node in project.</td>
 </tr>
 <tr>
-  <td>16</td>
+  <td>18</td>
   <td><code>.selectedPaperTitle</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
@@ -2318,7 +2334,7 @@ flowchart LR
   <td>.selectedPaperTitle node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 <tr>
-  <td>17</td>
+  <td>19</td>
   <td><code>.selectedPaperDetail</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
@@ -2326,7 +2342,7 @@ flowchart LR
   <td>.selectedPaperDetail node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 <tr>
-  <td>18</td>
+  <td>20</td>
   <td><code>Bool</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2334,7 +2350,7 @@ flowchart LR
   <td>Bool node in project.</td>
 </tr>
 <tr>
-  <td>19</td>
+  <td>21</td>
   <td><code>.canGenerate</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
@@ -2342,7 +2358,7 @@ flowchart LR
   <td>.canGenerate node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 <tr>
-  <td>20</td>
+  <td>22</td>
   <td><code>.generationBlocker</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
@@ -2350,7 +2366,7 @@ flowchart LR
   <td>.generationBlocker node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 <tr>
-  <td>21</td>
+  <td>23</td>
   <td><code>.hasHostedAIConsent</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
@@ -2358,7 +2374,7 @@ flowchart LR
   <td>Caches analysis results or computes cache keys.</td>
 </tr>
 <tr>
-  <td>22</td>
+  <td>24</td>
   <td><code>.activeModelName</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
@@ -2366,7 +2382,7 @@ flowchart LR
   <td>.activeModelName node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 <tr>
-  <td>23</td>
+  <td>25</td>
   <td><code>.ollamaRecommendation</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
@@ -2374,7 +2390,7 @@ flowchart LR
   <td>.ollamaRecommendation node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 <tr>
-  <td>24</td>
+  <td>26</td>
   <td><code>.selectedModelIsRecommended</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
@@ -2382,7 +2398,7 @@ flowchart LR
   <td>.selectedModelIsRecommended node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 <tr>
-  <td>25</td>
+  <td>27</td>
   <td><code>.recommendedModelIsInstalled</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
@@ -2390,7 +2406,7 @@ flowchart LR
   <td>.recommendedModelIsInstalled node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 <tr>
-  <td>26</td>
+  <td>28</td>
   <td><code>.ollamaModelOptions</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
@@ -2398,7 +2414,7 @@ flowchart LR
   <td>.ollamaModelOptions node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 <tr>
-  <td>27</td>
+  <td>29</td>
   <td><code>.refreshOllama()</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
@@ -2406,28 +2422,12 @@ flowchart LR
   <td>.refreshOllama() node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 <tr>
-  <td>28</td>
+  <td>30</td>
   <td><code>.chooseOutputFolder()</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td><code>setOutputFolder()</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
   <td>.chooseOutputFolder() node in PaperCreator/State/AppViewModel.swift.</td>
-</tr>
-<tr>
-  <td>29</td>
-  <td><code>.openOutputFolder()</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
-  <td>No direct outbound edge</td>
-  <td>.openOutputFolder() node in PaperCreator/State/AppViewModel.swift.</td>
-</tr>
-<tr>
-  <td>30</td>
-  <td><code>.openProjectHelp()</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>AppViewModel</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
-  <td>No direct outbound edge</td>
-  <td>.openProjectHelp() node in PaperCreator/State/AppViewModel.swift.</td>
 </tr>
 </table>
 
@@ -2436,79 +2436,83 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>PaperCreator/State/AppViewModel.swift</code></td><td>62 nodes</td></tr>
-<tr><td><code>Features/Settings/SettingsPane.swift</code></td><td>3 nodes</td></tr>
+      <tr><td><code>PaperCreator/State/AppViewModel.swift</code></td><td>63 nodes</td></tr>
+<tr><td><code>Features/Settings/SettingsPane.swift</code></td><td>5 nodes</td></tr>
+<tr><td><code>macOS/Tests/AppTests.swift</code></td><td>2 nodes</td></tr>
 <tr><td><code>PaperCreator/Application/AppCommands.swift</code></td><td>1 nodes</td></tr>
 <tr><td><code>PaperCreator/Components/SharedViews.swift</code></td><td>1 nodes</td></tr>
 <tr><td><code>PaperCreator/Domain/AppModels.swift</code></td><td>1 nodes</td></tr>
 <tr><td><code>Features/Generation/GeneratorWorkspaceView.swift</code></td><td>1 nodes</td></tr>
-<tr><td><code>macOS/Tests/AppTests.swift</code></td><td>1 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: method x58, calls x41, references x30, case of x3. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: method x61, calls x41, references x31, case of x3. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
 <!-- ====== 10. String ====== -->
 <h2 id="string">10. String</h2>
-<p>String groups implementation around macos, papercreator, appmodelsswift, domain, mostly in PaperCreator/Domain/AppModels.swift, PaperCreator/State/AppViewModel.swift, macOS/Tests/AppTests.swift. This section covers 68 nodes and 144 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>String groups implementation around appmodelsswift, macos, papercreator, domain, mostly in PaperCreator/Domain/AppModels.swift, PaperCreator/State/AppViewModel.swift. This section covers 67 nodes and 134 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: String (68 nodes, 144 edges)
+    %% Section: String (67 nodes, 134 edges)
     subgraph string_PaperCreator_Domain_AppModels_swift_efb5b8c1["PaperCreator/Domain/AppModels.swift"]
-        macos_papercreator_domain_appmodels_benchmarksam_6a36f8ea("BenchmarkSample<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_distribution_65256457("DistributionMode<br/><small>PaperCreator/Domain/AppModels.swift</small>")
+        macos_papercreator_domain_appmodels_aiprovider_b6919ae6("AIProvider<br/><small>PaperCreator/Domain/AppModels.swift</small>")
         macos_papercreator_domain_appmodels_examboardopt_5ae43597("ExamBoardOption<br/><small>PaperCreator/Domain/AppModels.swift</small>")
+        macos_papercreator_domain_appmodels_catalogloade_7b98d7da("load()<br/><small>PaperCreator/Domain/AppModels.swift</small>")
+        macos_papercreator_domain_appmodels_distribution_65256457("DistributionMode<br/><small>PaperCreator/Domain/AppModels.swift</small>")
         macos_papercreator_domain_appmodels_generatorcon_77b39f8f("GeneratorContentMode<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_benchmarkmet_b85bebab("BenchmarkMetric<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_examcatalog_e8cc2336("ExamCatalog<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_boardstatus_d9dcf3d1("BoardStatus<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_boardstatus_7f409f7c(".title<br/><small>PaperCreator/Domain/AppModels.swift</small>")
+        macos_papercreator_domain_appmodels_catalogloade_fd9b226f("CatalogLoader<br/><small>PaperCreator/Domain/AppModels.swift</small>")
         macos_papercreator_domain_appmodels_paperoption_cdd5ae58("PaperOption<br/><small>PaperCreator/Domain/AppModels.swift</small>")
+        macos_papercreator_domain_appmodels_paperreadine_65a32054("PaperReadiness<br/><small>PaperCreator/Domain/AppModels.swift</small>")
         macos_papercreator_domain_appmodels_generatorcon_930a891b(".systemImage<br/><small>PaperCreator/Domain/AppModels.swift</small>")
         macos_papercreator_domain_appmodels_generatorcon_da10daf6(".title<br/><small>PaperCreator/Domain/AppModels.swift</small>")
         macos_papercreator_domain_appmodels_generatorcon_7fc75500(".usesAI<br/><small>PaperCreator/Domain/AppModels.swift</small>")
         macos_papercreator_domain_appmodels_examboardopt_f9c5967f(".isReady<br/><small>PaperCreator/Domain/AppModels.swift</small>")
+        macos_papercreator_domain_appmodels_examboardopt_1d144742("supports()<br/><small>PaperCreator/Domain/AppModels.swift</small>")
         macos_papercreator_domain_appmodels_examboardopt_eeb4c463(".usesAI<br/><small>PaperCreator/Domain/AppModels.swift</small>")
         macos_papercreator_domain_appmodels_examcatalog_cc9872ef(".defaultBoard<br/><small>PaperCreator/Domain/AppModels.swift</small>")
+        macos_papercreator_domain_appmodels_examcatalog_e8cc2336("ExamCatalog<br/><small>PaperCreator/Domain/AppModels.swift</small>")
         macos_papercreator_domain_appmodels_examcatalog_3f8bc185(".readyBoards<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_sidebaritem_77212368("board<br/><small>PaperCreator/Domain/AppModels.swift</small>")
     end
     macos_papercreator_state_appviewmodel_appviewmod_82482ad6(".selectedPaper<br/><small>PaperCreator/State/AppViewModel.swift</small>")
-    macos_papercreator_domain_appmodels_boardstatus_d9dcf3d1 -->|method| macos_papercreator_domain_appmodels_boardstatus_7f409f7c
+    macos_papercreator_domain_appmodels_paperoption_cdd5ae58 -->|calls| macos_papercreator_domain_appmodels_catalogloade_7b98d7da
     macos_papercreator_domain_appmodels_paperoption_cdd5ae58 -->|calls| macos_papercreator_state_appviewmodel_appviewmod_82482ad6
+    macos_papercreator_domain_appmodels_paperreadine_65a32054 -->|calls| macos_papercreator_domain_appmodels_catalogloade_7b98d7da
     macos_papercreator_domain_appmodels_generatorcon_77b39f8f -->|method| macos_papercreator_domain_appmodels_generatorcon_930a891b
     macos_papercreator_domain_appmodels_generatorcon_77b39f8f -->|method| macos_papercreator_domain_appmodels_generatorcon_da10daf6
     macos_papercreator_domain_appmodels_generatorcon_77b39f8f -->|method| macos_papercreator_domain_appmodels_generatorcon_7fc75500
+    macos_papercreator_domain_appmodels_examboardopt_5ae43597 -->|calls| macos_papercreator_domain_appmodels_catalogloade_7b98d7da
     macos_papercreator_domain_appmodels_examboardopt_5ae43597 -->|method| macos_papercreator_domain_appmodels_examboardopt_f9c5967f
+    macos_papercreator_domain_appmodels_examboardopt_5ae43597 -->|method| macos_papercreator_domain_appmodels_examboardopt_1d144742
     macos_papercreator_domain_appmodels_examboardopt_5ae43597 -->|method| macos_papercreator_domain_appmodels_examboardopt_eeb4c463
     macos_papercreator_domain_appmodels_examboardopt_5ae43597 -->|calls| macos_papercreator_domain_appmodels_examcatalog_cc9872ef
     macos_papercreator_domain_appmodels_examcatalog_e8cc2336 -->|method| macos_papercreator_domain_appmodels_examcatalog_cc9872ef
     macos_papercreator_domain_appmodels_examcatalog_e8cc2336 -->|method| macos_papercreator_domain_appmodels_examcatalog_3f8bc185
-    macos_papercreator_domain_appmodels_examcatalog_cc9872ef -->|calls| macos_papercreator_domain_appmodels_sidebaritem_77212368
-    %% Omitted for readability: 50 nodes, 0 edges
-    class macos_papercreator_domain_appmodels_benchmarksam_6a36f8ea klass;
-    class macos_papercreator_domain_appmodels_distribution_65256457 klass;
+    macos_papercreator_domain_appmodels_catalogloade_fd9b226f -->|method| macos_papercreator_domain_appmodels_catalogloade_7b98d7da
+    macos_papercreator_domain_appmodels_catalogloade_7b98d7da -->|calls| macos_papercreator_domain_appmodels_aiprovider_b6919ae6
+    %% Omitted for readability: 49 nodes, 0 edges
+    class macos_papercreator_domain_appmodels_aiprovider_b6919ae6 klass;
     class macos_papercreator_domain_appmodels_examboardopt_5ae43597 klass;
+    class macos_papercreator_domain_appmodels_catalogloade_7b98d7da function;
+    class macos_papercreator_domain_appmodels_distribution_65256457 klass;
     class macos_papercreator_domain_appmodels_generatorcon_77b39f8f klass;
-    class macos_papercreator_domain_appmodels_benchmarkmet_b85bebab klass;
-    class macos_papercreator_domain_appmodels_examcatalog_e8cc2336 klass;
-    class macos_papercreator_domain_appmodels_boardstatus_d9dcf3d1 klass;
-    class macos_papercreator_domain_appmodels_boardstatus_7f409f7c function;
+    class macos_papercreator_domain_appmodels_catalogloade_fd9b226f klass;
     class macos_papercreator_domain_appmodels_paperoption_cdd5ae58 klass;
+    class macos_papercreator_domain_appmodels_paperreadine_65a32054 klass;
     class macos_papercreator_domain_appmodels_generatorcon_930a891b function;
     class macos_papercreator_domain_appmodels_generatorcon_da10daf6 function;
     class macos_papercreator_domain_appmodels_generatorcon_7fc75500 function;
     class macos_papercreator_domain_appmodels_examboardopt_f9c5967f function;
+    class macos_papercreator_domain_appmodels_examboardopt_1d144742 function;
     class macos_papercreator_domain_appmodels_examboardopt_eeb4c463 function;
     class macos_papercreator_domain_appmodels_examcatalog_cc9872ef function;
+    class macos_papercreator_domain_appmodels_examcatalog_e8cc2336 klass;
     class macos_papercreator_domain_appmodels_examcatalog_3f8bc185 function;
-    class macos_papercreator_domain_appmodels_sidebaritem_77212368 function;
     class macos_papercreator_state_appviewmodel_appviewmod_82482ad6 function;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
@@ -2541,14 +2545,6 @@ flowchart LR
 </tr>
 <tr>
   <td>2</td>
-  <td><code>BoardStatus</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td>External entry / no inbound edge</td>
-  <td><code>.title</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
-  <td>BoardStatus node in PaperCreator/Domain/AppModels.swift.</td>
-</tr>
-<tr>
-  <td>3</td>
   <td><code>String</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2556,47 +2552,15 @@ flowchart LR
   <td>String node in project.</td>
 </tr>
 <tr>
-  <td>4</td>
-  <td><code>Equatable</code><br><small style="color:var(--muted)"></small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Equatable node in project.</td>
-</tr>
-<tr>
-  <td>5</td>
-  <td><code>ready</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>ready node in PaperCreator/Domain/AppModels.swift.</td>
-</tr>
-<tr>
-  <td>6</td>
-  <td><code>placeholder</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>placeholder node in PaperCreator/Domain/AppModels.swift.</td>
-</tr>
-<tr>
-  <td>7</td>
-  <td><code>.title</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>BoardStatus</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
-  <td>No direct outbound edge</td>
-  <td>.title node in PaperCreator/Domain/AppModels.swift.</td>
-</tr>
-<tr>
-  <td>8</td>
+  <td>3</td>
   <td><code>PaperOption</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
-  <td><code>.selectedPaper</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
+  <td><code>.selectedPaper</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small><br><code>load()</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td>PaperOption node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>9</td>
+  <td>4</td>
   <td><code>Identifiable</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2604,7 +2568,7 @@ flowchart LR
   <td>Identifiable node in project.</td>
 </tr>
 <tr>
-  <td>10</td>
+  <td>5</td>
   <td><code>Hashable</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2612,15 +2576,15 @@ flowchart LR
   <td>Caches analysis results or computes cache keys.</td>
 </tr>
 <tr>
-  <td>11</td>
+  <td>6</td>
   <td><code>PaperReadiness</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
-  <td><code>.selectedPaper</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small></td>
+  <td><code>.selectedPaper</code><br><small style="color:var(--muted)">PaperCreator/State/AppViewModel.swift</small><br><code>load()</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td>PaperReadiness node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>12</td>
+  <td>7</td>
   <td><code>Bool</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2628,7 +2592,7 @@ flowchart LR
   <td>Bool node in project.</td>
 </tr>
 <tr>
-  <td>13</td>
+  <td>8</td>
   <td><code>GeneratorContentMode</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2636,7 +2600,7 @@ flowchart LR
   <td>GeneratorContentMode node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>14</td>
+  <td>9</td>
   <td><code>Codable</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2644,7 +2608,7 @@ flowchart LR
   <td>Codable node in project.</td>
 </tr>
 <tr>
-  <td>15</td>
+  <td>10</td>
   <td><code>deterministic</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -2652,7 +2616,7 @@ flowchart LR
   <td>deterministic node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>16</td>
+  <td>11</td>
   <td><code>aiAssisted</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -2660,7 +2624,7 @@ flowchart LR
   <td>aiAssisted node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>17</td>
+  <td>12</td>
   <td><code>.usesAI</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>GeneratorContentMode</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
@@ -2668,7 +2632,7 @@ flowchart LR
   <td>.usesAI node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>18</td>
+  <td>13</td>
   <td><code>.title</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>GeneratorContentMode</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
@@ -2676,7 +2640,7 @@ flowchart LR
   <td>.title node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>19</td>
+  <td>14</td>
   <td><code>.systemImage</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>GeneratorContentMode</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
@@ -2684,15 +2648,15 @@ flowchart LR
   <td>.systemImage node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>20</td>
+  <td>15</td>
   <td><code>ExamBoardOption</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
-  <td><code>.defaultBoard</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>.isReady</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>.usesAI</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
+  <td><code>.defaultBoard</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>.isReady</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>.usesAI</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br>+2 more</td>
   <td>ExamBoardOption node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>21</td>
+  <td>16</td>
   <td><code>.isReady</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>ExamBoardOption</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
@@ -2700,7 +2664,7 @@ flowchart LR
   <td>.isReady node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>22</td>
+  <td>17</td>
   <td><code>.usesAI</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>ExamBoardOption</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
@@ -2708,7 +2672,15 @@ flowchart LR
   <td>.usesAI node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>23</td>
+  <td>18</td>
+  <td><code>.supports()</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>ExamBoardOption</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
+  <td>No direct outbound edge</td>
+  <td>.supports() node in PaperCreator/Domain/AppModels.swift.</td>
+</tr>
+<tr>
+  <td>19</td>
   <td><code>CatalogSubject</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2716,7 +2688,7 @@ flowchart LR
   <td>CatalogSubject node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>24</td>
+  <td>20</td>
   <td><code>ExamCatalog</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2724,7 +2696,7 @@ flowchart LR
   <td>ExamCatalog node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>25</td>
+  <td>21</td>
   <td><code>.readyBoards</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>ExamCatalog</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
@@ -2732,7 +2704,7 @@ flowchart LR
   <td>.readyBoards node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>26</td>
+  <td>22</td>
   <td><code>.defaultBoard</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>ExamBoardOption</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>ExamCatalog</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
@@ -2740,7 +2712,47 @@ flowchart LR
   <td>.defaultBoard node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
+  <td>23</td>
+  <td><code>CatalogLoader</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>implementationKey()</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>load()</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
+  <td>CatalogLoader node in PaperCreator/Domain/AppModels.swift.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>.load()</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>CatalogLoader</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>ExamBoardOption</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>PaperOption</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br>+1 more</td>
+  <td><code>AIProvider</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>duplicateBoard</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>duplicateImplementation</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br>+5 more</td>
+  <td>.load() node in PaperCreator/Domain/AppModels.swift.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>Bundle</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Bundle node in project.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>Data</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Data node in project.</td>
+</tr>
+<tr>
   <td>27</td>
+  <td><code>.implementationKey()</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>CatalogLoader</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>load()</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
+  <td>No direct outbound edge</td>
+  <td>.implementationKey() node in PaperCreator/Domain/AppModels.swift.</td>
+</tr>
+<tr>
+  <td>28</td>
   <td><code>CatalogDocument</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2748,7 +2760,7 @@ flowchart LR
   <td>CatalogDocument node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 <tr>
-  <td>28</td>
+  <td>29</td>
   <td><code>Decodable</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -2756,20 +2768,12 @@ flowchart LR
   <td>Decodable node in project.</td>
 </tr>
 <tr>
-  <td>29</td>
+  <td>30</td>
   <td><code>CatalogSubjectDocument</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
   <td>CatalogSubjectDocument node in PaperCreator/Domain/AppModels.swift.</td>
-</tr>
-<tr>
-  <td>30</td>
-  <td><code>CatalogBoardDocument</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>CatalogBoardDocument node in PaperCreator/Domain/AppModels.swift.</td>
 </tr>
 </table>
 
@@ -2778,14 +2782,13 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>PaperCreator/Domain/AppModels.swift</code></td><td>56 nodes</td></tr>
-<tr><td><code>PaperCreator/State/AppViewModel.swift</code></td><td>2 nodes</td></tr>
-<tr><td><code>macOS/Tests/AppTests.swift</code></td><td>1 nodes</td></tr>
+      <tr><td><code>PaperCreator/Domain/AppModels.swift</code></td><td>58 nodes</td></tr>
+<tr><td><code>PaperCreator/State/AppViewModel.swift</code></td><td>1 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: references x51, implements x26, contains x22, case of x18. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: references x42, method x21, contains x19, implements x18. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -2998,7 +3001,7 @@ flowchart LR
   <td><code>WelcomeSheet</code><br><small style="color:var(--muted)">Features/Onboarding/WelcomeHelpViews.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
-  <td><code>.body</code><br><small style="color:var(--muted)">Features/Onboarding/WelcomeHelpViews.swift</small><br><code>.body</code><br><small style="color:var(--muted)">PaperCreator/Navigation/ContentView.swift</small></td>
+  <td><code>.body</code><br><small style="color:var(--muted)">PaperCreator/Navigation/ContentView.swift</small><br><code>.body</code><br><small style="color:var(--muted)">Features/Onboarding/WelcomeHelpViews.swift</small></td>
   <td>WelcomeSheet node in Features/Onboarding/WelcomeHelpViews.swift.</td>
 </tr>
 <tr>
@@ -3038,7 +3041,7 @@ flowchart LR
   <td><code>HelpSheet</code><br><small style="color:var(--muted)">Features/Onboarding/WelcomeHelpViews.swift</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
-  <td><code>.body</code><br><small style="color:var(--muted)">Features/Onboarding/WelcomeHelpViews.swift</small><br><code>.body</code><br><small style="color:var(--muted)">PaperCreator/Navigation/ContentView.swift</small></td>
+  <td><code>.body</code><br><small style="color:var(--muted)">PaperCreator/Navigation/ContentView.swift</small><br><code>.body</code><br><small style="color:var(--muted)">Features/Onboarding/WelcomeHelpViews.swift</small></td>
   <td>HelpSheet node in Features/Onboarding/WelcomeHelpViews.swift.</td>
 </tr>
 <tr>
@@ -3477,8 +3480,332 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 13. graphs.py ====== -->
-<h2 id="graphs-py">13. graphs.py</h2>
+<!-- ====== 13. pastpapergen/render_pdf.py ====== -->
+<h2 id="pastpapergen-render-pdf-py">13. pastpapergen/render_pdf.py</h2>
+<p>pastpapergen/render_pdf.py groups implementation around pastpapergen, render, pdfpy, resources, mostly in generator/pastpapergen/render_pdf.py, Core/overlay/layouts.py. This section covers 28 nodes and 53 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: pastpapergen/render_pdf.py (28 nodes, 53 edges)
+    resources_economics_edexcel_a_generator_pastpape_28524e60("_draw_ms_row()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_0df100df("_draw_paper_3_source_page()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_721dc5d0("_paper_3_values()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_de7c678e("_draw_draw_part_with_axes()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_e7688752("_ms_row_height()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_1fd6b804("_draw_bar_chart()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_f705a47d("_draw_paper_3_bar_figure()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_bf586083("_draw_paper_3_extract()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_3dd4ab76("_draw_paper_3_line_figure()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_56173edf("_draw_paper_3_table_figure()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_888ed17c("_draw_paper_3_series()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_0194e323("_section_instruction_lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_33f277a3("_section_instruction()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_6398de78("for draw prompt()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_19a68ede("_draw_blank_answer_axes()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_31b83a2a("_draw_axis_arrow()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_05b6e6f4("_bar_chart_data()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_11ea1285("_bar_label()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    resources_economics_edexcel_a_generator_pastpape_0df100df -->|calls| resources_economics_edexcel_a_generator_pastpape_f705a47d
+    resources_economics_edexcel_a_generator_pastpape_0df100df -->|calls| resources_economics_edexcel_a_generator_pastpape_bf586083
+    resources_economics_edexcel_a_generator_pastpape_0df100df -->|calls| resources_economics_edexcel_a_generator_pastpape_3dd4ab76
+    resources_economics_edexcel_a_generator_pastpape_0df100df -->|calls| resources_economics_edexcel_a_generator_pastpape_56173edf
+    resources_economics_edexcel_a_generator_pastpape_721dc5d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_f705a47d
+    resources_economics_edexcel_a_generator_pastpape_721dc5d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_3dd4ab76
+    resources_economics_edexcel_a_generator_pastpape_721dc5d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_56173edf
+    resources_economics_edexcel_a_generator_pastpape_3dd4ab76 -->|calls| resources_economics_edexcel_a_generator_pastpape_888ed17c
+    resources_economics_edexcel_a_generator_pastpape_0194e323 -->|calls| resources_economics_edexcel_a_generator_pastpape_33f277a3
+    resources_economics_edexcel_a_generator_pastpape_de7c678e -->|calls| resources_economics_edexcel_a_generator_pastpape_6398de78
+    resources_economics_edexcel_a_generator_pastpape_de7c678e -->|calls| resources_economics_edexcel_a_generator_pastpape_19a68ede
+    resources_economics_edexcel_a_generator_pastpape_19a68ede -->|calls| resources_economics_edexcel_a_generator_pastpape_31b83a2a
+    resources_economics_edexcel_a_generator_pastpape_31b83a2a -->|calls| resources_economics_edexcel_a_generator_pastpape_1fd6b804
+    resources_economics_edexcel_a_generator_pastpape_1fd6b804 -->|calls| resources_economics_edexcel_a_generator_pastpape_05b6e6f4
+    resources_economics_edexcel_a_generator_pastpape_1fd6b804 -->|calls| resources_economics_edexcel_a_generator_pastpape_11ea1285
+    resources_economics_edexcel_a_generator_pastpape_28524e60 -->|calls| resources_economics_edexcel_a_generator_pastpape_e7688752
+    %% Omitted for readability: 10 nodes, 0 edges
+    class resources_economics_edexcel_a_generator_pastpape_28524e60 function;
+    class resources_economics_edexcel_a_generator_pastpape_0df100df function;
+    class resources_economics_edexcel_a_generator_pastpape_721dc5d0 function;
+    class resources_economics_edexcel_a_generator_pastpape_de7c678e function;
+    class resources_economics_edexcel_a_generator_pastpape_e7688752 function;
+    class resources_economics_edexcel_a_generator_pastpape_1fd6b804 function;
+    class resources_economics_edexcel_a_generator_pastpape_f705a47d function;
+    class resources_economics_edexcel_a_generator_pastpape_bf586083 function;
+    class resources_economics_edexcel_a_generator_pastpape_3dd4ab76 function;
+    class resources_economics_edexcel_a_generator_pastpape_56173edf function;
+    class resources_economics_edexcel_a_generator_pastpape_888ed17c function;
+    class resources_economics_edexcel_a_generator_pastpape_0194e323 function;
+    class resources_economics_edexcel_a_generator_pastpape_33f277a3 function;
+    class resources_economics_edexcel_a_generator_pastpape_6398de78 function;
+    class resources_economics_edexcel_a_generator_pastpape_19a68ede function;
+    class resources_economics_edexcel_a_generator_pastpape_31b83a2a function;
+    class resources_economics_edexcel_a_generator_pastpape_05b6e6f4 function;
+    class resources_economics_edexcel_a_generator_pastpape_11ea1285 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>layouts.py</code><br><small style="color:var(--muted)">Core/overlay/layouts.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>render_pdf.py</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>Module file in Core/overlay/layouts.py.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>BoardLayout</code><br><small style="color:var(--muted)">Core/overlay/layouts.py</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>BoardLayout node in Core/overlay/layouts.py.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>pastpapergen/render_pdf.py</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>layouts.py</code><br><small style="color:var(--muted)">Core/overlay/layouts.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Module file in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>_draw_paper_3_source_page()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>_draw_paper_3_bar_figure()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_draw_paper_3_extract()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_draw_paper_3_line_figure()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br>+1 more</td>
+  <td>Organizes documentation pages, navigation, or content lookup.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>_draw_paper_3_extract()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_paper_3_source_page()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_draw_paper_3_extract() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>_paper_3_values()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>_draw_paper_3_bar_figure()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_draw_paper_3_line_figure()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_draw_paper_3_table_figure()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_paper_3_values() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>_draw_paper_3_line_figure()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_paper_3_source_page()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_paper_3_values()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><code>_draw_paper_3_series()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_draw_paper_3_line_figure() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>_draw_paper_3_bar_figure()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_paper_3_source_page()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_paper_3_values()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_draw_paper_3_bar_figure() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>_draw_paper_3_series()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_paper_3_line_figure()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_draw_paper_3_series() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>_draw_paper_3_table_figure()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_paper_3_source_page()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_paper_3_values()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_draw_paper_3_table_figure() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>_section_instruction_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>_section_instruction()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_section_instruction_lines() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>_section_instruction()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_section_instruction_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_section_instruction() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>_draw_draw_part_with_axes()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>_draw_blank_answer_axes()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>for draw prompt()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_draw_draw_part_with_axes() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>_axis_labels_for_draw_prompt()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_draw_part_with_axes()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Builds structured prompts for model calls.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>_draw_blank_answer_axes()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_draw_part_with_axes()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><code>_draw_axis_arrow()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_draw_blank_answer_axes() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>_draw_axis_arrow()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_blank_answer_axes()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><code>_draw_bar_chart()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_draw_axis_arrow() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>_draw_bar_chart()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_axis_arrow()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><code>_bar_chart_data()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_bar_label()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_draw_bar_chart() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>_bar_chart_data()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_bar_chart()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_bar_chart_data() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>_bar_label()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_bar_chart()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_bar_label() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>_draw_ms_blank_page()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>_draw_ms_table_header()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>Organizes documentation pages, navigation, or content lookup.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>_draw_ms_table_header()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_ms_blank_page()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><code>_draw_ms_header_box()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_draw_ms_table_header() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>_split_mark_scheme_row()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>_ms_row_height()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_split_mark_scheme_row() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>_draw_ms_row()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>_draw_ms_header_box()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_ms_bold_line()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_ms_centered_line()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br>+2 more</td>
+  <td>_draw_ms_row() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>_draw_ms_header_box()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_ms_row()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_draw_ms_table_header()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_draw_ms_header_box() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>_ms_row_height()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_ms_row()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_split_mark_scheme_row()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><code>_ms_bold_line()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_ms_centered_line()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_ms_wrap_width()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_ms_row_height() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>_ms_wrap_width()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_ms_row()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_ms_row_height()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_ms_wrap_width() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>_ms_centered_line()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_ms_row()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_ms_row_height()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_ms_centered_line() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>_ms_bold_line()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_draw_ms_row()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_ms_row_height()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_ms_bold_line() node in generator/pastpapergen/render_pdf.py.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>generator/pastpapergen/render_pdf.py</code></td><td>26 nodes</td></tr>
+<tr><td><code>Core/overlay/layouts.py</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x26, calls x26, imports x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 14. graphs.py ====== -->
+<h2 id="graphs-py">14. graphs.py</h2>
 <p>graphs.py groups implementation around graphspy, backend, overlay, diagram, mostly in Core/overlay/graphs.py. This section covers 27 nodes and 107 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
@@ -3800,8 +4127,8 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 14. BackendClient ====== -->
-<h2 id="backendclient">14. BackendClient</h2>
+<!-- ====== 15. BackendClient ====== -->
+<h2 id="backendclient">15. BackendClient</h2>
 <p>BackendClient groups implementation around macos, papercreator, backendclientswift, services, mostly in PaperCreator/Services/BackendClient.swift, PaperCreator/State/AppViewModel.swift. This section covers 26 nodes and 52 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
@@ -4119,32 +4446,40 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 15. _mark_scheme_rows ====== -->
-<h2 id="mark-scheme-rows">15. _mark_scheme_rows</h2>
-<p>_mark_scheme_rows groups implementation around resources, economics, edexcel, generator, mostly in generator/pastpapergen/render_pdf.py. This section covers 26 nodes and 48 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<!-- ====== 16. Other ====== -->
+<h2 id="other">16. Other</h2>
+<p>Other groups implementation around macos, papercreator, generator, resources, mostly in PaperCreator/Domain/OllamaModelGuide.swift, generator/pastpapergen/render_pdf.py, Features/Generation/GeneratorWorkspaceView.swift. This section covers 271 nodes and 293 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: _mark_scheme_rows (26 nodes, 48 edges)
-    resources_economics_edexcel_a_generator_pastpape_24fb03d0("_mark_scheme_rows()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_fe71b17c("mark scheme lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_db7319a9("mark scheme lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_24c57ead("_sentence()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_fbc1b066("mark scheme lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_9c8c0a07("mark diagram lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_9a255926("mark scheme lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_128da8eb("short calculation lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_44551321("_part_mark_scheme_lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_e22ee298("_split_mark_scheme_row()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_0bf09513("mark evaluation lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_d394624f("mark knowledge lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_ac80a345("_calculation_answer_lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_1b10f1b6("mark scheme context()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_37ed5ef7("_scheme_bullets()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_c386c080("_source_application_points()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_41d8038c("_one_mark_points()<br/><small>generator/pastpapergen/render_pdf.py</small>")
-    resources_economics_edexcel_a_generator_pastpape_73b27fac("mark scheme lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    %% Section: Other (271 nodes, 293 edges)
+    subgraph other_generator_pastpapergen_render_pdf_py_55b538a4["generator/pastpapergen/render_pdf.py"]
+        resources_economics_edexcel_a_generator_pastpape_24fb03d0("_mark_scheme_rows()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_fe71b17c("mark scheme lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_fbc1b066("mark scheme lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_9c8c0a07("mark diagram lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_9a255926("mark scheme lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_db7319a9("mark scheme lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_128da8eb("short calculation lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_44551321("_part_mark_scheme_lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_0bf09513("mark evaluation lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_d394624f("mark knowledge lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_ac80a345("_calculation_answer_lines()<br/><small>generator/pastpapergen/render_pdf.py</small>")
+    end
+    subgraph other_generator_pastpapergen_models_py_f891e959["generator/pastpapergen/models.py"]
+        resources_economics_edexcel_a_generator_pastpape_1d53706c("GraphParams<br/><small>generator/pastpapergen/models.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_0af8c30f("from_dict()<br/><small>generator/pastpapergen/models.py</small>")
+        resources_economics_edexcel_a_generator_pastpape_cc8db57a("to_dict()<br/><small>generator/pastpapergen/models.py</small>")
+    end
+    subgraph other_PaperCreator_Domain_GenerationEstimator_sw_25eb6c48["PaperCreator/Domain/GenerationEstimator.swift"]
+        macos_papercreator_domain_generationestimator_ge_deb60952("GenerationEstimator<br/><small>PaperCreator/Domain/GenerationEstimator.swift</small>")
+        macos_papercreator_domain_generationestimator_ge_340c3146("initialEstimate()<br/><small>PaperCreator/Domain/GenerationEstimator.swift</small>")
+    end
+    macos_papercreator_domain_appmodels_generatedfil_f4935377("GeneratedFile<br/><small>PaperCreator/Domain/AppModels.swift</small>")
+    macos_papercreator_navigation_sidebarview_sideba_57492b30("Sidebar<br/><small>PaperCreator/Navigation/SidebarView.swift</small>")
+    resources_economics_edexcel_a_generator_pastpape_1d53706c -->|method| resources_economics_edexcel_a_generator_pastpape_0af8c30f
+    resources_economics_edexcel_a_generator_pastpape_1d53706c -->|method| resources_economics_edexcel_a_generator_pastpape_cc8db57a
     resources_economics_edexcel_a_generator_pastpape_24fb03d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_fbc1b066
     resources_economics_edexcel_a_generator_pastpape_24fb03d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_9c8c0a07
     resources_economics_edexcel_a_generator_pastpape_24fb03d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_9a255926
@@ -4152,349 +4487,29 @@ flowchart LR
     resources_economics_edexcel_a_generator_pastpape_24fb03d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_128da8eb
     resources_economics_edexcel_a_generator_pastpape_24fb03d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_44551321
     resources_economics_edexcel_a_generator_pastpape_24fb03d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_fe71b17c
-    resources_economics_edexcel_a_generator_pastpape_24fb03d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_e22ee298
     resources_economics_edexcel_a_generator_pastpape_24fb03d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_0bf09513
     resources_economics_edexcel_a_generator_pastpape_24fb03d0 -->|calls| resources_economics_edexcel_a_generator_pastpape_d394624f
     resources_economics_edexcel_a_generator_pastpape_128da8eb -->|calls| resources_economics_edexcel_a_generator_pastpape_ac80a345
-    resources_economics_edexcel_a_generator_pastpape_128da8eb -->|calls| resources_economics_edexcel_a_generator_pastpape_1b10f1b6
-    resources_economics_edexcel_a_generator_pastpape_fbc1b066 -->|calls| resources_economics_edexcel_a_generator_pastpape_37ed5ef7
-    resources_economics_edexcel_a_generator_pastpape_fbc1b066 -->|calls| resources_economics_edexcel_a_generator_pastpape_c386c080
-    resources_economics_edexcel_a_generator_pastpape_9c8c0a07 -->|calls| resources_economics_edexcel_a_generator_pastpape_41d8038c
-    resources_economics_edexcel_a_generator_pastpape_9c8c0a07 -->|calls| resources_economics_edexcel_a_generator_pastpape_c386c080
-    resources_economics_edexcel_a_generator_pastpape_9a255926 -->|calls| resources_economics_edexcel_a_generator_pastpape_41d8038c
-    resources_economics_edexcel_a_generator_pastpape_9a255926 -->|calls| resources_economics_edexcel_a_generator_pastpape_c386c080
-    resources_economics_edexcel_a_generator_pastpape_db7319a9 -->|calls| resources_economics_edexcel_a_generator_pastpape_37ed5ef7
-    resources_economics_edexcel_a_generator_pastpape_db7319a9 -->|calls| resources_economics_edexcel_a_generator_pastpape_c386c080
-    resources_economics_edexcel_a_generator_pastpape_db7319a9 -->|calls| resources_economics_edexcel_a_generator_pastpape_1b10f1b6
     resources_economics_edexcel_a_generator_pastpape_44551321 -->|calls| resources_economics_edexcel_a_generator_pastpape_ac80a345
-    resources_economics_edexcel_a_generator_pastpape_44551321 -->|calls| resources_economics_edexcel_a_generator_pastpape_1b10f1b6
-    resources_economics_edexcel_a_generator_pastpape_fe71b17c -->|calls| resources_economics_edexcel_a_generator_pastpape_41d8038c
-    %% Omitted for readability: 8 nodes, 11 edges
+    macos_papercreator_domain_generationestimator_ge_deb60952 -->|method| macos_papercreator_domain_generationestimator_ge_340c3146
+    %% Omitted for readability: 253 nodes, 0 edges
     class resources_economics_edexcel_a_generator_pastpape_24fb03d0 function;
     class resources_economics_edexcel_a_generator_pastpape_fe71b17c function;
-    class resources_economics_edexcel_a_generator_pastpape_db7319a9 function;
-    class resources_economics_edexcel_a_generator_pastpape_24c57ead function;
     class resources_economics_edexcel_a_generator_pastpape_fbc1b066 function;
     class resources_economics_edexcel_a_generator_pastpape_9c8c0a07 function;
     class resources_economics_edexcel_a_generator_pastpape_9a255926 function;
+    class resources_economics_edexcel_a_generator_pastpape_db7319a9 function;
     class resources_economics_edexcel_a_generator_pastpape_128da8eb function;
     class resources_economics_edexcel_a_generator_pastpape_44551321 function;
-    class resources_economics_edexcel_a_generator_pastpape_e22ee298 function;
     class resources_economics_edexcel_a_generator_pastpape_0bf09513 function;
     class resources_economics_edexcel_a_generator_pastpape_d394624f function;
     class resources_economics_edexcel_a_generator_pastpape_ac80a345 function;
-    class resources_economics_edexcel_a_generator_pastpape_1b10f1b6 function;
-    class resources_economics_edexcel_a_generator_pastpape_37ed5ef7 function;
-    class resources_economics_edexcel_a_generator_pastpape_c386c080 function;
-    class resources_economics_edexcel_a_generator_pastpape_41d8038c function;
-    class resources_economics_edexcel_a_generator_pastpape_73b27fac function;
-    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
-    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
-    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
-    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
-    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
-    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
-    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
-    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
-    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
-</div>
-
-<h3>Call Details</h3>
-<table class="call-table">
-<tr>
-  <th style="width:5%">#</th>
-  <th style="width:28%">Node</th>
-  <th style="width:10%">Type</th>
-  <th style="width:17%">Caller</th>
-  <th style="width:20%">Callees</th>
-  <th style="width:20%">Description</th>
-</tr>
-<tr>
-  <td>1</td>
-  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td><code>_part_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_split_mark_scheme_row()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark diagram lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br>+7 more</td>
-  <td>_mark_scheme_rows() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>2</td>
-  <td><code>_paper_two_short_calculation_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_calculation_answer_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme context()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_paper_two_short_calculation_lines() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>3</td>
-  <td><code>_paper_one_fifteen_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_scheme_bullets()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_paper_one_fifteen_mark_scheme_lines() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>4</td>
-  <td><code>_paper_one_five_mark_diagram_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_one_mark_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_paper_one_five_mark_diagram_lines() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>5</td>
-  <td><code>_paper_one_section_a_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_one_mark_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_paper_one_section_a_mark_scheme_lines() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>6</td>
-  <td><code>_paper_two_extended_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_scheme_bullets()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme context()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_paper_two_extended_mark_scheme_lines() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>7</td>
-  <td><code>_split_mark_scheme_row()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>No direct outbound edge</td>
-  <td>_split_mark_scheme_row() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>8</td>
-  <td><code>_part_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_calculation_answer_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme context()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_part_mark_scheme_lines() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>9</td>
-  <td><code>_question_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_one_mark_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_scheme_bullets()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br>+2 more</td>
-  <td>_question_mark_scheme_lines() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>10</td>
-  <td><code>_one_mark_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>mark diagram lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_specific_answer_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_one_mark_points() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>11</td>
-  <td><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>mark diagram lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br>+2 more</td>
-  <td><code>_sentence()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark evaluation lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_source_application_points() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>12</td>
-  <td><code>_twelve_mark_knowledge_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_scheme_bullets()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_twelve_mark_knowledge_lines() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>13</td>
-  <td><code>_twelve_mark_evaluation_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_scheme_bullets()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_twelve_mark_evaluation_lines() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>14</td>
-  <td><code>_twenty_five_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_scheme_bullets()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_twenty_five_mark_scheme_lines() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>15</td>
-  <td><code>_scheme_bullets()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>mark evaluation lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark knowledge lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br>+3 more</td>
-  <td><code>_normalise_mark_point()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_scheme_bullets() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>16</td>
-  <td><code>_calculation_answer_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_part_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>short calculation lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>No direct outbound edge</td>
-  <td>_calculation_answer_lines() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>17</td>
-  <td><code>_specific_mark_scheme_context()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_part_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br>+1 more</td>
-  <td><code>_brief_source_evidence()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_sentence()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_specific_answer_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_specific_mark_scheme_context() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>18</td>
-  <td><code>_specific_answer_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_one_mark_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme context()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_normalise_mark_point()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_specific_answer_points() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>19</td>
-  <td><code>_sentence()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme context()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_brief_source_evidence()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_normalise_mark_point()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_strip_leading_bullet()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_sentence() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>20</td>
-  <td><code>_normalise_mark_point()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_scheme_bullets()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_sentence()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_specific_answer_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><code>_strip_leading_bullet()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>_normalise_mark_point() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>21</td>
-  <td><code>_strip_leading_bullet()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_normalise_mark_point()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_sentence()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>No direct outbound edge</td>
-  <td>_strip_leading_bullet() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>22</td>
-  <td><code>_brief_source_evidence()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>_sentence()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme context()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td>No direct outbound edge</td>
-  <td>_brief_source_evidence() node in generator/pastpapergen/render_pdf.py.</td>
-</tr>
-<tr>
-  <td>23</td>
-  <td><code>Keep the two-mark calculation on its reference-matched single page.</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Concept</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Design note for Keep the two-mark calculation on its reference-matched single page..</td>
-</tr>
-<tr>
-  <td>24</td>
-  <td><code>Match the three-page knowledge, analysis and evaluation structure.</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Concept</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Design note for Match the three-page knowledge, analysis and evaluation structure..</td>
-</tr>
-<tr>
-  <td>25</td>
-  <td><code>Keep four-mark short answers concise enough for the measured page rhythm.</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Concept</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Design note for Keep four-mark short answers concise enough for the measured page rhythm..</td>
-</tr>
-<tr>
-  <td>26</td>
-  <td><code>Use the four-page analysis/evaluation rhythm of the current Paper 2 scheme.</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
-  <td><span class="tag tag-func">Concept</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Design note for Use the four-page analysis/evaluation rhythm of the current Paper 2 scheme..</td>
-</tr>
-</table>
-
-<div class="grid">
-  <div class="card">
-    <h4>Key Files</h4>
-    <table style="width:100%;font-size:0.85rem;">
-      <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>generator/pastpapergen/render_pdf.py</code></td><td>26 nodes</td></tr>
-    </table>
-  </div>
-  <div class="card">
-    <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: calls x44, explains x4. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
-  </div>
-</div>
-<hr>
-
-<!-- ====== 16. Other ====== -->
-<h2 id="other">16. Other</h2>
-<p>Other groups implementation around macos, papercreator, domain, generator, mostly in PaperCreator/Domain/AppModels.swift, PaperCreator/Domain/OllamaModelGuide.swift, Features/Generation/GeneratorWorkspaceView.swift. This section covers 291 nodes and 307 internal edges; the diagram shows only representative relationships to stay readable.</p>
-
-<div class="mermaid">
-%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
-flowchart LR
-    %% Section: Other (291 nodes, 307 edges)
-    subgraph other_PaperCreator_Domain_AppModels_swift_d50f53e1["PaperCreator/Domain/AppModels.swift"]
-        macos_papercreator_domain_appmodels_catalogloade_7b98d7da("load()<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_aiprovider_b6919ae6("AIProvider<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_generatedfil_f4935377("GeneratedFile<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_catalogloade_fd9b226f("CatalogLoader<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_catalogloade_63fc09a3("implementationKey()<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_catalogloade_39baea5b("duplicateBoard<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_catalogloade_0abe34ff("duplicateImplementation<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_catalogloade_6b597115("emptyImplementation<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_catalogloade_4eb1d96d("implementationMissingFromCatalog<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_catalogloade_7329d884("missingResource<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_catalogloade_28e6e6d8("unknownProvider<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_generationqu_18f88075("load()<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_catalogloade_05b5c5d7("CatalogLoadError<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_catalogloade_54786107(".errorDescription<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-        macos_papercreator_domain_appmodels_helptopic_7258261e("HelpTopic<br/><small>PaperCreator/Domain/AppModels.swift</small>")
-    end
-    subgraph other_PaperCreator_Domain_GenerationEstimator_sw_25eb6c48["PaperCreator/Domain/GenerationEstimator.swift"]
-        macos_papercreator_domain_generationestimator_ge_deb60952("GenerationEstimator<br/><small>PaperCreator/Domain/GenerationEstimator.swift</small>")
-        macos_papercreator_domain_generationestimator_ge_340c3146("initialEstimate()<br/><small>PaperCreator/Domain/GenerationEstimator.swift</small>")
-    end
-    macos_papercreator_navigation_sidebarview_sideba_57492b30("Sidebar<br/><small>PaperCreator/Navigation/SidebarView.swift</small>")
-    macos_papercreator_domain_appmodels_catalogloade_fd9b226f -->|method| macos_papercreator_domain_appmodels_catalogloade_63fc09a3
-    macos_papercreator_domain_appmodels_catalogloade_fd9b226f -->|method| macos_papercreator_domain_appmodels_catalogloade_7b98d7da
-    macos_papercreator_domain_appmodels_catalogloade_7b98d7da -->|calls| macos_papercreator_domain_appmodels_aiprovider_b6919ae6
-    macos_papercreator_domain_appmodels_catalogloade_7b98d7da -->|calls| macos_papercreator_domain_appmodels_catalogloade_63fc09a3
-    macos_papercreator_domain_appmodels_catalogloade_7b98d7da -->|calls| macos_papercreator_domain_appmodels_catalogloade_39baea5b
-    macos_papercreator_domain_appmodels_catalogloade_7b98d7da -->|calls| macos_papercreator_domain_appmodels_catalogloade_0abe34ff
-    macos_papercreator_domain_appmodels_catalogloade_7b98d7da -->|calls| macos_papercreator_domain_appmodels_catalogloade_6b597115
-    macos_papercreator_domain_appmodels_catalogloade_7b98d7da -->|calls| macos_papercreator_domain_appmodels_catalogloade_4eb1d96d
-    macos_papercreator_domain_appmodels_catalogloade_7b98d7da -->|calls| macos_papercreator_domain_appmodels_catalogloade_7329d884
-    macos_papercreator_domain_appmodels_catalogloade_7b98d7da -->|calls| macos_papercreator_domain_appmodels_catalogloade_28e6e6d8
-    macos_papercreator_domain_appmodels_catalogloade_7b98d7da -->|calls| macos_papercreator_domain_appmodels_generationqu_18f88075
-    macos_papercreator_domain_appmodels_catalogloade_05b5c5d7 -->|method| macos_papercreator_domain_appmodels_catalogloade_54786107
-    macos_papercreator_domain_generationestimator_ge_deb60952 -->|method| macos_papercreator_domain_generationestimator_ge_340c3146
-    %% Omitted for readability: 273 nodes, 0 edges
-    class macos_papercreator_domain_appmodels_catalogloade_7b98d7da function;
-    class macos_papercreator_domain_appmodels_aiprovider_b6919ae6 klass;
-    class macos_papercreator_domain_appmodels_generatedfil_f4935377 klass;
-    class macos_papercreator_domain_appmodels_catalogloade_fd9b226f klass;
-    class macos_papercreator_domain_appmodels_catalogloade_63fc09a3 function;
-    class macos_papercreator_domain_appmodels_catalogloade_39baea5b function;
-    class macos_papercreator_domain_appmodels_catalogloade_0abe34ff function;
-    class macos_papercreator_domain_appmodels_catalogloade_6b597115 function;
-    class macos_papercreator_domain_appmodels_catalogloade_4eb1d96d function;
-    class macos_papercreator_domain_appmodels_catalogloade_7329d884 function;
-    class macos_papercreator_domain_appmodels_catalogloade_28e6e6d8 function;
-    class macos_papercreator_domain_appmodels_generationqu_18f88075 function;
-    class macos_papercreator_domain_appmodels_catalogloade_05b5c5d7 klass;
-    class macos_papercreator_domain_appmodels_catalogloade_54786107 function;
-    class macos_papercreator_domain_appmodels_helptopic_7258261e klass;
+    class resources_economics_edexcel_a_generator_pastpape_1d53706c klass;
+    class resources_economics_edexcel_a_generator_pastpape_0af8c30f function;
+    class resources_economics_edexcel_a_generator_pastpape_cc8db57a function;
     class macos_papercreator_domain_generationestimator_ge_deb60952 klass;
     class macos_papercreator_domain_generationestimator_ge_340c3146 function;
+    class macos_papercreator_domain_appmodels_generatedfil_f4935377 klass;
     class macos_papercreator_navigation_sidebarview_sideba_57492b30 klass;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
@@ -4719,43 +4734,43 @@ flowchart LR
 </tr>
 <tr>
   <td>26</td>
-  <td><code>.supports()</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
+  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>.supports() node in PaperCreator/Domain/AppModels.swift.</td>
+  <td><code>_part_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark diagram lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark evaluation lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br>+6 more</td>
+  <td>_mark_scheme_rows() node in generator/pastpapergen/render_pdf.py.</td>
 </tr>
 <tr>
   <td>27</td>
-  <td><code>HelpTopic</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td>External entry / no inbound edge</td>
-  <td><code>.id</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>.systemImage</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small><br><code>.title</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
-  <td>HelpTopic node in PaperCreator/Domain/AppModels.swift.</td>
+  <td><code>_paper_two_short_calculation_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><code>_calculation_answer_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>mark scheme context()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_paper_two_short_calculation_lines() node in generator/pastpapergen/render_pdf.py.</td>
 </tr>
 <tr>
   <td>28</td>
-  <td><code>CaseIterable</code><br><small style="color:var(--muted)"></small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>CaseIterable node in project.</td>
+  <td><code>_paper_one_fifteen_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><code>_scheme_bullets()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_paper_one_fifteen_mark_scheme_lines() node in generator/pastpapergen/render_pdf.py.</td>
 </tr>
 <tr>
   <td>29</td>
-  <td><code>gettingStarted</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
+  <td><code>_paper_one_five_mark_diagram_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
   <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>gettingStarted node in PaperCreator/Domain/AppModels.swift.</td>
+  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><code>_one_mark_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_paper_one_five_mark_diagram_lines() node in generator/pastpapergen/render_pdf.py.</td>
 </tr>
 <tr>
   <td>30</td>
-  <td><code>choosingAModel</code><br><small style="color:var(--muted)">PaperCreator/Domain/AppModels.swift</small></td>
+  <td><code>_paper_one_section_a_mark_scheme_lines()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
   <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>choosingAModel node in PaperCreator/Domain/AppModels.swift.</td>
+  <td><code>_mark_scheme_rows()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td><code>_one_mark_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small><br><code>_source_application_points()</code><br><small style="color:var(--muted)">generator/pastpapergen/render_pdf.py</small></td>
+  <td>_paper_one_section_a_mark_scheme_lines() node in generator/pastpapergen/render_pdf.py.</td>
 </tr>
 </table>
 
@@ -4764,10 +4779,10 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>PaperCreator/Domain/AppModels.swift</code></td><td>47 nodes</td></tr>
-<tr><td><code>PaperCreator/Domain/OllamaModelGuide.swift</code></td><td>33 nodes</td></tr>
+      <tr><td><code>PaperCreator/Domain/OllamaModelGuide.swift</code></td><td>33 nodes</td></tr>
+<tr><td><code>generator/pastpapergen/render_pdf.py</code></td><td>25 nodes</td></tr>
 <tr><td><code>Features/Generation/GeneratorWorkspaceView.swift</code></td><td>23 nodes</td></tr>
-<tr><td><code>Features/Settings/SettingsPane.swift</code></td><td>16 nodes</td></tr>
+<tr><td><code>PaperCreator/Domain/AppModels.swift</code></td><td>21 nodes</td></tr>
 <tr><td><code>PaperCreator/Domain/GenerationEstimator.swift</code></td><td>12 nodes</td></tr>
 <tr><td><code>docs/HIG_COMPLIANCE.md</code></td><td>9 nodes</td></tr>
 <tr><td><code>README.md</code></td><td>8 nodes</td></tr>
@@ -4776,7 +4791,7 @@ flowchart LR
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: references x89, method x60, contains x52, case of x45. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: references x78, calls x69, contains x47, method x45. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -4807,7 +4822,7 @@ flowchart LR
       <tr><td>Nodes</td><td>2771</td></tr>
       <tr><td>Edges</td><td>8260</td></tr>
       <tr><td>Hyperedges</td><td>1</td></tr>
-      <tr><td>Communities</td><td>149</td></tr>
+      <tr><td>Communities</td><td>150</td></tr>
       <tr><td>Documented Sections</td><td>15</td></tr>
     </table>
   </div>
@@ -4823,7 +4838,7 @@ flowchart LR
 
 <div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
   <p>Past Paper Creation — Architecture Documentation</p>
-  <p>Generated: 2026-08-22 15:10 UTC · graphify callflow-html</p>
+  <p>Generated: 2026-08-22 15:20 UTC · graphify callflow-html</p>
 </div>
 
 </div><!-- .container -->
