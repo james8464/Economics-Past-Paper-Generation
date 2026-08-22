@@ -61,8 +61,10 @@ struct AppCommands: Commands {
         }
 
         CommandGroup(replacing: .help) {
-            Button("Paper creator Help", action: appModel.showHelpGuide)
-                .keyboardShortcut("/", modifiers: [.command, .shift])
+            Button("Paper creator Help") {
+                appModel.showHelpGuide()
+            }
+            .keyboardShortcut("h", modifiers: [.command, .shift])
 
             Button("Show Welcome Guide", action: appModel.showWelcomeGuide)
 

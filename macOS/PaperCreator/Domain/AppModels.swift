@@ -259,6 +259,42 @@ enum SidebarItem: Hashable {
     case benchmark
 }
 
+enum HelpTopic: String, CaseIterable, Identifiable {
+    case gettingStarted
+    case choosingAModel
+    case creatingAPaper
+    case checkingQuality
+    case privacy
+    case troubleshooting
+    case shortcuts
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .gettingStarted: "Getting Started"
+        case .choosingAModel: "Choosing a Model"
+        case .creatingAPaper: "Creating a Paper"
+        case .checkingQuality: "Checking Quality"
+        case .privacy: "Privacy"
+        case .troubleshooting: "Troubleshooting"
+        case .shortcuts: "Keyboard Shortcuts"
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .gettingStarted: "hand.wave"
+        case .choosingAModel: "cpu"
+        case .creatingAPaper: "doc.badge.plus"
+        case .checkingQuality: "checklist"
+        case .privacy: "hand.raised"
+        case .troubleshooting: "wrench.and.screwdriver"
+        case .shortcuts: "keyboard"
+        }
+    }
+}
+
 enum AIProvider: String, CaseIterable, Identifiable {
     case ollama
     case openAI

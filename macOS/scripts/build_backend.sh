@@ -7,6 +7,7 @@ HELPER_DIR="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH"
 WORK_DIR="$DERIVED_FILE_DIR/PaperCreatorBackend"
 DIST_DIR="$WORK_DIR/dist"
 BACKEND_DIR="$HELPER_DIR/PaperCreatorBackend"
+FINGERPRINT_FILE="$BACKEND_DIR/.build-fingerprint"
 
 if [[ ! -x "$PYTHON" ]]; then
   echo "error: Missing $PYTHON. Create the project virtual environment first." >&2
@@ -20,6 +21,49 @@ export PYTHONPATH="$ROOT_DIR${PYTHONPATH:+:$PYTHONPATH}"
 if ! "$PYTHON" -c 'import PyInstaller' 2>/dev/null; then
   echo "error: PyInstaller is required in .venv (pip install \"pyinstaller>=6.17,<7\")." >&2
   exit 1
+fi
+
+build_fingerprint() {
+  {
+    printf '%s\n' \
+      "distribution=${DISTRIBUTION_MODE:-direct}" \
+      "identity=${EXPANDED_CODE_SIGN_IDENTITY:--}" \
+      "architectures=${ARCHS:-arm64}" \
+      "deployment=${MACOSX_DEPLOYMENT_TARGET:-unknown}"
+    "$PYTHON" --version
+    "$PYTHON" -c 'import PyInstaller; print(PyInstaller.__version__)'
+    shasum \
+      "$ROOT_DIR/bridge.py" \
+      "$ROOT_DIR/macOS/PaperCreator/PaperCreatorBackend.entitlements" \
+      "$ROOT_DIR/macOS/scripts/build_backend.sh" \
+      "$ROOT_DIR/Resources/backend-protocol.schema.json" \
+      "$ROOT_DIR/Resources/generator-registry.json" \
+      "$ROOT_DIR/Resources/layout-master-runtime.json" \
+      "$ROOT_DIR/Resources/layout-profiles.json" \
+      "$ROOT_DIR/Resources/ollama-model-recommendations.json"
+    find "$ROOT_DIR/Backend" -type f -name '*.py' -print0 \
+      | sort -z \
+      | xargs -0 shasum
+    find "$ROOT_DIR/Resources" -path '*/generator/*' -type f \
+      \( -name '*.py' -o -name 'pyproject.toml' \) -print0 \
+      | sort -z \
+      | xargs -0 shasum
+    while IFS= read -r syllabus_path; do
+      shasum "$ROOT_DIR/Resources/$syllabus_path"
+    done < <(
+      "$PYTHON" -c \
+        'from Backend.Core.generator_registry import generator_capabilities; print(*sorted({item.syllabus_path for item in generator_capabilities().values()}), sep="\n")'
+    )
+  } | shasum | awk '{print $1}'
+}
+
+CURRENT_FINGERPRINT="$(build_fingerprint)"
+if [[ -x "$BACKEND_DIR/PaperCreatorBackend" \
+  && -f "$BACKEND_DIR/.built" \
+  && -f "$FINGERPRINT_FILE" \
+  && "$(<"$FINGERPRINT_FILE")" == "$CURRENT_FINGERPRINT" ]]; then
+  echo "Reusing unchanged standalone backend."
+  exit 0
 fi
 
 rm -rf "$WORK_DIR" "$BACKEND_DIR"
@@ -46,6 +90,7 @@ PYINSTALLER_ARGS=(
   --add-data "$ROOT_DIR/Resources/layout-master-runtime.json:Resources"
   --add-data "$ROOT_DIR/Resources/layout-profiles.json:Resources"
   --add-data "$ROOT_DIR/Resources/generator-registry.json:Resources"
+  --add-data "$ROOT_DIR/Resources/ollama-model-recommendations.json:Resources"
   --add-data "$ROOT_DIR/Resources/backend-protocol.schema.json:Resources"
 )
 
@@ -119,4 +164,5 @@ find "$BACKEND_DIR" -type f -print0 |
     fi
   done
 
+printf '%s\n' "$CURRENT_FINGERPRINT" > "$FINGERPRINT_FILE"
 touch "$BACKEND_DIR/.built"

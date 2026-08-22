@@ -113,20 +113,37 @@ private struct PaperConfiguration: View {
                 .pickerStyle(.menu)
 
                 LabeledContent("Model") {
-                    Text(appModel.activeModelName)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                        .help(appModel.activeModelName)
+                    HStack(spacing: 8) {
+                        Text(appModel.activeModelName)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                            .help(appModel.activeModelName)
+                        if appModel.aiProvider == .ollama && appModel.selectedModelIsRecommended {
+                            Text("Recommended")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+
+                if appModel.aiProvider == .ollama && !appModel.selectedModelIsRecommended {
+                    Label(
+                        "Results may vary with other Ollama models. Use the recommendation in Settings for the checked workflow.",
+                        systemImage: "exclamationmark.triangle.fill"
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
                 }
 
                 LabeledContent("Save to") {
                     HStack(spacing: 8) {
-                        Text(appModel.outputFolder.path)
+                        Text(appModel.outputFolderDisplayPath)
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
                             .truncationMode(.middle)
-                            .help(appModel.outputFolder.path)
+                            .help(appModel.outputFolderDisplayPath)
                         Button("Choose…", action: appModel.chooseOutputFolder)
                     }
                 }

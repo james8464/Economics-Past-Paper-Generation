@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		935DC030DA0CA72167FC5BB8 /* catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 1BE04BB6BFC2C8FC34DD62F2 /* catalog.json */; };
+		C991DB481431281ED4BB385C /* ollama-model-recommendations.json in Resources */ = {isa = PBXBuildFile; fileRef = A579B079D643F94CDBA4DBD2 /* ollama-model-recommendations.json */; };
 		FA7A0A9B6D66EEE14ED9654B /* generator-registry.json in Resources */ = {isa = PBXBuildFile; fileRef = 943F82CF5C5AFC76781C7FFC /* generator-registry.json */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		1BE04BB6BFC2C8FC34DD62F2 /* catalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = catalog.json; sourceTree = "<group>"; };
 		49AA15F163D73C4DDB8D9B7B /* PaperCreator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaperCreator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		943F82CF5C5AFC76781C7FFC /* generator-registry.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "generator-registry.json"; sourceTree = "<group>"; };
+		A579B079D643F94CDBA4DBD2 /* ollama-model-recommendations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ollama-model-recommendations.json"; sourceTree = "<group>"; };
 		FBE3DF670F156B7CFB63330A /* PaperCreatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaperCreatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -33,9 +35,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				PaperCreator.entitlements,
 				PaperCreatorBackend.entitlements,
 				PaperCreatorDirect.entitlements,
-				PaperCreator.entitlements,
 			);
 			target = F83C267BD749B4DE60F9E7E5 /* PaperCreator */;
 		};
@@ -81,6 +83,7 @@
 			children = (
 				1BE04BB6BFC2C8FC34DD62F2 /* catalog.json */,
 				943F82CF5C5AFC76781C7FFC /* generator-registry.json */,
+				A579B079D643F94CDBA4DBD2 /* ollama-model-recommendations.json */,
 			);
 			name = Resources;
 			path = ../Resources;
@@ -193,6 +196,7 @@
 			files = (
 				935DC030DA0CA72167FC5BB8 /* catalog.json in Resources */,
 				FA7A0A9B6D66EEE14ED9654B /* generator-registry.json in Resources */,
+				C991DB481431281ED4BB385C /* ollama-model-recommendations.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,6 +223,8 @@
 				"$(SRCROOT)/../Backend/Core/cli.py",
 				"$(SRCROOT)/../Backend/Core/generation.py",
 				"$(SRCROOT)/../Backend/Core/providers.py",
+				"$(SRCROOT)/../Backend/Core/model_recommendations.py",
+				"$(SRCROOT)/../Resources/ollama-model-recommendations.json",
 				"$(SRCROOT)/../Resources/economics/edexcel-a/generator/pyproject.toml",
 				"$(SRCROOT)/../Resources/economics/aqa/generator/pyproject.toml",
 				"$(SRCROOT)/../Resources/economics/ocr/generator/pyproject.toml",

@@ -19,6 +19,7 @@ custom cards or web-style navigation.
 - `⌘↩`: create when the current configuration is valid.
 - `⌘.`: cancel the active operation.
 - `⌘,`: open the standard Settings scene.
+- `⇧⌘H`: open Paper creator Help without colliding with macOS Help search.
 - Sidebar and quality-inspector visibility are standard toolbar commands.
 - The primary action occupies the primary toolbar position.
 - Task blockers appear beside the affected controls and state the recovery
@@ -48,6 +49,24 @@ Changes apply immediately, the selected pane persists, and the fixed-size
 settings window disables inappropriate minimise/zoom controls. Task-local paper
 and destination choices remain in the main creation flow.
 
+AI Settings detects unified memory and presents one explicit Ollama
+recommendation, its download/context footprint, and a direct use or download
+action before the model picker. Selecting another model shows a symbol-and-text
+warning that results may vary; colour is supplementary. The main creation form
+repeats a compact recommendation state at the point of use.
+
+## Onboarding and help
+
+First-run onboarding remains short, optional, and available again from Help.
+The detailed guide uses a native two-column `NavigationSplitView` with stable
+topics for model choice, creation, quality review, privacy, troubleshooting, and
+keyboard use. Instructions remain selectable, scrollable, keyboard accessible,
+and paired with real app screenshots where a visual reference is useful.
+
+The guide distinguishes layout preview from release output, local from hosted
+AI, automated second-pass review from independent human review, and intended
+demand from psychometrically established difficulty.
+
 ## File workflow
 
 Generated artifacts appear in a native table with document title, timestamp,
@@ -67,5 +86,7 @@ manual verification in:
 - minimum and large window sizes;
 - generation, cancellation, failure, and completed-package states.
 
-The current screenshot and accessibility-tree audit is recorded under
-`docs/project-analysis/UI_AUDIT.md`.
+The current screenshot and accessibility-tree audit is recorded in
+`docs/project-analysis/UI_AUDIT.md`; fresh captures are retained in
+`docs/project-analysis/ui-audit-2026-08/` and the accepted workspace/settings
+captures are bundled into the in-app tutorial.
