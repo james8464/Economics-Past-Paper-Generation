@@ -3,7 +3,6 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
-import sys
 from pathlib import Path
 
 import pymupdf as fitz
@@ -154,8 +153,7 @@ def test_partnership_calculations_have_complete_shared_source_contracts() -> Non
 
 
 def test_both_packages_render_36_page_question_papers(tmp_path: Path) -> None:
-    paper_two_pages = {28} if sys.platform == "darwin" else {26, 28}
-    mark_scheme_pages = {"1": {26}, "2": paper_two_pages}
+    mark_scheme_pages = {"1": 26, "2": 28}
     for paper in ("1", "2"):
         paths = generate_package(
             paper=paper,
@@ -169,7 +167,7 @@ def test_both_packages_render_36_page_question_papers(tmp_path: Path) -> None:
             "assessment_package",
         }
         assert page_count(paths["question_paper"]) == 36
-        assert page_count(paths["mark_scheme"]) in mark_scheme_pages[paper]
+        assert page_count(paths["mark_scheme"]) == mark_scheme_pages[paper]
         assert all(path.stat().st_size > 2000 for path in paths.values())
 
 

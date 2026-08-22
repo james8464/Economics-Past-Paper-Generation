@@ -1,16 +1,16 @@
 # Graph Report - Past Paper Creation  (2026-08-22)
 
 ## Corpus Check
-- 221 files · ~429,587 words
+- 221 files · ~429,575 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2771 nodes · 8260 edges · 150 communities (100 shown, 50 thin omitted)
+- 2771 nodes · 8260 edges · 151 communities (101 shown, 50 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 535 edges (avg confidence: 0.73)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7bc3aec5`
+- Built from commit: `bea7e24b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -78,7 +78,7 @@
 - Q: How is the macOS backend bundle kept complete?
 - cspapergen/ollama_client.py
 - ValueError
-- AppDefaults
+- .baseQuery
 - ocr_computer_science_calibration.py
 - ocrcsgen/cli.py
 - HelpTopic
@@ -130,6 +130,7 @@
 - ocregen/__init__.py
 - tools/__init__.py
 - graphify
+- AppViewModel.swift
 - type
 - progress
 - timestamp
@@ -194,7 +195,7 @@
 ## Hyperedges (group relationships)
 - **Edexcel A Economics Knowledge Corpus** — resources_economics_edexcel_a_generator_data_notes_text_1_1_nature_of_economics_nature_of_economics, resources_economics_edexcel_a_generator_data_notes_text_1_2_how_markets_work_how_markets_work, resources_economics_edexcel_a_generator_data_notes_text_1_3_market_failure_market_failure, resources_economics_edexcel_a_generator_data_notes_text_1_4_government_intervention_government_intervention, resources_economics_edexcel_a_generator_data_notes_text_2_1_measures_of_economic_performance_measures_of_economic_performance, resources_economics_edexcel_a_generator_data_notes_text_2_2_aggregate_demand_aggregate_demand, resources_economics_edexcel_a_generator_data_notes_text_2_3_aggregate_supply_aggregate_supply, resources_economics_edexcel_a_generator_data_notes_text_2_4_national_income_national_income, resources_economics_edexcel_a_generator_data_notes_text_2_5_economic_growth_economic_growth, resources_economics_edexcel_a_generator_data_notes_text_2_6_macroeconomic_objectives_and_policies_macroeconomic_objectives_and_policies, resources_economics_edexcel_a_generator_data_notes_text_3_1_business_growth_business_growth, resources_economics_edexcel_a_generator_data_notes_text_3_2_business_objectives_business_objectives, resources_economics_edexcel_a_generator_data_notes_text_3_3_revenues_costs_and_profits_revenues_costs_and_profits, resources_economics_edexcel_a_generator_data_notes_text_3_4_market_structures_market_structures, resources_economics_edexcel_a_generator_data_notes_text_3_5_labour_markets_labour_markets, resources_economics_edexcel_a_generator_data_notes_text_4_1_international_economics_international_economics, resources_economics_edexcel_a_generator_data_notes_text_4_2_poverty_and_inequality_poverty_and_inequality, resources_economics_edexcel_a_generator_data_notes_text_4_3_emerging_and_developing_economies_emerging_and_developing_economies, resources_economics_edexcel_a_generator_data_notes_text_4_4_the_financial_sector_the_financial_sector, resources_economics_edexcel_a_generator_data_notes_text_4_5_role_of_the_state_in_the_macroeconomy_role_of_the_state_in_the_macroeconomy [EXTRACTED 1.00]
 
-## Communities (150 total, 50 thin omitted)
+## Communities (151 total, 50 thin omitted)
 
 ### Community 0 - "cspapergen/render_pdf.py"
 Cohesion: 0.09
@@ -205,12 +206,12 @@ Cohesion: 0.12
 Nodes (23): MarkSchemeCover, QuestionPaperCover, Fixed-grid, board-shaped front page without copying protected artwork., _wrap(), formatted_generation_date(), formatted_generation_series(), generation_date(), date (+15 more)
 
 ### Community 2 - "AppViewModel"
-Cohesion: 0.04
-Nodes (36): AnyCancellable, Binding, DateFormatter, Error, Int32, .body, .body, ProgressEntry (+28 more)
+Cohesion: 0.05
+Nodes (27): AnyCancellable, DateFormatter, Error, Int32, ProgressEntry, AppViewModel, .activeModelName, .canGenerate (+19 more)
 
 ### Community 3 - "View"
 Cohesion: 0.07
-Nodes (39): App, Commands, AppCommands, PaperCreator, .body, View, GeneratedFilesTable, HelpCallout (+31 more)
+Nodes (38): App, Commands, AppCommands, PaperCreator, .body, View, HelpCallout, .body (+30 more)
 
 ### Community 4 - "Paragraph"
 Cohesion: 0.15
@@ -221,16 +222,16 @@ Cohesion: 0.09
 Nodes (70): _add_economics_diagram(), _add_firm_objectives_diagram(), _add_ppf_diagram(), _annotation_conventions_page(), _answer_mark(), AnswerLines, _assessment_allocation(), _assessment_grid_groups() (+62 more)
 
 ### Community 6 - "aqabizgen/render_pdf.py"
-Cohesion: 0.11
-Nodes (56): generate_package(), Path, load_rule(), _additional_answer_page(), AnswerLines, _ao_summary(), _assessment_objectives_page(), _banner() (+48 more)
+Cohesion: 0.10
+Nodes (56): aqa_front_matter_pages(), Flowable, generate_package(), Path, load_rule(), _additional_answer_page(), AnswerLines, _ao_summary() (+48 more)
 
 ### Community 7 - "test_render_pdf.py"
 Cohesion: 0.12
 Nodes (46): render_question_paper(), _table_rows(), _blank_axis_lines(), _blueprint_with_section_a_question(), _dark_pixels(), _first_page_containing(), _long_horizontal_line_count(), _normalised() (+38 more)
 
 ### Community 8 - "GeneratedFile"
-Cohesion: 0.36
-Nodes (7): GeneratedFile, .exists, .paperDescription, .title, Date, URL, UUID
+Cohesion: 0.18
+Nodes (11): .body, GeneratedFilesTable, .body, GeneratedFile, .exists, .paperDescription, .title, Date (+3 more)
 
 ### Community 9 - "build_paper_blueprint"
 Cohesion: 0.09
@@ -301,16 +302,16 @@ Cohesion: 0.10
 Nodes (30): FinancialPosition, format_number(), Format an exam answer without meaningless trailing zeroes., The single source of truth for Paper 1 financial-statement figures., build_paper(), _extract(), _instructions(), _levels() (+22 more)
 
 ### Community 26 - "SettingsPane.swift"
-Cohesion: 0.07
-Nodes (25): AppKit, Combine, Context, PrivacySettingsTab, .body, SettingsPane, .body, SettingsPaneID (+17 more)
+Cohesion: 0.13
+Nodes (18): Context, AISettingsTab, .providerSettings, OutputSettingsTab, .body, PrivacySettingsTab, .body, SettingsPane (+10 more)
 
 ### Community 27 - "String"
 Cohesion: 0.06
 Nodes (62): Codable, Decodable, Hashable, Identifiable, AIProvider, anthropic, apple, .backendID (+54 more)
 
 ### Community 28 - "QualityState"
-Cohesion: 0.11
-Nodes (23): Color, GenerationProgress, .body, GeneratorWorkspace, .body, .generateHelp, .workspace, PaperConfiguration (+15 more)
+Cohesion: 0.09
+Nodes (26): Binding, Color, GenerationProgress, .body, GeneratorWorkspace, .body, .generateHelp, .workspace (+18 more)
 
 ### Community 29 - "NonCurrentAssetCase"
 Cohesion: 0.05
@@ -389,8 +390,8 @@ Cohesion: 0.11
 Nodes (25): Charts, KeyPath, PanelEmptyState, .body, String, BenchmarkChart, .body, BenchmarkLiveCharts (+17 more)
 
 ### Community 48 - "PaperCreatorTests"
-Cohesion: 0.12
-Nodes (3): .selectedBoard, PaperCreatorTests, XCTestCase
+Cohesion: 0.07
+Nodes (11): AppDefaults, AppLinks, AppStorageKey, SecretAccount, Bool, String, URL, .outputFolderDisplayPath (+3 more)
 
 ### Community 49 - "Q: How does the generation quality pipeline connect?"
 Cohesion: 0.40
@@ -448,9 +449,9 @@ Nodes (17): MarkingGuidance, MultipleChoiceOption, PaperBlueprint, BaseModel, Qu
 Cohesion: 0.07
 Nodes (61): _extract_items(), _form_id(), Any, Path, Write the renderer-independent item record used by release validation., _scheme_text(), _serialise(), validate_assessment_package() (+53 more)
 
-### Community 63 - "AppDefaults"
-Cohesion: 0.10
-Nodes (13): AppDefaults, AppLinks, AppStorageKey, SecretAccount, Bool, String, URL, SecretStore (+5 more)
+### Community 63 - ".baseQuery"
+Cohesion: 0.39
+Nodes (4): SecretStore, Any, String, Security
 
 ### Community 64 - "ocr_computer_science_calibration.py"
 Cohesion: 0.21
@@ -549,8 +550,8 @@ Cohesion: 0.67
 Nodes (3): HOME, xcbuild.sh script, usage()
 
 ### Community 89 - "GeneratedPaper"
-Cohesion: 0.27
-Nodes (11): GeneratedPaper, aqa_front_matter_pages(), Flowable, _chrome(), _cover(), _cover_profile(), _document(), BaseDocTemplate (+3 more)
+Cohesion: 0.35
+Nodes (11): GeneratedPaper, _assessment_objectives_page(), _chrome(), _cover(), _cover_profile(), _document(), _mark_scheme_extension_pages(), BaseDocTemplate (+3 more)
 
 ### Community 90 - "capabilities"
 Cohesion: 0.50
@@ -575,6 +576,10 @@ Nodes (5): register_font(), register_fonts(), _standard_fallback(), test_fallbac
 ### Community 101 - "build_backend.sh"
 Cohesion: 0.29
 Nodes (5): MPLCONFIGDIR, PYINSTALLER_CONFIG_DIR, PYTHONPATH, build_backend.sh script, XDG_CACHE_HOME
+
+### Community 115 - "AppViewModel.swift"
+Cohesion: 0.13
+Nodes (11): AppKit, Combine, NotificationPresenter, NSObject, PaperCreator, UNNotification, UNNotificationPresentationOptions, UNUserNotificationCenter (+3 more)
 
 ### Community 116 - "type"
 Cohesion: 0.50
@@ -609,7 +614,7 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.255) - this node is a cross-community bridge._
 - **Why does `_block_mask()` connect `paper_fidelity_audit.py` to `Rect`?**
   _High betweenness centrality (0.235) - this node is a cross-community bridge._
-- **Why does `.body` connect `AppViewModel` to `QualityState`, `paper_fidelity_audit.py`?**
+- **Why does `.body` connect `QualityState` to `AppViewModel`, `paper_fidelity_audit.py`?**
   _High betweenness centrality (0.113) - this node is a cross-community bridge._
 - **Are the 9 inferred relationships involving `GeneratedQuestion` (e.g. with `AssessmentLLMClient` and `GenerationPolicy`) actually correct?**
   _`GeneratedQuestion` has 9 INFERRED edges - model-reasoned connections that need verification._

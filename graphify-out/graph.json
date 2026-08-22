@@ -2628,8 +2628,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_core_mark_scheme_front_matter",
-      "community": 89,
-      "community_name": "GeneratedPaper",
+      "community": 6,
+      "community_name": "aqabizgen/render_pdf.py",
       "norm_label": "mark_scheme_front_matter.py"
     },
     {
@@ -2639,8 +2639,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "backend_core_mark_scheme_front_matter_aqa_front_matter_pages",
-      "community": 89,
-      "community_name": "GeneratedPaper",
+      "community": 6,
+      "community_name": "aqabizgen/render_pdf.py",
       "norm_label": "aqa_front_matter_pages()"
     },
     {
@@ -2650,8 +2650,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_core_mark_scheme_front_matter_py_flowable",
-      "community": 89,
-      "community_name": "GeneratedPaper",
+      "community": 6,
+      "community_name": "aqabizgen/render_pdf.py",
       "norm_label": "flowable"
     },
     {
@@ -5092,8 +5092,8 @@
       "source_location": "L1037",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_aqaaccountgen_render_pdf_mark_scheme_extension_pages",
-      "community": 4,
-      "community_name": "Paragraph",
+      "community": 89,
+      "community_name": "GeneratedPaper",
       "norm_label": "_mark_scheme_extension_pages()"
     },
     {
@@ -5114,8 +5114,8 @@
       "source_location": "L1097",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_aqaaccountgen_render_pdf_assessment_objectives_page",
-      "community": 4,
-      "community_name": "Paragraph",
+      "community": 89,
+      "community_name": "GeneratedPaper",
       "norm_label": "_assessment_objectives_page()"
     },
     {
@@ -5664,7 +5664,7 @@
       "label": "page_count()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L27",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_page_count",
       "community": 24,
@@ -5686,7 +5686,7 @@
       "label": "test_exact_current_mark_sequences_and_totals()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L34",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_exact_current_mark_sequences_and_totals",
       "community": 24,
@@ -5697,7 +5697,7 @@
       "label": "test_multi_seed_determinism_uniqueness_and_scope()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L47",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_multi_seed_determinism_uniqueness_and_scope",
       "community": 24,
@@ -5708,7 +5708,7 @@
       "label": "test_non_current_asset_question_and_scheme_share_verified_case_data()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L67",
+      "source_location": "L66",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_non_current_asset_question_and_scheme_share_verified_case_data",
       "community": 24,
@@ -5719,7 +5719,7 @@
       "label": "test_income_statement_question_has_a_complete_task_specific_source_contract()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L97",
+      "source_location": "L96",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_income_statement_question_has_a_complete_task_specific_source_contract",
       "community": 24,
@@ -5730,7 +5730,7 @@
       "label": "test_partnership_calculations_have_complete_shared_source_contracts()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L120",
+      "source_location": "L119",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_partnership_calculations_have_complete_shared_source_contracts",
       "community": 24,
@@ -5741,7 +5741,7 @@
       "label": "test_both_packages_render_36_page_question_papers()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L156",
+      "source_location": "L155",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_both_packages_render_36_page_question_papers",
       "community": 24,
@@ -5752,7 +5752,7 @@
       "label": "test_paper_one_section_a_matches_measured_case_and_account_pages()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L176",
+      "source_location": "L174",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_paper_one_section_a_matches_measured_case_and_account_pages",
       "community": 24,
@@ -5763,7 +5763,7 @@
       "label": "test_partnership_appropriation_grid_matches_reference_page_depth()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L209",
+      "source_location": "L207",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_partnership_appropriation_grid_matches_reference_page_depth",
       "community": 24,
@@ -5774,7 +5774,7 @@
       "label": "test_paper_two_section_c_matches_reference_page_roles()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L231",
+      "source_location": "L229",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_paper_two_section_c_matches_reference_page_roles",
       "community": 24,
@@ -5785,7 +5785,7 @@
       "label": "test_non_current_asset_question_and_mark_scheme_use_the_same_figures()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L256",
+      "source_location": "L254",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_non_current_asset_question_and_mark_scheme_use_the_same_figures",
       "community": 24,
@@ -5796,7 +5796,7 @@
       "label": "test_sales_ledger_question_ai_contract_and_scheme_share_verified_data()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L290",
+      "source_location": "L288",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_sales_ledger_question_ai_contract_and_scheme_share_verified_data",
       "community": 24,
@@ -5807,7 +5807,7 @@
       "label": "test_paper_one_mark_scheme_matches_reference_question_sequence()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L339",
+      "source_location": "L337",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_paper_one_mark_scheme_matches_reference_question_sequence",
       "community": 24,
@@ -5818,7 +5818,7 @@
       "label": "test_invalid_paper_is_rejected()",
       "file_type": "code",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L369",
+      "source_location": "L367",
       "_origin": "ast",
       "id": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_invalid_paper_is_rejected",
       "community": 24,
@@ -7273,8 +7273,8 @@
       "source_location": "L1218",
       "_origin": "ast",
       "id": "resources_business_aqa_generator_aqabizgen_render_pdf_source_table",
-      "community": 6,
-      "community_name": "aqabizgen/render_pdf.py",
+      "community": 4,
+      "community_name": "Paragraph",
       "norm_label": "_source_table()"
     },
     {
@@ -7306,8 +7306,8 @@
       "source_location": "L1347",
       "_origin": "ast",
       "id": "resources_business_aqa_generator_aqabizgen_render_pdf_source_values",
-      "community": 6,
-      "community_name": "aqabizgen/render_pdf.py",
+      "community": 4,
+      "community_name": "Paragraph",
       "norm_label": "_source_values()"
     },
     {
@@ -18688,8 +18688,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "macos_papercreator_application_appcommands_appcommands_body",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 8,
+      "community_name": "GeneratedFile",
       "norm_label": ".body"
     },
     {
@@ -18699,8 +18699,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": "appconfiguration.swift"
     },
     {
@@ -18722,8 +18722,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_appdefaults",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": "appdefaults"
     },
     {
@@ -18733,8 +18733,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_appdefaults_defaultoutputfolder",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": ".defaultoutputfolder()"
     },
     {
@@ -18744,8 +18744,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_swift_url",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": "url"
     },
     {
@@ -18755,8 +18755,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_appdefaults_appstoreworkingfolder",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": ".appstoreworkingfolder()"
     },
     {
@@ -18766,8 +18766,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_appdefaults_issandboxdownloadspath",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": ".issandboxdownloadspath()"
     },
     {
@@ -18777,8 +18777,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_swift_string",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": "string"
     },
     {
@@ -18788,8 +18788,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_swift_bool",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": "bool"
     },
     {
@@ -18799,8 +18799,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_appdefaults_displaypath",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": ".displaypath()"
     },
     {
@@ -18810,8 +18810,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_appstoragekey",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": "appstoragekey"
     },
     {
@@ -18821,8 +18821,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_secretaccount",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": "secretaccount"
     },
     {
@@ -18832,8 +18832,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_applinks",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": "applinks"
     },
     {
@@ -18843,8 +18843,8 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "macos_papercreator_application_appconfiguration_applinks_weburl",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": ".weburl()"
     },
     {
@@ -18942,8 +18942,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "macos_papercreator_components_sharedviews",
-      "community": 3,
-      "community_name": "View",
+      "community": 8,
+      "community_name": "GeneratedFile",
       "norm_label": "sharedviews.swift"
     },
     {
@@ -18953,8 +18953,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "macos_papercreator_components_sharedviews_generatedfilestable",
-      "community": 3,
-      "community_name": "View",
+      "community": 8,
+      "community_name": "GeneratedFile",
       "norm_label": "generatedfilestable"
     },
     {
@@ -18964,8 +18964,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "macos_papercreator_components_sharedviews_generatedfilestable_body",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 8,
+      "community_name": "GeneratedFile",
       "norm_label": ".body"
     },
     {
@@ -21814,8 +21814,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "macos_papercreator_features_generation_generatorworkspaceview_paperconfiguration_body",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 28,
+      "community_name": "QualityState",
       "norm_label": ".body"
     },
     {
@@ -22035,8 +22035,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "appkit",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "appkit"
     },
     {
@@ -22497,8 +22497,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "macos_papercreator_features_settings_settingspane_aisettingstab",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 26,
+      "community_name": "SettingsPane.swift",
       "norm_label": "aisettingstab"
     },
     {
@@ -22508,8 +22508,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "macos_papercreator_features_settings_settingspane_aisettingstab_body",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 28,
+      "community_name": "QualityState",
       "norm_label": ".body"
     },
     {
@@ -22519,8 +22519,8 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "macos_papercreator_features_settings_settingspane_aisettingstab_providersettings",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 26,
+      "community_name": "SettingsPane.swift",
       "norm_label": ".providersettings"
     },
     {
@@ -22530,8 +22530,8 @@
       "source_location": "L215",
       "_origin": "ast",
       "id": "macos_papercreator_features_settings_settingspane_outputsettingstab",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 26,
+      "community_name": "SettingsPane.swift",
       "norm_label": "outputsettingstab"
     },
     {
@@ -22541,8 +22541,8 @@
       "source_location": "L218",
       "_origin": "ast",
       "id": "macos_papercreator_features_settings_settingspane_outputsettingstab_body",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 26,
+      "community_name": "SettingsPane.swift",
       "norm_label": ".body"
     },
     {
@@ -22717,8 +22717,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "binding",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 28,
+      "community_name": "QualityState",
       "norm_label": "binding"
     },
     {
@@ -23059,7 +23059,7 @@
       "_origin": "ast",
       "id": "macos_papercreator_services_secretstore",
       "community": 63,
-      "community_name": "AppDefaults",
+      "community_name": ".baseQuery",
       "norm_label": "secretstore.swift"
     },
     {
@@ -23071,7 +23071,7 @@
       "_origin": "ast",
       "id": "security",
       "community": 63,
-      "community_name": "AppDefaults",
+      "community_name": ".baseQuery",
       "norm_label": "security"
     },
     {
@@ -23082,7 +23082,7 @@
       "_origin": "ast",
       "id": "macos_papercreator_services_secretstore_secretstore",
       "community": 63,
-      "community_name": "AppDefaults",
+      "community_name": ".baseQuery",
       "norm_label": "secretstore"
     },
     {
@@ -23093,7 +23093,7 @@
       "_origin": "ast",
       "id": "macos_papercreator_services_secretstore_secretstore_read",
       "community": 63,
-      "community_name": "AppDefaults",
+      "community_name": ".baseQuery",
       "norm_label": ".read()"
     },
     {
@@ -23104,7 +23104,7 @@
       "_origin": "ast",
       "id": "macos_papercreator_services_secretstore_swift_string",
       "community": 63,
-      "community_name": "AppDefaults",
+      "community_name": ".baseQuery",
       "norm_label": "string"
     },
     {
@@ -23115,7 +23115,7 @@
       "_origin": "ast",
       "id": "macos_papercreator_services_secretstore_secretstore_save",
       "community": 63,
-      "community_name": "AppDefaults",
+      "community_name": ".baseQuery",
       "norm_label": ".save()"
     },
     {
@@ -23126,7 +23126,7 @@
       "_origin": "ast",
       "id": "macos_papercreator_services_secretstore_secretstore_basequery",
       "community": 63,
-      "community_name": "AppDefaults",
+      "community_name": ".baseQuery",
       "norm_label": ".basequery()"
     },
     {
@@ -23137,7 +23137,7 @@
       "_origin": "ast",
       "id": "macos_papercreator_services_secretstore_swift_any",
       "community": 63,
-      "community_name": "AppDefaults",
+      "community_name": ".baseQuery",
       "norm_label": "any"
     },
     {
@@ -23147,8 +23147,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "appviewmodel.swift"
     },
     {
@@ -23159,8 +23159,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "combine",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "combine"
     },
     {
@@ -23171,8 +23171,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "usernotifications",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "usernotifications"
     },
     {
@@ -23215,8 +23215,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_swift_string",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 8,
+      "community_name": "GeneratedFile",
       "norm_label": "string"
     },
     {
@@ -23402,8 +23402,8 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_outputfolderdisplaypath",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": ".outputfolderdisplaypath"
     },
     {
@@ -23413,8 +23413,8 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_init",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 2,
+      "community_name": "AppViewModel",
       "norm_label": ".init()"
     },
     {
@@ -23501,8 +23501,8 @@
       "source_location": "L253",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_selectpaperid",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 28,
+      "community_name": "QualityState",
       "norm_label": ".selectpaperid()"
     },
     {
@@ -23512,8 +23512,8 @@
       "source_location": "L262",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_selectaiprovider",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 28,
+      "community_name": "QualityState",
       "norm_label": ".selectaiprovider()"
     },
     {
@@ -23545,8 +23545,8 @@
       "source_location": "L288",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_showbenchmarkpage",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 8,
+      "community_name": "GeneratedFile",
       "norm_label": ".showbenchmarkpage()"
     },
     {
@@ -23633,8 +23633,8 @@
       "source_location": "L437",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_opengeneratedfile",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 8,
+      "community_name": "GeneratedFile",
       "norm_label": ".opengeneratedfile()"
     },
     {
@@ -23644,8 +23644,8 @@
       "source_location": "L445",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_hasgeneratedfile",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 8,
+      "community_name": "GeneratedFile",
       "norm_label": ".hasgeneratedfile()"
     },
     {
@@ -23655,8 +23655,8 @@
       "source_location": "L457",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_revealgeneratedfile",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 8,
+      "community_name": "GeneratedFile",
       "norm_label": ".revealgeneratedfile()"
     },
     {
@@ -23710,8 +23710,8 @@
       "source_location": "L491",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_showhelpguide",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 8,
+      "community_name": "GeneratedFile",
       "norm_label": ".showhelpguide()"
     },
     {
@@ -23787,8 +23787,8 @@
       "source_location": "L551",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_startbenchmark",
-      "community": 59,
-      "community_name": "BackendEvent",
+      "community": 2,
+      "community_name": "AppViewModel",
       "norm_label": ".startbenchmark()"
     },
     {
@@ -23842,8 +23842,8 @@
       "source_location": "L624",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_restoreoutputfolder",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 2,
+      "community_name": "AppViewModel",
       "norm_label": ".restoreoutputfolder()"
     },
     {
@@ -23853,8 +23853,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_swift_data",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 2,
+      "community_name": "AppViewModel",
       "norm_label": "data"
     },
     {
@@ -23864,8 +23864,8 @@
       "source_location": "L650",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_generatedfile",
-      "community": 2,
-      "community_name": "AppViewModel",
+      "community": 8,
+      "community_name": "GeneratedFile",
       "norm_label": ".generatedfile()"
     },
     {
@@ -23930,8 +23930,8 @@
       "source_location": "L752",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_movegeneratedfilestooutputfolderifneeded",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": ".movegeneratedfilestooutputfolderifneeded()"
     },
     {
@@ -23941,8 +23941,8 @@
       "source_location": "L782",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_appviewmodel_restorerecentdocuments",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 2,
+      "community_name": "AppViewModel",
       "norm_label": ".restorerecentdocuments()"
     },
     {
@@ -24062,8 +24062,8 @@
       "source_location": "L919",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_notificationpresenter",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "notificationpresenter"
     },
     {
@@ -24073,8 +24073,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "nsobject",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "nsobject"
     },
     {
@@ -24084,8 +24084,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "unusernotificationcenterdelegate",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "unusernotificationcenterdelegate"
     },
     {
@@ -24095,8 +24095,8 @@
       "source_location": "L923",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_notificationpresenter_init",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": ".init()"
     },
     {
@@ -24106,8 +24106,8 @@
       "source_location": "L927",
       "_origin": "ast",
       "id": "macos_papercreator_state_appviewmodel_notificationpresenter_usernotificationcenter",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": ".usernotificationcenter()"
     },
     {
@@ -24117,8 +24117,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "unusernotificationcenter",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "unusernotificationcenter"
     },
     {
@@ -24128,8 +24128,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "unnotification",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "unnotification"
     },
     {
@@ -24139,8 +24139,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "unnotificationpresentationoptions",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "unnotificationpresentationoptions"
     },
     {
@@ -24194,8 +24194,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "macos_tests_apptests",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "apptests.swift"
     },
     {
@@ -24206,8 +24206,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "xctest",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "xctest"
     },
     {
@@ -24218,8 +24218,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "papercreator",
-      "community": 26,
-      "community_name": "SettingsPane.swift",
+      "community": 115,
+      "community_name": "AppViewModel.swift",
       "norm_label": "papercreator"
     },
     {
@@ -24350,8 +24350,8 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "macos_tests_apptests_papercreatortests_testdisplaypathabbreviatesonlythehomefolder",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": ".testdisplaypathabbreviatesonlythehomefolder()"
     },
     {
@@ -24372,8 +24372,8 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "macos_tests_apptests_papercreatortests_testappstoreworkspaceisprivateandnotdownloads",
-      "community": 63,
-      "community_name": "AppDefaults",
+      "community": 48,
+      "community_name": "PaperCreatorTests",
       "norm_label": ".testappstoreworkspaceisprivateandnotdownloads()"
     },
     {
@@ -53040,7 +53040,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -53760,7 +53760,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -53809,7 +53809,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L262",
+      "source_location": "L260",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_non_current_asset_question_and_mark_scheme_use_the_same_figures",
@@ -53821,7 +53821,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L76",
+      "source_location": "L75",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_non_current_asset_question_and_scheme_share_verified_case_data",
@@ -53934,7 +53934,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -53995,7 +53995,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L296",
+      "source_location": "L294",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_sales_ledger_question_ai_contract_and_scheme_share_verified_data",
@@ -54125,7 +54125,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -54209,7 +54209,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -54221,7 +54221,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L160",
+      "source_location": "L158",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_both_packages_render_36_page_question_papers",
@@ -54233,7 +54233,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L371",
+      "source_location": "L369",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_invalid_paper_is_rejected",
@@ -54245,7 +54245,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L263",
+      "source_location": "L261",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_non_current_asset_question_and_mark_scheme_use_the_same_figures",
@@ -54257,7 +54257,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L340",
+      "source_location": "L338",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_paper_one_mark_scheme_matches_reference_question_sequence",
@@ -54269,7 +54269,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L177",
+      "source_location": "L175",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_paper_one_section_a_matches_measured_case_and_account_pages",
@@ -54281,7 +54281,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L232",
+      "source_location": "L230",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_paper_two_section_c_matches_reference_page_roles",
@@ -54293,7 +54293,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L212",
+      "source_location": "L210",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_partnership_appropriation_grid_matches_reference_page_depth",
@@ -54305,7 +54305,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L313",
+      "source_location": "L311",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_sales_ledger_question_ai_contract_and_scheme_share_verified_data",
@@ -54350,7 +54350,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -54499,7 +54499,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -54595,7 +54595,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -54607,7 +54607,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L36",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_exact_current_mark_sequences_and_totals",
@@ -54619,7 +54619,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L98",
+      "source_location": "L97",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_income_statement_question_has_a_complete_task_specific_source_contract",
@@ -54631,7 +54631,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L49",
+      "source_location": "L48",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_multi_seed_determinism_uniqueness_and_scope",
@@ -54643,7 +54643,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L260",
+      "source_location": "L258",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_non_current_asset_question_and_mark_scheme_use_the_same_figures",
@@ -54655,7 +54655,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L68",
+      "source_location": "L67",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_non_current_asset_question_and_scheme_share_verified_case_data",
@@ -54667,7 +54667,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L121",
+      "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_partnership_calculations_have_complete_shared_source_contracts",
@@ -54679,7 +54679,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L294",
+      "source_location": "L292",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_sales_ledger_question_ai_contract_and_scheme_share_verified_data",
@@ -58394,7 +58394,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L16",
+      "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58486,7 +58486,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L16",
+      "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58497,7 +58497,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L27",
+      "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58508,7 +58508,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L156",
+      "source_location": "L155",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58519,7 +58519,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L34",
+      "source_location": "L33",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58530,7 +58530,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L97",
+      "source_location": "L96",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58541,7 +58541,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L369",
+      "source_location": "L367",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58552,7 +58552,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L47",
+      "source_location": "L46",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58563,7 +58563,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L256",
+      "source_location": "L254",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58574,7 +58574,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L67",
+      "source_location": "L66",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58585,7 +58585,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L339",
+      "source_location": "L337",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58596,7 +58596,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L176",
+      "source_location": "L174",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58607,7 +58607,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L231",
+      "source_location": "L229",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58618,7 +58618,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L209",
+      "source_location": "L207",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58629,7 +58629,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L120",
+      "source_location": "L119",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58640,7 +58640,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L290",
+      "source_location": "L288",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting",
@@ -58652,7 +58652,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L27",
+      "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_page_count",
@@ -58664,7 +58664,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L171",
+      "source_location": "L169",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_both_packages_render_36_page_question_papers",
@@ -58676,7 +58676,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L156",
+      "source_location": "L155",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_both_packages_render_36_page_question_papers",
@@ -58688,7 +58688,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L369",
+      "source_location": "L367",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_invalid_paper_is_rejected",
@@ -58700,7 +58700,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L256",
+      "source_location": "L254",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_non_current_asset_question_and_mark_scheme_use_the_same_figures",
@@ -58712,7 +58712,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L339",
+      "source_location": "L337",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_paper_one_mark_scheme_matches_reference_question_sequence",
@@ -58724,7 +58724,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L176",
+      "source_location": "L174",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_paper_one_section_a_matches_measured_case_and_account_pages",
@@ -58736,7 +58736,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L231",
+      "source_location": "L229",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_paper_two_section_c_matches_reference_page_roles",
@@ -58748,7 +58748,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L209",
+      "source_location": "L207",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_partnership_appropriation_grid_matches_reference_page_depth",
@@ -58760,7 +58760,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Resources/accounting/aqa/generator/tests/test_aqa_accounting.py",
-      "source_location": "L290",
+      "source_location": "L288",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_accounting_aqa_generator_tests_test_aqa_accounting_test_sales_ledger_question_ai_contract_and_scheme_share_verified_data",
@@ -127614,5 +127614,5 @@
       "source_file": "Resources/economics/edexcel-a/generator/data/notes/text/1.1. Nature of Economics.txt"
     }
   ],
-  "built_at_commit": "7bc3aec51036e799c5fbc98223b7e360147f6d50"
+  "built_at_commit": "bea7e24bde4d75d4909d95338e313472e56beb10"
 }
